@@ -204,9 +204,8 @@ impl Render for RootRenderingComponent {
                                     .into_bump_str()
                                 )]}
                             </a>
-                            
 {
-    let mut vec_butt = Vec::new();
+    let mut vec_buttons = Vec::new();
     let vec_order_id_clone = self.vec_order_id.clone();
     for order_id in vec_order_id_clone {
         let ooo1 = order_id.clone();
@@ -224,14 +223,11 @@ impl Render for RootRenderingComponent {
                     .into_bump_str()
                 )]}
             </a>);
-        vec_butt.push(xdiv);
+        vec_buttons.push(xdiv);
     }
     //return
-    vec_butt
+    vec_buttons
 }
-
-
-                            
                         </div>
                     </div>
                      <div>
@@ -356,6 +352,7 @@ impl Render for RootRenderingComponent {
     }
 }
 
+/// render html for credentials
 fn div_credentials<'a, 'bump>(rrc: &'a RootRenderingComponent, bump: &'bump Bump) -> Node<'bump>
 where
     'a: 'bump,
@@ -388,7 +385,7 @@ where
         <a href="#" class="w3-bar-item w3-button w3-dark-grey w3-border w3-mobile" 
         onclick={move |root, vdom_weak, _event| {
                     let v2 = vdom_weak.clone();
-                    credentialsmod::save_credentials_to_localstorage(v2);
+                    credentialsmod::save_credentials_to_localstorage(&v2);
                 }}>
             {vec![text(
                 bumpalo::format!(in bump, "{}",
