@@ -1,0 +1,18 @@
+/* special css for amafatt */
+
+.yellow {
+    color: #FBF462 !important;
+}
+
+.preservewhitespace {
+    white-space: pre-wrap;
+}
+
+/* html elements by name because is easier to change css then tho compile rust code */
+#reqbody {
+    height: 450px;
+}
+
+#respbody {
+    height: 450px;
+}
