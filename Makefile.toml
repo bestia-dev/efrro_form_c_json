@@ -16,6 +16,7 @@ skip_core_tasks = true
     description = "cargo build development"
     clear = true
     dependencies = [
+		"insert-readme",
         "build-dev",
         "post-build",
     ]
@@ -24,21 +25,20 @@ skip_core_tasks = true
     description = "cargo build release"
     clear = true
     dependencies = [
+		"insert-readme",
         "build-release",
         "post-build",
     ]
 
     [tasks.doc]
-    description = "call cargo doc"
-    command="cargo"
-    args=["doc","--no-deps","--document-private-items","--open"]
-
-    #TODO: add a command to copy the text from readme.md inside lib.rs
-    #a placeholder could be [include readme.md]
-    #if some parts of readme are not desired maybe signal them with some indoc connand.
-    #markdown comments are like this [comment]: # (blabla)
-
+    description = "create docs from comments"
+    clear = true
+    dependencies = [
+		"insert-readme",
+        "cargo-doc",
+    ]
 # endregion
+
 
 [tasks.build-dev]
 clear = true
@@ -65,3 +65,15 @@ script = [
     #"start \"firefox\" \"C:\\Program Files\\Mozilla Firefox\\firefox.exe\" 127.0.0.1:8086",
     "basic-http-server -a 127.0.0.1:8086",
 ]
+
+[tasks.insert-readme]
+clear = true
+private = true
+script= ["..\\utils\\lmake_readme.exe"]
+
+[tasks.cargo-doc]
+clear = true
+private = true
+description = "call cargo doc"
+command="cargo"
+args=["doc","--no-deps","--document-private-items","--open"]

@@ -72,6 +72,8 @@ All the requests will be now sent to http://34.87.17.103/v1/.
 https://github.com/rustwasm/wasm-bindgen/tree/master/examples/fetch  
 https://api.FattureInCloud.it/v1/documentation/dist/#!/Richiesta_generica/jsonrequest  
 
+[comment]: # (lmake_readme remove start)
+
 ## Complaints of an old man
 For a simple fetch api I had to jump over hoops that are not to underestimate.  
 JsValue, Promises, Futures, Closures, reference to functions, lifetimes,...  
@@ -92,3 +94,5 @@ I probably did not mention them all. Feeling like an absolute beginner. Feeling 
 2019-08-09 The product name fetch from FattureInCloud, recognize spedizione type from price 
 2019-08-10 State provincia, modifiable api_key and api_uid, saved in local storage  
 2019-08-15 because of credentials, delete all git and GitHub history, instructions for credentials  
+
+[comment]: # (lmake_readme remove end)
