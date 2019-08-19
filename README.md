@@ -1,6 +1,9 @@
+[comment]: # (lmake_readme remove start)
 # amafatt
 
 A short description in Italian is in README_IT.md.
+
+[comment]: # (lmake_readme remove end)
 
 ## Rust, Wasm, Dodrio
 The programming language of this application is not important.  
