@@ -3,6 +3,9 @@
 #![allow(clippy::needless_pass_by_value, clippy::explicit_iter_loop)]
 
 //region use
+extern crate chrono;
+use chrono::{Datelike, Utc};
+
 use crate::log1;
 use crate::rootrenderingmod::RootRenderingComponent;
 use crate::isocountriesmod;
@@ -95,7 +98,6 @@ pub fn amazon_single_order_id_process(
                     //if there is a sign " escape it for json to \"
                     let mut field_value = rec_field.1.replace(r#"""#, r#"\""#);
 
-
                     //from sku get product-name from webserver, but it is asynchronous
                     //change placeholder from product-name to product-name1, 2,...
                     //so there is uniquness for async
@@ -112,6 +114,12 @@ pub fn amazon_single_order_id_process(
                             unwrap!(field_value.get(5..7)).to_string(),
                             unwrap!(field_value.get(0..4)).to_string()
                         );
+
+                        //the ricevuta and ddt have today-date
+                        let now = Utc::now();
+                        let today_date =
+                            format!("{:02}/{:02}/{}", now.day(), now.month(), now.year());
+                        rrc.reqbody = rrc.reqbody.replace("today-date", today_date.as_str());
                     }
                     //find the country name in Italian from ISO code
                     if field_name == "ship-country" {

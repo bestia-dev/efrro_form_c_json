@@ -16,7 +16,6 @@ skip_core_tasks = true
     description = "cargo build development"
     clear = true
     dependencies = [
-		"insert-readme",
         "build-dev",
         "post-build",
     ]
@@ -25,7 +24,6 @@ skip_core_tasks = true
     description = "cargo build release"
     clear = true
     dependencies = [
-		"insert-readme",
         "build-release",
         "post-build",
     ]

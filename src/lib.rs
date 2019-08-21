@@ -20,6 +20,10 @@
 //
 //region: lmake_readme insert "readme.md"
 //! 
+//! ## Documentation
+//! Documentation generated from source code:  
+//! https://lucianobestia.github.io/amafatt/index.html
+//! 
 //! ## Rust, Wasm, Dodrio
 //! The programming language of this application is not important.  
 //! It is easy to rewrite the application in any other language if necessary.  
@@ -53,6 +57,9 @@
 //! `cargo make dev` - builds the development version and runs the server and the browser  
 //! `cargo make release` - builds the release version and runs the server and the browser  
 //! The make script also lunches the `basic-http-server`and open the browser.  
+//! To copy the content of readme.md files into doc comments of *.rs files I created this utility:  
+//! https://github.com/LucianoBestia/lmake_readme  
+//! `cargo make doc` - prepare the doc comments and creates the docs folder  
 //! TODO: could make a flow to publish to GitHub or to google vm or a task for increment version numbers.  
 //! ## Workflow
 //! There is only one screen with big text fields for request and response from FattureInCloud.it.  

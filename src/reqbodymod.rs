@@ -7,7 +7,6 @@
 
 #![allow(clippy::needless_pass_by_value)]
 
-
 //region use
 use crate::log1;
 use crate::rootrenderingmod::RootRenderingComponent;
@@ -31,7 +30,6 @@ pub fn create_webrequest_from_rrc(rrc: &RootRenderingComponent) -> web_sys::Requ
   //return
   w_webrequest
 }
-
 
 ///create web request from string
 pub fn create_webrequest(reqbody: String, url: String) -> web_sys::Request {
@@ -158,7 +156,7 @@ pub fn create_reqbody_ricevute_nuovo(rrc: &mut RootRenderingComponent) {
   "autocompila_anagrafica": false,
   "salva_anagrafica": false,
   "numero": "",
-  "data": "purchase-date",
+  "data": "today-date",
   "valuta": "currency",
   "valuta_cambio": 1,
   "prezzi_ivati": true,
@@ -218,7 +216,7 @@ pub fn create_reqbody_ricevute_nuovo(rrc: &mut RootRenderingComponent) {
     }
   ],
   "ddt_numero": null,
-  "ddt_data": "purchase-date",
+  "ddt_data": "today-date",
   "ddt_colli": "1",
   "ddt_peso": "total-quantity kg",
   "ddt_causale": "vendita-or-sale",
