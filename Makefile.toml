@@ -87,8 +87,8 @@ args=["doc","--no-deps","--document-private-items","--open"]
 [tasks.doc-copy]
 clear = true
 private = true
-description = "copy doc folder out of target, so it can be git comitted"
+description = "copy doc folder as docs (out of folder target), so it can be git comitted"
 script = [
-    "xcopy target\\doc doc /e /i /y /s ",
+    "xcopy target\\doc docs /e /i /y /s ",
 ]
 

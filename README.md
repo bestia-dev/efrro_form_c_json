@@ -5,6 +5,10 @@ A short description in Italian is in README_IT.md.
 
 [comment]: # (lmake_readme remove end)
 
+## Documentation
+Documentation generated from source code:  
+https://lucianobestia.github.io/amafatt/index.html
+
 ## Rust, Wasm, Dodrio
 The programming language of this application is not important.  
 It is easy to rewrite the application in any other language if necessary.  
