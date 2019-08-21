@@ -97,7 +97,7 @@ I probably did not mention them all. Feeling like an absolute beginner. Feeling 
 2019-07-24 css, style, disabled, 22% iva, calculate net price,country name from ISO  
 2019-08-03 multirecord, multiproduct csv, country name in Italian  
 2019-08-05 cod_iva=0 for 22%, prezzi_ivati=true then only brutto prices, api_key and uid of Max  
-2019-08-09 The product name fetch from FattureInCloud, recognize spedizione type from price 
+2019-08-09 The product name fetch from FattureInCloud, recognize spedizione type from price  
 2019-08-10 State provincia, modifiable api_key and api_uid, saved in local storage  
 2019-08-15 because of credentials, delete all git and GitHub history, instructions for credentials  
 2019-08-19 lmake_readme inserts the content of readme.md into *.rs comments (for the docs) and use it in cargo-make doc  
