@@ -3,9 +3,6 @@
 #![allow(clippy::needless_pass_by_value, clippy::explicit_iter_loop)]
 
 //region use
-extern crate chrono;
-use chrono::{Datelike, Utc};
-
 use crate::log1;
 use crate::rootrenderingmod::RootRenderingComponent;
 use crate::isocountriesmod;
@@ -116,9 +113,14 @@ pub fn amazon_single_order_id_process(
                         );
 
                         //the ricevuta and ddt have today-date
-                        let now = Utc::now();
-                        let today_date =
-                            format!("{:02}/{:02}/{}", now.day(), now.month(), now.year());
+                        let today = js_sys::Date::new_0();
+
+                        let dd = today.get_date();
+                        #[allow(clippy::integer_arithmetic)]
+                        let mm = today.get_month() + 1; //January is 0!
+                        let yyyy = today.get_full_year();
+
+                        let today_date = format!("{:02}/{:02}/{}", dd, mm, yyyy);
                         rrc.reqbody = rrc.reqbody.replace("today-date", today_date.as_str());
                     }
                     //find the country name in Italian from ISO code

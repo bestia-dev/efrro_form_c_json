@@ -104,5 +104,6 @@ I probably did not mention them all. Feeling like an absolute beginner. Feeling 
 2019-08-10 State provincia, modifiable api_key and api_uid, saved in local storage  
 2019-08-15 because of credentials, delete all git and GitHub history, instructions for credentials  
 2019-08-19 lmake_readme inserts the content of readme.md into *.rs comments (for the docs) and use it in cargo-make doc  
+2019-08-21 1.0.3 today-date  
 
 [comment]: # (lmake_readme remove end)

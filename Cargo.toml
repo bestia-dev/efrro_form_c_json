@@ -1,6 +1,6 @@
 [package]
 name = "amafatt"
-version = "1.0.2"
+version = "1.0.3"
 authors = ["Luciano Bestia <luciano.bestia@gmail.com>"]
 edition = "2018"
 description="import amazon txt to FattureInCloud.it"
@@ -33,7 +33,6 @@ wasm-bindgen-futures = "0.3.26"
 log = "0.4.8"
 typed-html = {version="0.2.1", features = ["dodrio_macro"]}
 csv = "1"
-chrono = "0.4.7"
 
 [dependencies.web-sys]
 version = "0.3.26"
