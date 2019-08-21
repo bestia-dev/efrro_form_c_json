@@ -36,6 +36,7 @@ skip_core_tasks = true
     dependencies = [
 		"insert-readme",
         "cargo-doc",
+		"doc-copy",
     ]
 # endregion
 
@@ -43,23 +44,27 @@ skip_core_tasks = true
 [tasks.build-dev]
 clear = true
 private = true
+description = "build wasm in dev mode"
 command = "wasm-pack"
 args = ["build", "--target", "web","--dev"]
 
 [tasks.build-release]
 clear = true
 private = true
+description = "build wasm in release mode"
 command = "wasm-pack"
 args = ["build","--target", "web","--release"]
 
 [tasks.post-build]
 clear = true
 private = true
+description = "different task for windows or linux"
 windows_alias = "windows_post-build"
 
 [tasks.windows_post-build]
 clear = true
 private = true
+description = "open browser and start http server"
 script = [
     "start chrome http://127.0.0.1:8086", 
     #"start \"firefox\" \"C:\\Program Files\\Mozilla Firefox\\firefox.exe\" 127.0.0.1:8086",
@@ -69,6 +74,7 @@ script = [
 [tasks.insert-readme]
 clear = true
 private = true
+description = "copy the content of readme.md into *.rs comments (for the docs)"
 script= ["..\\utils\\lmake_readme.exe"]
 
 [tasks.cargo-doc]
@@ -77,3 +83,12 @@ private = true
 description = "call cargo doc"
 command="cargo"
 args=["doc","--no-deps","--document-private-items","--open"]
+
+[tasks.doc-copy]
+clear = true
+private = true
+description = "copy doc folder out of target, so it can be git comitted"
+script = [
+    "xcopy target\\doc doc /e /i /y /s ",
+]
+

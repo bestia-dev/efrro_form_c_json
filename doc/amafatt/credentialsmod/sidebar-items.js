@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["load_credentials","load credentials from local storage, returns tuple with 3 values"],["save_credentials_to_localstorage","save credentials from html input elements to local storage and rrc"]]});

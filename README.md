@@ -83,8 +83,7 @@ JsValue, Promises, Futures, Closures, reference to functions, lifetimes,...
 I probably did not mention them all. Feeling like an absolute beginner. Feeling young again.  
 
 ## TODO
-- lmake_readme to copy the content of readme.md into lib.rs comments (for the docs) and use it in cargo-make.  
-- make button "send json" inactive until the request is fully processed. The last would be the product name fetch.  
+- show errors to user. Now they show only on console F12.
 
 ## Changelog  
 2019-07-15 start, async fetch working, reverse proxy working.  
@@ -97,5 +96,6 @@ I probably did not mention them all. Feeling like an absolute beginner. Feeling 
 2019-08-09 The product name fetch from FattureInCloud, recognize spedizione type from price 
 2019-08-10 State provincia, modifiable api_key and api_uid, saved in local storage  
 2019-08-15 because of credentials, delete all git and GitHub history, instructions for credentials  
+2019-08-19 lmake_readme inserts the content of readme.md into *.rs comments (for the docs) and use it in cargo-make doc  
 
 [comment]: # (lmake_readme remove end)
