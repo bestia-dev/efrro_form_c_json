@@ -10,7 +10,7 @@ dependencies = [
 
 [[package]]
 name = "amafatt"
-version = "1.0.3"
+version = "1.4.0-20190826"
 dependencies = [
  "console_error_panic_hook 0.1.6 (registry+https://github.com/rust-lang/crates.io-index)",
  "csv 1.1.1 (registry+https://github.com/rust-lang/crates.io-index)",
