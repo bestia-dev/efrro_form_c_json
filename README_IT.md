@@ -1,5 +1,6 @@
 # amafatt
 
+[comment]: # (lmake_readme version)  
 Una applicazione prototipo per inserire dati ricevuti da Amazon in formato txt nella API di FattureInCloud.it.  
 Max sa cosa vuole dalla applicazione ed io (Luciano) costruirò la app come prototipo.  
 Dopo si vedrà se saremmo contenti con il risultato e si andrà avanti.  

@@ -274,8 +274,6 @@
 <span id="274">274</span>
 <span id="275">275</span>
 <span id="276">276</span>
-<span id="277">277</span>
-<span id="278">278</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! **reqbodymod - all request body are created in this module**  </span>
 <span class="comment">//region description</span>
@@ -285,7 +283,6 @@
 <span class="comment">//endregion</span>
 
 <span class="attribute">#![<span class="ident">allow</span>(<span class="ident">clippy</span>::<span class="ident">needless_pass_by_value</span>)]</span>
-
 
 <span class="comment">//region use</span>
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">log1</span>;
@@ -310,7 +307,6 @@
   <span class="comment">//return</span>
   <span class="ident">w_webrequest</span>
 }
-
 
 <span class="doccomment">///create web request from string</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">create_webrequest</span>(<span class="ident">reqbody</span>: <span class="ident">String</span>, <span class="ident">url</span>: <span class="ident">String</span>) <span class="op">-&gt;</span> <span class="ident">web_sys</span>::<span class="ident">Request</span> {
@@ -437,7 +433,7 @@ pub fn create_reqbody_prodotti_lista(rrc: &amp;mut RootRenderingComponent) {
   &quot;autocompila_anagrafica&quot;: false,
   &quot;salva_anagrafica&quot;: false,
   &quot;numero&quot;: &quot;&quot;,
-  &quot;data&quot;: &quot;purchase-date&quot;,
+  &quot;data&quot;: &quot;today-date&quot;,
   &quot;valuta&quot;: &quot;currency&quot;,
   &quot;valuta_cambio&quot;: 1,
   &quot;prezzi_ivati&quot;: true,
@@ -497,7 +493,7 @@ pub fn create_reqbody_prodotti_lista(rrc: &amp;mut RootRenderingComponent) {
     }
   ],
   &quot;ddt_numero&quot;: null,
-  &quot;ddt_data&quot;: &quot;purchase-date&quot;,
+  &quot;ddt_data&quot;: &quot;today-date&quot;,
   &quot;ddt_colli&quot;: &quot;1&quot;,
   &quot;ddt_peso&quot;: &quot;total-quantity kg&quot;,
   &quot;ddt_causale&quot;: &quot;vendita-or-sale&quot;,

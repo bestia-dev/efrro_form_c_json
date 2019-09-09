@@ -277,6 +277,16 @@
 <span id="277">277</span>
 <span id="278">278</span>
 <span id="279">279</span>
+<span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
+<span id="283">283</span>
+<span id="284">284</span>
+<span id="285">285</span>
+<span id="286">286</span>
+<span id="287">287</span>
+<span id="288">288</span>
+<span id="289">289</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! **amazonmod - generic HashMap to deserialize the amazon csv**  </span>
 
@@ -375,7 +385,6 @@
                     <span class="comment">//if there is a sign &quot; escape it for json to \&quot;</span>
                     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">field_value</span> <span class="op">=</span> <span class="ident">rec_field</span>.<span class="number">1</span>.<span class="ident">replace</span>(<span class="string">r#&quot;&quot;&quot;#</span>, <span class="string">r#&quot;\&quot;&quot;#</span>);
 
-
                     <span class="comment">//from sku get product-name from webserver, but it is asynchronous</span>
                     <span class="comment">//change placeholder from product-name to product-name1, 2,...</span>
                     <span class="comment">//so there is uniquness for async</span>
@@ -392,6 +401,17 @@
                             <span class="macro">unwrap</span><span class="macro">!</span>(<span class="ident">field_value</span>.<span class="ident">get</span>(<span class="number">5</span>..<span class="number">7</span>)).<span class="ident">to_string</span>(),
                             <span class="macro">unwrap</span><span class="macro">!</span>(<span class="ident">field_value</span>.<span class="ident">get</span>(<span class="number">0</span>..<span class="number">4</span>)).<span class="ident">to_string</span>()
                         );
+
+                        <span class="comment">//the ricevuta and ddt have today-date</span>
+                        <span class="kw">let</span> <span class="ident">today</span> <span class="op">=</span> <span class="ident">js_sys</span>::<span class="ident">Date</span>::<span class="ident">new_0</span>();
+
+                        <span class="kw">let</span> <span class="ident">dd</span> <span class="op">=</span> <span class="ident">today</span>.<span class="ident">get_date</span>();
+                        <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy</span>::<span class="ident">integer_arithmetic</span>)]</span>
+                        <span class="kw">let</span> <span class="ident">mm</span> <span class="op">=</span> <span class="ident">today</span>.<span class="ident">get_month</span>() <span class="op">+</span> <span class="number">1</span>; <span class="comment">//January is 0!</span>
+                        <span class="kw">let</span> <span class="ident">yyyy</span> <span class="op">=</span> <span class="ident">today</span>.<span class="ident">get_full_year</span>();
+
+                        <span class="kw">let</span> <span class="ident">today_date</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{:02}/{:02}/{}&quot;</span>, <span class="ident">dd</span>, <span class="ident">mm</span>, <span class="ident">yyyy</span>);
+                        <span class="ident">rrc</span>.<span class="ident">reqbody</span> <span class="op">=</span> <span class="ident">rrc</span>.<span class="ident">reqbody</span>.<span class="ident">replace</span>(<span class="string">&quot;today-date&quot;</span>, <span class="ident">today_date</span>.<span class="ident">as_str</span>());
                     }
                     <span class="comment">//find the country name in Italian from ISO code</span>
                     <span class="kw">if</span> <span class="ident">field_name</span> <span class="op">==</span> <span class="string">&quot;ship-country&quot;</span> {
@@ -556,5 +576,6 @@
         <span class="string">&quot;&quot;</span>
     };
     <span class="ident">rrc</span>.<span class="ident">reqbody</span> <span class="op">=</span> <span class="ident">rrc</span>.<span class="ident">reqbody</span>.<span class="ident">replace</span>(<span class="string">&quot;name-spedizione&quot;</span>, <span class="ident">name_spedizione</span>);
-}</pre></div>
+}
+</pre></div>
 </section><section id="search" class="content hidden"></section><section class="footer"></section><aside id="help" class="hidden"><div><h1 class="hidden">Help</h1><div class="shortcuts"><h2>Keyboard Shortcuts</h2><dl><dt><kbd>?</kbd></dt><dd>Show this help dialog</dd><dt><kbd>S</kbd></dt><dd>Focus the search field</dd><dt><kbd>↑</kbd></dt><dd>Move up in search results</dd><dt><kbd>↓</kbd></dt><dd>Move down in search results</dd><dt><kbd>↹</kbd></dt><dd>Switch tab</dd><dt><kbd>&#9166;</kbd></dt><dd>Go to active search result</dd><dt><kbd>+</kbd></dt><dd>Expand all sections</dd><dt><kbd>-</kbd></dt><dd>Collapse all sections</dd></dl></div><div class="infos"><h2>Search Tricks</h2><p>Prefix searches with a type followed by a colon (e.g., <code>fn:</code>) to restrict the search to a given type.</p><p>Accepted types are: <code>fn</code>, <code>mod</code>, <code>struct</code>, <code>enum</code>, <code>trait</code>, <code>type</code>, <code>macro</code>, and <code>const</code>.</p><p>Search functions by type signature (e.g., <code>vec -> usize</code> or <code>* -> vec</code>)</p><p>Search multiple things at once by splitting your query with comma (e.g., <code>str,u8</code> or <code>String,struct:Vec,test</code>)</p></div></div></aside><script>window.rootPath = "../../";window.currentCrate = "amafatt";</script><script src="../../aliases.js"></script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>

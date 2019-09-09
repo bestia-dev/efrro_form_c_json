@@ -105,5 +105,6 @@ I probably did not mention them all. Feeling like an absolute beginner. Feeling 
 2019-08-15 because of credentials, delete all git and GitHub history, instructions for credentials  
 2019-08-19 lmake_readme inserts the content of readme.md into *.rs comments (for the docs) and use it in cargo-make doc  
 2019-08-21 1.0.3 today-date  
+2019-09-09 version 19.9.9. no need for semver for non-library, version in docs
 
 [comment]: # (lmake_readme remove end)
