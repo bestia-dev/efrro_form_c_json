@@ -436,6 +436,10 @@
 <span id="436">436</span>
 <span id="437">437</span>
 <span id="438">438</span>
+<span id="439">439</span>
+<span id="440">440</span>
+<span id="441">441</span>
+<span id="442">442</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! **rootrenderingmod - Root Rendering Component is the base struct for Dodrio Virtual Dom**  </span>
 <span class="doccomment">//! rrc contains all the data needed for UI and reacts to all the events of the UI.  </span>
@@ -525,8 +529,7 @@
                 <span class="op">&lt;</span><span class="ident">div</span> <span class="ident">class</span><span class="op">=</span><span class="string">&quot;w3-half&quot;</span><span class="op">&gt;</span>
                     <span class="op">&lt;</span><span class="ident">h1</span> <span class="ident">class</span><span class="op">=</span><span class="string">&quot;yellow&quot;</span><span class="op">&gt;</span>
                         {<span class="macro">vec</span><span class="macro">!</span>[<span class="ident">text</span>(
-                            <span class="ident">bumpalo</span>::<span class="macro">format</span><span class="macro">!</span>(<span class="kw">in</span> <span class="ident">bump</span>, <span class="string">&quot;amafatt version {}&quot;</span>,
-                            <span class="ident">version</span>)
+                            <span class="ident">bumpalo</span>::<span class="macro">format</span><span class="macro">!</span>(<span class="kw">in</span> <span class="ident">bump</span>, <span class="string">&quot;amafatt{}&quot;</span>,<span class="string">&quot;&quot;</span>)
                             .<span class="ident">into_bump_str</span>()
                         )]}
                     <span class="op">&lt;</span><span class="op">/</span><span class="ident">h1</span><span class="op">&gt;</span>
@@ -772,6 +775,11 @@
                                 .<span class="ident">into_bump_str</span>()
                             )]}
                         <span class="op">&lt;</span><span class="op">/</span><span class="ident">p</span><span class="op">&gt;</span>
+                    <span class="op">&lt;</span><span class="op">/</span><span class="ident">div</span><span class="op">&gt;</span>
+                    <span class="op">&lt;</span><span class="ident">div</span><span class="op">&gt;</span>
+                        <span class="op">&lt;</span><span class="ident">h6</span> <span class="ident">class</span><span class="op">=</span><span class="string">&quot;yellow&quot;</span><span class="op">&gt;</span>
+                            {<span class="macro">vec</span><span class="macro">!</span>[<span class="ident">text</span>(<span class="ident">bumpalo</span>::<span class="macro">format</span><span class="macro">!</span>(<span class="kw">in</span> <span class="ident">bump</span>, <span class="string">&quot;Version: {}&quot;</span>, <span class="ident">version</span>).<span class="ident">into_bump_str</span>(),)]}
+                        <span class="op">&lt;</span><span class="op">/</span><span class="ident">h6</span><span class="op">&gt;</span>
                     <span class="op">&lt;</span><span class="op">/</span><span class="ident">div</span><span class="op">&gt;</span>
                     <span class="op">&lt;</span><span class="ident">div</span><span class="op">&gt;</span>
                         <span class="op">&lt;</span><span class="ident">h6</span> <span class="ident">class</span><span class="op">=</span><span class="string">&quot;yellow&quot;</span><span class="op">&gt;</span>

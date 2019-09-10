@@ -86,8 +86,7 @@ impl Render for RootRenderingComponent {
                 <div class="w3-half">
                     <h1 class="yellow">
                         {vec![text(
-                            bumpalo::format!(in bump, "amafatt version {}",
-                            version)
+                            bumpalo::format!(in bump, "amafatt{}","")
                             .into_bump_str()
                         )]}
                     </h1>
@@ -333,6 +332,11 @@ impl Render for RootRenderingComponent {
                                 .into_bump_str()
                             )]}
                         </p>
+                    </div>
+                    <div>
+                        <h6 class="yellow">
+                            {vec![text(bumpalo::format!(in bump, "Version: {}", version).into_bump_str(),)]}
+                        </h6>
                     </div>
                     <div>
                         <h6 class="yellow">
