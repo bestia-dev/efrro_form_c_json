@@ -49,7 +49,7 @@ pub fn create_webrequest(reqbody: String, url: String) -> web_sys::Request {
 
 ///create reqbody for info
 pub fn create_reqbody_info(rrc: &mut RootRenderingComponent) {
-  rrc.url = "http://34.87.17.103/v1/richiesta/info".to_string();
+  rrc.url = "https://bestia.dev/v1/richiesta/info".to_string();
   rrc.tipo_doc = "".to_string();
   rrc.amazon_txt_disabled = "w3-disabled".to_string();
   rrc.reqbody = format!(
@@ -65,7 +65,7 @@ pub fn create_reqbody_info(rrc: &mut RootRenderingComponent) {
 /*
 ///create reqbody for ricevute lista
 pub fn create_reqbody_ricevute_lista(rrc: &mut RootRenderingComponent) {
-  rrc.url = "http://34.87.17.103/v1/ricevute/lista".to_string();
+  rrc.url = "https://bestia.dev/v1/ricevute/lista".to_string();
   rrc.tipo_doc = "ricevute".to_string();
   rrc.amazon_txt_disabled = "w3-disabled".to_string();
   rrc.reqbody = format!(
@@ -99,7 +99,7 @@ pub fn create_reqbody_ricevute_lista(rrc: &mut RootRenderingComponent) {
 /*
 ///create reqbody for prodotti lista
 pub fn create_reqbody_prodotti_lista(rrc: &mut RootRenderingComponent) {
-  rrc.url = "http://34.87.17.103/v1/prodotti/lista".to_string();
+  rrc.url = "https://bestia.dev/v1/prodotti/lista".to_string();
   rrc.tipo_doc = "prodotti".to_string();
   rrc.amazon_txt_disabled = "w3-disabled".to_string();
   rrc.reqbody = format!(
@@ -127,7 +127,7 @@ pub fn create_reqbody_prodotti_lista(rrc: &mut RootRenderingComponent) {
 
 ///create reqbody for ricevute nuovo
 pub fn create_reqbody_ricevute_nuovo(rrc: &mut RootRenderingComponent) {
-  rrc.url = "http://34.87.17.103/v1/ricevute/nuovo".to_string();
+  rrc.url = "https://bestia.dev/v1/ricevute/nuovo".to_string();
   rrc.tipo_doc = "ricevute".to_string();
   rrc.amazon_txt_disabled = "".to_string();
   rrc.reqbody = format!(

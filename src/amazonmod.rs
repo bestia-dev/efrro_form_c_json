@@ -206,7 +206,7 @@ pub fn replace_sku_name(
     log1(format!("sku {} req {}", field_value, reqbody).as_str());
 
     let webrequest =
-        reqbodymod::create_webrequest(reqbody, "http://34.87.17.103/v1/prodotti/lista".to_string());
+        reqbodymod::create_webrequest(reqbody, "https://bestia.dev/v1/prodotti/lista".to_string());
     fetchmod::fetch_response(
         vdom_weak,
         &webrequest,

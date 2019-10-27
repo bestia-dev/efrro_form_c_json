@@ -2,7 +2,7 @@
 //
 //region: lmake_readme insert "readme_IT.md"
 //! # amafatt
-//! 
+//!
 //! version: 19.9.10  
 //! Una applicazione prototipo per inserire dati ricevuti da Amazon in formato txt nella API di FattureInCloud.it.  
 //! Max sa cosa vuole dalla applicazione ed io (Luciano) costruirò la app come prototipo.  
@@ -14,27 +14,27 @@
 //! https://api.FattureInCloud.it/v1/documentation/dist/#!/Richiesta_generica/jsonrequest  
 //! La lingua di tutti i programmatori e l'Inglese e per questo ci sarà tanto inglese nella source code.  
 //! La source code e disponibile sul mio GitHub privato https://github.com/LucianoBestia/amafatt solo per i collaboratori.  
-//! 
+//!
 
 //endregion: lmake_readme insert "readme_IT.md"
 //
 //
 //region: lmake_readme insert "readme.md"
-//! 
+//!
 //! ## Documentation
 //! Documentation generated from source code:  
 //! https://lucianobestia.github.io/amafatt/index.html
-//! 
+//!
 //! ## Rust, Wasm, Dodrio
 //! The programming language of this application is not important.  
 //! It is easy to rewrite the application in any other language if necessary.  
 //! The important thing is the application logic and mapping of data.  
-//! I will create the prototype in the Rust programming language. It will be 
+//! I will create the prototype in the Rust programming language. It will be
 //! compiled in Wasm/WebAssembly that runs inside all modern browsers.  
 //! The GUI interface will be in simple HTML updated with Dodrio Virtual Dom.  
-//! There will not be necessary any special servers, JavaScript, npm, web-pack 
+//! There will not be necessary any special servers, JavaScript, npm, web-pack
 //! or complicated css and html.  
-//! 
+//!
 //! ## Development environment
 //! Install the rust toolchain from  
 //! https://www.rust-lang.org/tools/install.  
@@ -75,15 +75,15 @@
 //! The server must allow it explicitly with a special header `Access-Control-Allow-Origin=*`.  
 //! As expected, the site FattureInCloud.it does not send this header.  
 //! I wrote them to correct this, but I don't have any hope they will listen to me.  
-//! The workaround is a reverse proxy that receives the original request, 
-//! sends it to FattureInCloud.it, receives the response, add this special header 
+//! The workaround is a reverse proxy that receives the original request,
+//! sends it to FattureInCloud.it, receives the response, add this special header
 //! and sends the response back to the browser.
-//! I use nginx on my google cloud vm. To achieve this I added this lines 
+//! I use nginx on my google cloud vm. To achieve this I added this lines
 //! in the configuration file \etc\nginx\sites-available\default:  
 //! ```
 //! 	#region amafatt
 //! 		# example https://api.FattureInCloud.it/v1/richiesta/info
-//! 
+//!
 //! 		# the trailing / after both of these lines means this route is not appended to the forwarding
 //! 		location /v1/ {
 //! 			proxy_pass https://api.FattureInCloud.it/v1/;
@@ -92,12 +92,12 @@
 //! 		}
 //! 	#endregion
 //! ```
-//! All the requests will be now sent to http://34.87.17.103/v1/.  
-//! 
+//! All the requests will be now sent to https://bestia.dev/v1/.  
+//!
 //! ## Reference
 //! https://github.com/rustwasm/wasm-bindgen/tree/master/examples/fetch  
 //! https://api.FattureInCloud.it/v1/documentation/dist/#!/Richiesta_generica/jsonrequest  
-//! 
+//!
 
 //endregion: lmake_readme insert "readme.md"
 //

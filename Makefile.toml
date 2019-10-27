@@ -26,7 +26,8 @@ skip_core_tasks = true
     clear = true
     dependencies = [
         "lmake_version_from_date",
-        "build-release",
+        "build_release",
+        "copy_pkg_to_webfolder",
         "post-build",
     ]
 
@@ -48,25 +49,36 @@ description = "build wasm in dev mode"
 command = "wasm-pack"
 args = ["build", "--target", "web","--dev"]
 
-[tasks.build-release]
-clear = true
-private = true
-description = "build wasm in release mode"
-command = "wasm-pack"
-args = ["build","--target", "web","--release"]
+
+    [tasks.publish]
+    description = "publish the webfolder to google vm"
+    # First copies the content of /amafatt/webfolder to //googlecloud/ folder and then to google vm with use of sshagent."
+    workspace = false
+    clear = true
+    # backslash is the escape character for all other special characters.
+    # and then another time I have to escape the backslash. So 4 backslash for one backslash.
+    script = [
+        "rsync -avz --delete-after /home/luciano/rustprojects/amafatt/webfolder/ /home/luciano/rustprojects/googlecloud/var/www/html/amafatt/",
+        "rsync -e ssh -avz --delete-after /home/luciano/rustprojects/googlecloud/var/www/html/amafatt/ luciano_bestia@34.87.17.103:/var/www/html/amafatt/",
+    ]
+
+    [tasks.sshadd]
+    description = "adds identity to ssh-agent for git and publish operations"
+    workspace = false
+    clear = true
+    script = [
+        "ssh-add /home/luciano/.ssh/luciano_googlecloud",
+        "ssh-add /home/luciano/.ssh/lucianobestia_mac",
+        "ssh-add -l",
+    ]
 
 [tasks.post-build]
 clear = true
 private = true
-description = "different task for windows or linux"
-windows_alias = "windows_post-build"
-
-[tasks.windows_post-build]
-clear = true
-private = true
 description = "open browser and start http server"
 script = [
-    "start chrome http://127.0.0.1:8086", 
+    "alias chrome=\"/mnt/c/Program\\ Files\\ \\(x86\\)/Google/Chrome/Application/chrome.exe\"",
+    "chrome http://127.0.0.1:8086/webfolder", 
     #"start \"firefox\" \"C:\\Program Files\\Mozilla Firefox\\firefox.exe\" 127.0.0.1:8086",
     "basic-http-server -a 127.0.0.1:8086",
 ]
@@ -75,7 +87,7 @@ script = [
 clear = true
 private = true
 description = "copy the content of readme.md into *.rs comments (for the docs)"
-script= ["..\\utils\\lmake_readme.exe"]
+script= ["../utils_linux/lmake_readme"]
 
 [tasks.cargo-doc]
 clear = true
@@ -89,11 +101,27 @@ clear = true
 private = true
 description = "copy doc folder as docs (out of folder target), so it can be git comitted"
 script = [
-    "xcopy target\\doc docs /e /i /y /s ",
+    "\\rsync -avz --delete-after ~/rustprojects/amafatt/target/doc/*  ~/rustprojects/amafatt/docs/"
 ]
 
 [tasks.lmake_version_from_date]
 clear = true
 private = true
 description = "in cargo.toml change version to today date"
-script= ["..\\utils\\lmake_version_from_date.exe"]
+script= ["../utils_linux/lmake_version_from_date"]
+
+[tasks.build_release]
+description = "build for release"
+clear = true
+private = true
+command = "wasm-pack"
+args = ["build","--target", "web","--release", "--no-typescript"]
+
+[tasks.copy_pkg_to_webfolder]
+description = "copy wasm pkg to webfolder"
+clear = true
+private = true
+script = [
+    "\\rsync -avz --delete-after ~/rustprojects/amafatt/pkg/  ~/rustprojects/amafatt/webfolder/pkg/",
+]
+

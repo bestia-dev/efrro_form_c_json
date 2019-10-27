@@ -76,7 +76,7 @@ in the configuration file \etc\nginx\sites-available\default:
 		}
 	#endregion
 ```
-All the requests will be now sent to http://34.87.17.103/v1/.  
+All the requests will be now sent to https://bestia.dev/v1/.  
 
 ## Reference
 https://github.com/rustwasm/wasm-bindgen/tree/master/examples/fetch  
@@ -94,7 +94,7 @@ I probably did not mention them all. Feeling like an absolute beginner. Feeling 
 
 ## Changelog  
 2019-07-15 start, async fetch working, reverse proxy working.  
-2019-07-21 app uploaded to bestia.shorturl.com/amafatt, ricevute lista & dettagli examples  
+2019-07-21 app uploaded to bestia.dev/amafatt, ricevute lista & dettagli examples  
 2019-07-22 csv read and replace into json  
 2019-07-23 working version for the simplest amazon txt  
 2019-07-24 css, style, disabled, 22% iva, calculate net price,country name from ISO  
