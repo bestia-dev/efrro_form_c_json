@@ -1,1 +1,0 @@
-initSidebarItems({"constant":[["_IMPL_DESERIALIZE_FOR_Country",""],["_IMPL_SERIALIZE_FOR_Country",""]],"fn":[["get_country_name","get the name from this json"]],"struct":[["Country",""]]});

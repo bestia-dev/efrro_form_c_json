@@ -1,4 +1,4 @@
-/* special css for amafatt */
+/* special css for efrro_form_c_json */
 
 .yellow {
     color: #FBF462 !important;
@@ -9,10 +9,7 @@
 }
 
 /* html elements by name because is easier to change css then tho compile rust code */
-#reqbody {
+#json {
     height: 450px;
 }
 
-#respbody {
-    height: 450px;
-}
