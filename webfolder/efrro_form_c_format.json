@@ -1,0 +1,135 @@
+{
+    "json_comment_description": {
+        "value": "how to format the input controls for efrro_form_c"
+    },
+    "applicant_surname": {
+        "ctrl_type": "text",
+        "caption": "surname",
+        "value": "val_applicant_surname"
+    },
+    "applicant_givenname": {
+        "value": "val_applicant_givenname"
+    },
+    "applicant_dob": {
+        "value": "val_applicant_dob"
+    },
+    "applicant_age": {
+        "value": "val_applicant_age"
+    },
+    "actualDOB": {
+        "value": "val_actualDOB"
+    },
+    "applicant_permcity": {
+        "value": "val_applicant_permcity"
+    },
+    "applicant_refpincode": {
+        "value": "val_applicant_refpincode"
+    },
+    "applicant_passpno": {
+        "value": "val_applicant_passpno"
+    },
+    "applicant_passplcofissue": {
+        "value": "val_applicant_passplcofissue"
+    },
+    "applicant_passpdoissue": {
+        "value": "val_applicant_passpdoissue"
+    },
+    "applicant_passpvalidtill": {
+        "value": "val_applicant_passpvalidtill"
+    },
+    "applicant_visano": {
+        "value": "val_applicant_visano"
+    },
+    "applicant_visaplcoissue": {
+        "value": "val_applicant_visaplcoissue"
+    },
+    "applicant_visadoissue": {
+        "value": "val_applicant_visadoissue"
+    },
+    "applicant_visavalidtill": {
+        "value": "val_applicant_visavalidtill"
+    },
+    "applicant_arrivedfromcity": {
+        "value": "val_applicant_arrivedfromcity"
+    },
+    "applicant_arrivedfromplace": {
+        "value": "val_applicant_arrivedfromplace"
+    },
+    "applicant_doarrivalindia": {
+        "value": "val_applicant_doarrivalindia"
+    },
+    "applicant_doarrivalhotel": {
+        "value": "val_applicant_doarrivalhotel"
+    },
+    "applicant_timeoarrivalhotel": {
+        "value": "val_applicant_timeoarrivalhotel"
+    },
+    "applicant_intnddurhotel": {
+        "value": "val_applicant_intnddurhotel"
+    },
+    "applicant_next_destination_place_IN": {
+        "value": "val_applicant_next_destination_place_IN"
+    },
+    "applicant_contactnoinindia": {
+        "value": "val_applicant_contactnoinindia"
+    },
+    "applicant_mcontactnoinindia": {
+        "value": "val_applicant_mcontactnoinindia"
+    },
+    "applicant_contactnoperm": {
+        "value": "val_applicant_contactnoperm"
+    },
+    "applicant_mcontactnoperm": {
+        "value": "val_applicant_mcontactnoperm"
+    },
+    "applicant_remark": {
+        "value": "val_applicant_remark"
+    },
+    "employed": {
+        "ctrl_type": "radio",
+        "options": [
+            {
+                "option": "Y",
+                "caption": "yes"
+            },
+            {
+                "option": "N",
+                "caption": "no"
+            }
+        ],
+        "value": "Y"
+    },
+    "applicant_next_dest_country_flag_r": {
+        "ctrl_type": "radio",
+        "second_control_name": "applicant_next_dest_country_flag",
+        "options": [
+            {
+                "option": "I",
+                "caption": "inside India"
+            },
+            {
+                "option": "O",
+                "caption": "outside India"
+            }
+        ],
+        "value": "I"
+    },
+    "applicant_sex": {
+        "ctrl_type": "select",
+        "options": [
+            {
+                "option": "M",
+                "caption": "male"
+            },
+            {
+                "option": "F",
+                "caption": "female"
+            },
+            {
+                "option": "X",
+                "caption": "transgender"
+            }
+        ],
+        "value": "M"
+    }
+}

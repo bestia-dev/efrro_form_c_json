@@ -66,6 +66,9 @@
 #![recursion_limit = "5012"]
 //rust modules system
 mod rootrenderingmod;
+mod fetchmod;
+mod fetchjsonformat;
+mod logmod;
 
 extern crate console_error_panic_hook;
 extern crate log;
@@ -79,9 +82,22 @@ extern crate unwrap;
 extern crate wasm_bindgen_futures;
 
 use wasm_bindgen::prelude::wasm_bindgen;
-use web_sys::{console};
-use wasm_bindgen::JsValue;
+//use web_sys::{console};
+//use wasm_bindgen::JsValue;
 //endregion
+
+pub struct CtrlOption {
+    option: String,
+    caption: String,
+}
+
+pub struct CtrlMetaData {
+    ctrl_type: String,
+    caption: String,
+    value: String,
+    second_control_name: String,
+    options: Vec<CtrlOption>,
+}
 
 ///this is the start function that wasm_bindgen calls
 #[wasm_bindgen(start)]
@@ -103,7 +119,17 @@ pub fn wasm_bindgen_start() {
     // Mount the component to the div
     let vdom = dodrio::Vdom::new(&div_for_virtual_dom, rrc);
 
-    // Run the component forever. Never drop the memory. Practically a memory leak.
+    //fetch the json_format
+    let vdom_weak = vdom.weak();
+    //find out URL
+    let mut location_href = unwrap!(window.location().href(), "href not known");
+    //without /index.html
+    location_href = location_href.to_lowercase().replace("index.html", "");
+    //logmod::debug_write(&format!("location_href: {}", &location_href));
+
+    fetchjsonformat::fetch_json_format_request(vdom_weak, &location_href);
+
+    // Run the component forever. Never drop the memory.
     vdom.forget();
 }
 

@@ -6,9 +6,9 @@
 #![allow(clippy::needless_pass_by_value)]
 
 //region use
-//use crate::log1;
+use crate::logmod;
 
-extern crate csv;
+use std::collections::HashMap;
 
 use dodrio::builder::text;
 use dodrio::bumpalo::{self, Bump};
@@ -22,55 +22,18 @@ use web_sys::{console};
 ///the struct with the only mutable data and the code for rendering it as html
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct RootRenderingComponent {
-    pub json: String,
+    pub json_format: String,
+    pub json_result: String,
 }
 
 impl RootRenderingComponent {
     ///constructor
     pub fn new() -> RootRenderingComponent {
-        let json = r#"
-       {
-"_json_comment_sample_data_for":"efrro_form_c",
-
-"applicant_surname":"val_applicant_surname",
-"applicant_givenname":"val_applicant_givenname",
-"applicant_dob":"val_applicant_dob",
-"applicant_age":"val_applicant_age",
-"actualDOB":"val_actualDOB",
-"applicant_permcity":"val_applicant_permcity",
-"applicant_refpincode":"val_applicant_refpincode",
-"applicant_passpno":"val_applicant_passpno",
-"applicant_passplcofissue":"val_applicant_passplcofissue",
-"applicant_passpdoissue":"val_applicant_passpdoissue",
-"applicant_passpvalidtill":"val_applicant_passpvalidtill",
-"applicant_visano":"val_applicant_visano",
-"applicant_visaplcoissue":"val_applicant_visaplcoissue",
-"applicant_visadoissue":"val_applicant_visadoissue",
-"applicant_visavalidtill":"val_applicant_visavalidtill",
-"applicant_arrivedfromcity":"val_applicant_arrivedfromcity",
-"applicant_arrivedfromplace":"val_applicant_arrivedfromplace",
-"applicant_doarrivalindia":"val_applicant_doarrivalindia",
-"applicant_doarrivalhotel":"val_applicant_doarrivalhotel",
-"applicant_timeoarrivalhotel":"val_applicant_timeoarrivalhotel",
-"applicant_intnddurhotel":"val_applicant_intnddurhotel",
-"applicant_next_destination_place_IN":"val_applicant_next_destination_place_IN",
-"applicant_contactnoinindia":"val_applicant_contactnoinindia",
-"applicant_mcontactnoinindia":"val_applicant_mcontactnoinindia",
-"applicant_contactnoperm":"val_applicant_contactnoperm",
-"applicant_mcontactnoperm":"val_applicant_mcontactnoperm",
-"applicant_remark":"val_applicant_remark",
-
-"_json_comment_radio_employed":"Y, N",
-"employed":"val_Y",
-"_json_comment_radio_applicant_next_dest_country_flag_r":"I, O",
-"applicant_next_dest_country_flag_r":"val_I",
-"_json_comment_hidden_applicant_next_dest_country_flag":"I, O",
-"applicant_next_dest_country_flag":"val_I"
-}
-       "#
-        .to_string();
         //return
-        RootRenderingComponent { json }
+        RootRenderingComponent {
+            json_format: "".to_string(),
+            json_result: "".to_string(),
+        }
     }
 }
 
@@ -105,22 +68,23 @@ impl Render for RootRenderingComponent {
                     )]}
                 </p>
             </div>
-            <div id="json">
+            <div id="json_format">
                 <label>
                     {vec![text(
                         bumpalo::format!(in bump, "{}",
-                        "json:")
+                        "json_format:")
                         .into_bump_str()
                     )]}
                 </label>
-                <textarea id="json" name="json" class="w3-input">
+                <textarea id="json_format" name="json_format" class="w3-input">
                     {vec![text(
                         bumpalo::format!(in bump, "{}",
-                        self.json)
+                        self.json_format)
                         .into_bump_str()
                     )]}
                 </textarea>
             </div>
+            {div_inputs(self, bump)}
             <div>
                 <p>
                     {vec![text(
@@ -149,4 +113,30 @@ impl Render for RootRenderingComponent {
         //return
         xdiv
     }
+}
+
+///render all the inputs
+pub fn div_inputs<'b>(rrc: &RootRenderingComponent, bump: &'b Bump) -> Vec<Node<'b>> {
+    let mut vec_node = Vec::new();
+    //json is an object that has a map
+    if rrc.json_format != "" {
+        let serde_map: HashMap<String, serde_json::Value> =
+            unwrap!(serde_json::from_str(rrc.json_format.as_str()));
+
+        for x in serde_map {
+            let caption = bumpalo::format!(in bump, "{}",x.0).into_bump_str();
+            let value = bumpalo::format!(in bump, "{}",x.1["value"]).into_bump_str();
+            vec_node.push(dodrio!(bump,
+            <div >
+                <label for={caption} >
+                    {vec![text(caption)]}
+                </label>
+                <input type="text" name={caption} id={caption} value={value} >
+                </input>
+            </div>
+            ));
+        }
+    }
+    //return
+    vec_node
 }
