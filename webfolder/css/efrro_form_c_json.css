@@ -13,3 +13,4 @@
     height: 450px;
 }
 
+label, input, textarea { display:block;}

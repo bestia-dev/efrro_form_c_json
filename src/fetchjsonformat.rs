@@ -4,7 +4,7 @@
 //region: use
 use crate::rootrenderingmod::RootRenderingComponent;
 use crate::fetchmod;
-use crate::logmod;
+//use crate::logmod;
 
 use unwrap::unwrap;
 use web_sys::{Request, RequestInit};
