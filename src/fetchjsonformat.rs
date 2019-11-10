@@ -4,10 +4,11 @@
 //region: use
 use crate::rootrenderingmod::RootRenderingComponent;
 use crate::fetchmod;
-//use crate::logmod;
+use crate::logmod;
 
 use unwrap::unwrap;
 use web_sys::{Request, RequestInit};
+//use indexmap::IndexMap;
 //endregion
 
 ///async fetch_response() for json format
@@ -33,7 +34,31 @@ pub fn create_webrequest(location_href: &str) -> web_sys::Request {
 #[allow(clippy::needless_pass_by_value)]
 /// update a field in the struct
 pub fn set_json_format(rrc: &mut RootRenderingComponent, respbody: String) {
-    //respbody is json.
-    //logmod::debug_write(format!("respbody: {}", respbody).as_str());
-    rrc.json_format = respbody;
+    //respbody is json, parse it to IndexMap
+    rrc.json_format = unwrap!(serde_json::from_str(respbody.as_str()));
+    //fill json_result from local storage
+    let window = unwrap!(web_sys::window(), "window");
+    let ls = unwrap!(unwrap!(window.local_storage()));
+    let x = unwrap!(ls.get_item("json_string"));
+    logmod::debug_write("ls.get_item(json_string)");
+    if let Some(x) = x {
+        logmod::debug_write("x.is_some");
+        rrc.json_result = unwrap!(serde_json::from_str(&x));
+        //fill json_format with local storage values
+        for (k, _v) in &rrc.json_result {
+            if rrc.json_format.contains_key(k.as_str())
+                && rrc.json_format[k]["value"] != rrc.json_result[k.as_str()]
+            {
+                rrc.json_format[k]["value"] = rrc.json_result[k.as_str()].clone();
+            }
+        }
+        //fill result with missing keys
+        for (k, v) in &rrc.json_format {
+            if !rrc.json_result.contains_key(k.as_str()) {
+                rrc.json_result[k] = v["value"].clone();
+            }
+        }
+        //logmod::debug_write(&format!("{:?}", rrc.json_format));
+        //logmod::debug_write(&format!("{:?}", rrc.json_result));
+    }
 }
