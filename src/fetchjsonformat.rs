@@ -8,6 +8,7 @@ use crate::logmod;
 
 use unwrap::unwrap;
 use web_sys::{Request, RequestInit};
+use serde_json::json;
 //use indexmap::IndexMap;
 //endregion
 
@@ -42,7 +43,7 @@ pub fn set_json_format(rrc: &mut RootRenderingComponent, respbody: String) {
     let x = unwrap!(ls.get_item("json_string"));
     logmod::debug_write("ls.get_item(json_string)");
     if let Some(x) = x {
-        logmod::debug_write("x.is_some");
+        //logmod::debug_write("x.is_some");
         rrc.json_result = unwrap!(serde_json::from_str(&x));
         //fill json_format with local storage values
         for (k, _v) in &rrc.json_result {
@@ -52,13 +53,14 @@ pub fn set_json_format(rrc: &mut RootRenderingComponent, respbody: String) {
                 rrc.json_format[k]["value"] = rrc.json_result[k.as_str()].clone();
             }
         }
-        //fill result with missing keys
-        for (k, v) in &rrc.json_format {
-            if !rrc.json_result.contains_key(k.as_str()) {
-                rrc.json_result[k] = v["value"].clone();
-            }
-        }
         //logmod::debug_write(&format!("{:?}", rrc.json_format));
         //logmod::debug_write(&format!("{:?}", rrc.json_result));
+    }
+    //fill result with missing keys
+    for (k, v) in &rrc.json_format {
+        if !rrc.json_result.contains_key(k.as_str()) {
+            rrc.json_result
+                .insert(k.to_string(), v.get("value").unwrap_or(&json!("")).clone());
+        }
     }
 }

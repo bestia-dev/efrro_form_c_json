@@ -1,14 +1,33 @@
 {
     "json_comment_description": {
-        "value": "how to format the input controls for efrro_form_c"
+        "ctrl_type": "label",
+        "value": "data for india efrro form c for guest"
     },
     "applicant_surname": {
         "ctrl_type": "text",
-        "caption": "surname",
+        "caption": "applicant_surname",
         "value": "val_applicant_surname"
     },
     "applicant_givenname": {
         "value": "val_applicant_givenname"
+    },
+    "applicant_sex": {
+        "ctrl_type": "select",
+        "options": [
+            {
+                "option": "M",
+                "caption": "male"
+            },
+            {
+                "option": "F",
+                "caption": "female"
+            },
+            {
+                "option": "X",
+                "caption": "transgender"
+            }
+        ],
+        "value": "M"
     },
     "applicant_dob": {
         "value": "val_applicant_dob"
@@ -67,6 +86,20 @@
     "applicant_intnddurhotel": {
         "value": "val_applicant_intnddurhotel"
     },
+    "employed": {
+        "ctrl_type": "radio",
+        "options": [
+            {
+                "option": "Y",
+                "caption": "yes"
+            },
+            {
+                "option": "N",
+                "caption": "no"
+            }
+        ],
+        "value": "Y"
+    },
     "applicant_next_destination_place_IN": {
         "value": "val_applicant_next_destination_place_IN"
     },
@@ -85,20 +118,6 @@
     "applicant_remark": {
         "value": "val_applicant_remark"
     },
-    "employed": {
-        "ctrl_type": "radio",
-        "options": [
-            {
-                "option": "Y",
-                "caption": "yes"
-            },
-            {
-                "option": "N",
-                "caption": "no"
-            }
-        ],
-        "value": "Y"
-    },
     "applicant_next_dest_country_flag_r": {
         "ctrl_type": "radio",
         "second_control_name": "applicant_next_dest_country_flag",
@@ -113,23 +132,5 @@
             }
         ],
         "value": "I"
-    },
-    "applicant_sex": {
-        "ctrl_type": "select",
-        "options": [
-            {
-                "option": "M",
-                "caption": "male"
-            },
-            {
-                "option": "F",
-                "caption": "female"
-            },
-            {
-                "option": "X",
-                "caption": "transgender"
-            }
-        ],
-        "value": "M"
     }
 }

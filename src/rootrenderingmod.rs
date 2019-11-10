@@ -58,7 +58,7 @@ impl Render for RootRenderingComponent {
         let xdiv = dodrio!(bump,
         <div id="div_all">
              <div id="div_two_col" class="w3-row-padding" >
-                <div class="w3-third">
+                <div class="w3-quarter">
                     <div>
                         <h1 class="yellow">
                             {vec![text(
@@ -69,18 +69,20 @@ impl Render for RootRenderingComponent {
                         <p>
                             {vec![text(
                                 bumpalo::format!(in bump, "{}",
-                                "1. write data into raw json")
+                                "1. write data (saved in localStorage)")
                                 .into_bump_str()
                             )]}
                         </p>
                     </div>
                     {div_inputs(self, bump,"first_third")}
                 </div>
-                <div class="w3-third">
+                <div class="w3-quarter">
                     {div_inputs(self, bump,"second_third")}
                 </div>
-                <div class="w3-third">
+                <div class="w3-quarter">
                     {div_inputs(self, bump,"third_third")}
+                </div>
+                <div class="w3-quarter">
                     <div>
                         <label for="json_result" >
                         {vec![text(
@@ -89,7 +91,7 @@ impl Render for RootRenderingComponent {
                                 .into_bump_str()
                         )]}
                     </label>
-                    <textarea style="height:400px" readonly="true" class="w3-input w3-dark-grey w3-border-0 w3-round" name="json_result" id="json_result" >
+                    <textarea style="height: 550px;" readonly="true" class="w3-input w3-dark-grey w3-border-0 w3-round" name="json_result" id="json_result" >
                         {vec![text(
                             bumpalo::format!(in bump, "{}",
                             unwrap!(serde_json::to_string_pretty(&self.json_result)))
@@ -133,19 +135,32 @@ impl Render for RootRenderingComponent {
 pub fn div_inputs<'b>(
     rrc: &RootRenderingComponent,
     bump: &'b Bump,
-    what_half: &str,
+    what_third: &str,
 ) -> Vec<Node<'b>> {
     let mut vec_node = Vec::new();
     //json is an object that has a map
     if !rrc.json_format.is_empty() {
         let len_map = rrc.json_format.len();
-        let third_len = len_map / 3;
+        //the content of the first column is smaller than the others
+        // height of columns: 70% for 1st column, 100% second, 100% third
+        let line_1_proc = len_map as f64 / (70.0 + 100.0 + 100.0);
+        let first_line_len = line_1_proc * 70.0;
+        let second_line_len = line_1_proc * 100.0;
+        let third_line_len = line_1_proc * 100.0;
+
+        let first_line_len = first_line_len as usize;
+        let second_line_len = second_line_len as usize;
+        let third_line_len = third_line_len as usize;
+
+        //logmod::debug_write(format!("",lin))
         let mut i = 0;
-        //add a <div class="w3-third"> in the middle
+        //add a <div class="w3-quarter"> in the middle
         for (key, val) in &rrc.json_format {
-            if (what_half == "first_third" && i < third_len)
-                || (what_half == "second_third" && i >= third_len && i < 2 * third_len)
-                || (what_half == "third_third" && i >= 2 * third_len)
+            if (what_third == "first_third" && i < first_line_len)
+                || (what_third == "second_third"
+                    && i >= first_line_len
+                    && i < (first_line_len + second_line_len))
+                || (what_third == "third_third" && i >= (first_line_len + second_line_len))
             {
                 let ctrl_name = bumpalo::format!(in bump, "{}",&key).into_bump_str();
 
@@ -168,22 +183,53 @@ pub fn div_inputs<'b>(
                     .unwrap_or(&json!("text"))
                     .as_str()
                     .unwrap()
-                    .to_string();;
+                    .to_string();
                 let ctrl_type = bumpalo::format!(in bump, "{}",str_ctrl_type).into_bump_str();
 
-                vec_node.push(dodrio!(bump,
-                <div >
-                    <label for={ctrl_name} >
-                        {vec![text(caption)]}
-                    </label>
-                    <input type="text" class="w3-input w3-dark-grey w3-border-0 w3-round"
-                    name={ctrl_name} id={ctrl_name} value={value}
-                     onkeyup={ move |root, vdom_weak, event| {
-                         on_key(root, vdom_weak, event);
-                    }}>
-                    </input>
-                </div>
-                ));
+                if ctrl_type == "label" {
+                    vec_node.push(dodrio!(bump,
+                    <div >
+                        <label for={ctrl_name} >
+                            {vec![text(caption)]}
+                        </label>
+                        <p class="w3-border-0 w3-round w3-yellow "
+                         id={ctrl_name}
+                        >
+                        {vec![text(value)]}
+                        </p>
+                    </div>
+                    ));
+                } else if ctrl_type == "select" || ctrl_type == "radio" || ctrl_type == "checkbox" {
+                    vec_node.push(dodrio!(bump,
+                    <div >
+                        <label for={ctrl_name} >
+                            {vec![text(caption)]}
+                        </label>
+                        <select class="w3-input w3-dark-grey w3-border-0 w3-round"
+                        name={ctrl_name} id={ctrl_name}
+                         oninput={ move |root, vdom_weak, event| {
+                             select_on_input(root, vdom_weak, event);
+                        }}>
+                        {select_options(rrc,bump,val,&str_value)}
+                        </select>
+                    </div>
+                    ));
+                } else {
+                    //to je za type=text
+                    vec_node.push(dodrio!(bump,
+                    <div >
+                        <label for={ctrl_name} >
+                            {vec![text(caption)]}
+                        </label>
+                        <input type="text" class="w3-input w3-dark-grey w3-border-0 w3-round"
+                        name={ctrl_name} id={ctrl_name} value={value}
+                        oninput={ move |root, vdom_weak, event| {
+                            input_on_input(root, vdom_weak, event);
+                        }}>
+                        </input>
+                    </div>
+                    ));
+                }
             }
             i += 1;
         }
@@ -191,11 +237,14 @@ pub fn div_inputs<'b>(
     //return
     vec_node
 }
-pub fn on_key(
+
+/// event on change
+pub fn input_on_input(
     root: &mut (dyn dodrio::RootRender + 'static),
     vdom_weak: dodrio::VdomWeak,
     event: web_sys::Event,
 ) {
+    logmod::debug_write(&format!("input_on_input{}", ""));
     //save on every key stroke
     let rrc = root.unwrap_mut::<RootRenderingComponent>();
     // get the ctrl (target)
@@ -216,7 +265,7 @@ pub fn on_key(
     logmod::debug_write(&format!("ctrl name {:?}", &ctrl.name()));
 
     let map = unwrap!(rrc.json_format.get_mut(ctrl.name().as_str()));
-    logmod::debug_write(&format!("{:?}", map));
+    logmod::debug_write(&format!("map from json {:?}", map));
     map["value"] = json!(ctrl.value());
 
     rrc.json_result[ctrl.name().as_str()] = json!(ctrl.value());
@@ -230,4 +279,95 @@ pub fn on_key(
     );
 
     v2.schedule_render();
+}
+
+/// event on change
+pub fn select_on_input(
+    root: &mut (dyn dodrio::RootRender + 'static),
+    vdom_weak: dodrio::VdomWeak,
+    event: web_sys::Event,
+) {
+    logmod::debug_write(&format!("select_on_input{}", ""));
+    //save on every key stroke
+    let rrc = root.unwrap_mut::<RootRenderingComponent>();
+    // get the ctrl (target)
+    let ctrl = match event
+        .target()
+        .and_then(|t| t.dyn_into::<web_sys::HtmlSelectElement>().ok())
+    {
+        None => return,
+        //?? Don't understand what this does. The original was written for Input element.
+        Some(input) => input,
+    };
+
+    let v2 = vdom_weak.clone();
+    //save_to_localstorage(&v2, ctrl.name(), ctrl.value());
+    //rrc.json_result = format!("{}{}{}", rrc.json_result, ctrl.name(), ctrl.value());
+    //rrc.json_result["aa"]=json!("object");
+    // map.entry("whatever").or_insert(Vec::new());
+    logmod::debug_write(&format!("ctrl name {:?}", &ctrl.name()));
+
+    let map = unwrap!(rrc.json_format.get_mut(ctrl.name().as_str()));
+    logmod::debug_write(&format!("map from json {:?}", map));
+    map["value"] = json!(ctrl.value());
+
+    rrc.json_result[ctrl.name().as_str()] = json!(ctrl.value());
+
+    let window = unwrap!(web_sys::window(), "window");
+    let document = unwrap!(window.document(), "document");
+    let ls = unwrap!(unwrap!(window.local_storage()));
+    let x = ls.set_item(
+        "json_string",
+        unwrap!(serde_json::to_string_pretty(&rrc.json_result)).as_str(),
+    );
+
+    v2.schedule_render();
+}
+
+/// render the option of select
+pub fn select_options<'b>(
+    rrc: &RootRenderingComponent,
+    bump: &'b Bump,
+    val_options: &serde_json::Value,
+    selected: &str,
+) -> Vec<Node<'b>> {
+    let mut vec_node = Vec::new();
+
+    let default = json!(r#"[{"option": "","caption": ""},]"#);
+    let str_ctrl_options = unwrap!(val_options.get("options").unwrap_or(&default).as_array());
+
+    for x in str_ctrl_options {
+        //logmod::debug_write(&format!("x {:?}", x));
+        let value = bumpalo::format!(in bump, "{}",x.get("option")
+        .unwrap_or(&json!(""))
+        .as_str()
+        .unwrap()
+        .to_string())
+        .into_bump_str();
+        let caption = {
+            vec![text(
+                bumpalo::format!(in bump, "{}",x.get("caption")
+                .unwrap_or(&json!(""))
+                .as_str()
+                .unwrap()
+                .to_string())
+                .into_bump_str(),
+            )]
+        };
+        if selected == value {
+            vec_node.push(dodrio!(bump,
+                <option value={value} selected={true} >
+                {caption}
+                </option>
+            ));
+        } else {
+            vec_node.push(dodrio!(bump,
+                <option value={value}  >
+                {caption}
+                </option>
+            ));
+        }
+    }
+    //return
+    vec_node
 }
