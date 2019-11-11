@@ -1,12 +1,13 @@
 # efrro_form_c_json
 
-User interface to enter data for e-frro and export it as json.  
-Mostly it will be used on smartphones.  
+User interface to enter data for e-frro form C and export it as json.  
+It will be used mostly on guest's smartphones.  
 
 ## chrome extension
 
-This json is then used with the chrome extension chext_fill_form_from_json to fill the e-frro form C. This is done by the hostel manager only.  
-<https://github.com/LucianoBestia/chext_fill_form_from_json>  
+This json is then used with the chrome extension chext_fill_form_from_json to fill the e-frro form C.  
+This is done by the hostel manager only.  
+<https://chrome.google.com/webstore/detail/chextfillformfromjson/gdgkhgfgpfhnmiebaedlcaignonmjobe>
 
 ## The long story
 
@@ -19,5 +20,5 @@ Json is just a text that can be easily copied. He can send it by email to the ho
 
 ## TODO
 
-- use json to fill the same form on another device  
-- how to hard reload on android chrome? It retains the old version too long.  
+- use json to fill the same form data on another device  
+- how to hard reload on android chrome? It retains the old version for too long.  

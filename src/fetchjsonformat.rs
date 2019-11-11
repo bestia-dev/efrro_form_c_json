@@ -48,9 +48,11 @@ pub fn set_json_format(rrc: &mut RootRenderingComponent, respbody: String) {
         //fill json_format with local storage values
         for (k, _v) in &rrc.json_result {
             if rrc.json_format.contains_key(k.as_str())
-                && rrc.json_format[k]["value"] != rrc.json_result[k.as_str()]
+                && unwrap!(unwrap!(rrc.json_format.get(k)).get("value"))
+                    != unwrap!(rrc.json_result.get(k.as_str()))
             {
-                rrc.json_format[k]["value"] = rrc.json_result[k.as_str()].clone();
+                unwrap!(rrc.json_format.get_mut(k))["value"] =
+                    unwrap!(rrc.json_result.get(k.as_str())).clone();
             }
         }
         //logmod::debug_write(&format!("{:?}", rrc.json_format));

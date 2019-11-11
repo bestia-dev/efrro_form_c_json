@@ -117,6 +117,7 @@ impl Render for RootRenderingComponent {
 }
 
 #[allow(clippy::cognitive_complexity)]
+#[allow(clippy::integer_arithmetic)]
 ///render all the inputs
 pub fn div_inputs<'b>(
     rrc: &RootRenderingComponent,
@@ -333,19 +334,17 @@ pub fn select_options<'b>(
 
     for x in str_ctrl_options {
         //logmod::debug_write(&format!("x {:?}", x));
-        let value = bumpalo::format!(in bump, "{}",x.get("option")
+        let value = bumpalo::format!(in bump, "{}",unwrap!(x.get("option")
         .unwrap_or(&json!(""))
         .as_str()
-        .unwrap()
-        .to_string())
+        ).to_string())
         .into_bump_str();
         let caption = {
             vec![text(
-                bumpalo::format!(in bump, "{}",x.get("caption")
+                bumpalo::format!(in bump, "{}",unwrap!(x.get("caption")
                 .unwrap_or(&json!(""))
                 .as_str()
-                .unwrap()
-                .to_string())
+                ).to_string())
                 .into_bump_str(),
             )]
         };
