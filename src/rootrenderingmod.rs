@@ -59,30 +59,16 @@ impl Render for RootRenderingComponent {
         <div id="div_all">
              <div id="div_two_col" class="w3-row-padding" >
                 <div class="w3-quarter">
-                    <div>
-                        <h1 class="yellow">
-                            {vec![text(
-                                bumpalo::format!(in bump, "e-frro form c guest data{}","")
-                                .into_bump_str()
-                            )]}
-                        </h1>
-                        <p>
-                            {vec![text(
-                                bumpalo::format!(in bump, "{}",
-                                "1. write data (saved in localStorage)")
-                                .into_bump_str()
-                            )]}
-                        </p>
-                    </div>
-                    {div_inputs(self, bump,"first_third")}
+                    {div_inputs(self, bump,"first_quarter")}
                 </div>
                 <div class="w3-quarter">
-                    {div_inputs(self, bump,"second_third")}
+                    {div_inputs(self, bump,"second_quarter")}
                 </div>
                 <div class="w3-quarter">
-                    {div_inputs(self, bump,"third_third")}
+                    {div_inputs(self, bump,"third_quarter")}
                 </div>
                 <div class="w3-quarter">
+                    {div_inputs(self, bump,"fourth_quarter")}
                     <div>
                         <label for="json_result" >
                         {vec![text(
@@ -91,7 +77,7 @@ impl Render for RootRenderingComponent {
                                 .into_bump_str()
                         )]}
                     </label>
-                    <textarea style="height: 550px;" readonly="true" class="w3-input w3-dark-grey w3-border-0 w3-round" name="json_result" id="json_result" >
+                    <textarea style="height: 200px;" readonly="true" class="w3-input w3-dark-grey w3-border-0 w3-round" name="json_result" id="json_result" >
                         {vec![text(
                             bumpalo::format!(in bump, "{}",
                             unwrap!(serde_json::to_string_pretty(&self.json_result)))
@@ -103,7 +89,7 @@ impl Render for RootRenderingComponent {
                         <p>
                             {vec![text(
                                 bumpalo::format!(in bump, "{}",
-                                "2. copy/paste the filled json into the chrome extension for e-frro form C.")
+                                "2. copy/paste the this json into the chrome extension for e-frro form C.")
                                 .into_bump_str()
                             )]}
                         </p>
@@ -115,7 +101,6 @@ impl Render for RootRenderingComponent {
                     </div>
                     <div>
                         <h6 class="yellow">
-                            {vec![text(bumpalo::format!(in bump, "Github repository: {}", "").into_bump_str(),)]}
                             <a href= "https://github.com/LucianoBestia/efrro_form_c_json" target="_blank">
                                 {vec![text(bumpalo::format!(in bump, "https://github.com/LucianoBestia/efrro_form_c_json{}", "").into_bump_str(),)]}
                             </a>
@@ -135,32 +120,38 @@ impl Render for RootRenderingComponent {
 pub fn div_inputs<'b>(
     rrc: &RootRenderingComponent,
     bump: &'b Bump,
-    what_third: &str,
+    what_quarter: &str,
 ) -> Vec<Node<'b>> {
     let mut vec_node = Vec::new();
     //json is an object that has a map
     if !rrc.json_format.is_empty() {
         let len_map = rrc.json_format.len();
-        //the content of the first column is smaller than the others
-        // height of columns: 70% for 1st column, 100% second, 100% third
-        let line_1_proc = len_map as f64 / (70.0 + 100.0 + 100.0);
-        let first_line_len = line_1_proc * 70.0;
+        //the content of the last column is smaller than the others
+        // height of columns: 100% for 1st column, 100% second, 100% third, 30% fourth
+        let line_1_proc = len_map as f64 / (100.0 + 100.0 + 100.0 + 30.0);
+        let first_line_len = line_1_proc * 100.0;
         let second_line_len = line_1_proc * 100.0;
         let third_line_len = line_1_proc * 100.0;
+        let fourth_line_len = line_1_proc * 30.0;
 
         let first_line_len = first_line_len as usize;
         let second_line_len = second_line_len as usize;
         let third_line_len = third_line_len as usize;
+        let fourth_line_len = fourth_line_len as usize;
 
         //logmod::debug_write(format!("",lin))
         let mut i = 0;
         //add a <div class="w3-quarter"> in the middle
         for (key, val) in &rrc.json_format {
-            if (what_third == "first_third" && i < first_line_len)
-                || (what_third == "second_third"
+            if (what_quarter == "first_quarter" && i < first_line_len)
+                || (what_quarter == "second_quarter"
                     && i >= first_line_len
                     && i < (first_line_len + second_line_len))
-                || (what_third == "third_third" && i >= (first_line_len + second_line_len))
+                || (what_quarter == "third_quarter"
+                    && i >= (first_line_len + second_line_len)
+                    && i < (first_line_len + second_line_len + third_line_len))
+                || (what_quarter == "fourth_quarter"
+                    && i >= (first_line_len + second_line_len + third_line_len))
             {
                 let ctrl_name = bumpalo::format!(in bump, "{}",&key).into_bump_str();
 
@@ -189,14 +180,11 @@ pub fn div_inputs<'b>(
                 if ctrl_type == "label" {
                     vec_node.push(dodrio!(bump,
                     <div >
-                        <label for={ctrl_name} >
-                            {vec![text(caption)]}
-                        </label>
-                        <p class="w3-border-0 w3-round w3-yellow "
+                        <h3 class="w3-border-0 w3-round w3-yellow "
                          id={ctrl_name}
                         >
                         {vec![text(value)]}
-                        </p>
+                        </h3>
                     </div>
                     ));
                 } else if ctrl_type == "select" || ctrl_type == "radio" || ctrl_type == "checkbox" {
