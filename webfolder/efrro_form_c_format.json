@@ -1,7 +1,7 @@
 {
     "json_comment_description": {
         "ctrl_type": "label",
-        "value": "Guest form C for india efrro"
+        "value": "Guest `form C` for india efrro"
     },
     "applicant_surname": {
         "ctrl_type": "text",
@@ -27,16 +27,9 @@
         "value": "M"
     },
     "dobformat": {
-        "ctrl_type": "select",
-        "hidden": "true",
-        "caption": "Date of Birth Date Format",
-        "options": [
-            {
-                "option": "DY",
-                "caption": "Date of birth in DD/MM/YYYY"
-            }
-        ],
-        "value": "M"
+        "ctrl_type": "hidden",
+        "value": "DY",
+        "caption": "Date of birth in DD/MM/YYYY"
     },
     "applicant_dob": {
         "caption": "Date of Birth",

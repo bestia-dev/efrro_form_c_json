@@ -89,7 +89,7 @@ impl Render for RootRenderingComponent {
                         <p>
                             {vec![text(
                                 bumpalo::format!(in bump, "{}",
-                                "2. copy/paste the this json into the chrome extension for e-frro form C.")
+                                "Your data is stored only on this device locally. Copy/paste the json_result and send it to the hostel manager.")
                                 .into_bump_str()
                             )]}
                         </p>
@@ -102,7 +102,7 @@ impl Render for RootRenderingComponent {
                     <div>
                         <h6 class="yellow">
                             <a href= "https://github.com/LucianoBestia/efrro_form_c_json" target="_blank">
-                                {vec![text(bumpalo::format!(in bump, "https://github.com/LucianoBestia/efrro_form_c_json{}", "").into_bump_str(),)]}
+                                {vec![text(bumpalo::format!(in bump, "https://github.com / LucianoBestia / efrro_form_c_json{}", "").into_bump_str(),)]}
                             </a>
                         </h6>
                     </div>
@@ -116,6 +116,7 @@ impl Render for RootRenderingComponent {
     }
 }
 
+#[allow(clippy::cognitive_complexity)]
 ///render all the inputs
 pub fn div_inputs<'b>(
     rrc: &RootRenderingComponent,
@@ -132,12 +133,12 @@ pub fn div_inputs<'b>(
         let first_line_len = line_1_proc * 100.0;
         let second_line_len = line_1_proc * 100.0;
         let third_line_len = line_1_proc * 100.0;
-        let fourth_line_len = line_1_proc * 30.0;
+        //let fourth_line_len = line_1_proc * 30.0;
 
         let first_line_len = first_line_len as usize;
         let second_line_len = second_line_len as usize;
         let third_line_len = third_line_len as usize;
-        let fourth_line_len = fourth_line_len as usize;
+        //let fourth_line_len = fourth_line_len as usize;
 
         //logmod::debug_write(format!("",lin))
         let mut i = 0;
@@ -202,6 +203,14 @@ pub fn div_inputs<'b>(
                         </select>
                     </div>
                     ));
+                } else if ctrl_type == "hidden" {
+                    vec_node.push(dodrio!(bump,
+                    <div >
+                        <input type="hidden"
+                        name={ctrl_name} id={ctrl_name} value={value}>
+                        </input>
+                    </div>
+                    ));
                 } else {
                     //to je za type=text
                     vec_node.push(dodrio!(bump,
@@ -250,7 +259,7 @@ pub fn input_on_input(
     //rrc.json_result = format!("{}{}{}", rrc.json_result, ctrl.name(), ctrl.value());
     //rrc.json_result["aa"]=json!("object");
     // map.entry("whatever").or_insert(Vec::new());
-    logmod::debug_write(&format!("ctrl name {:?}", &ctrl.name()));
+    //logmod::debug_write(&format!("ctrl name {:?}", &ctrl.name()));
 
     let map = unwrap!(rrc.json_format.get_mut(ctrl.name().as_str()));
     logmod::debug_write(&format!("map from json {:?}", map));
@@ -259,9 +268,8 @@ pub fn input_on_input(
     rrc.json_result[ctrl.name().as_str()] = json!(ctrl.value());
 
     let window = unwrap!(web_sys::window(), "window");
-    let document = unwrap!(window.document(), "document");
     let ls = unwrap!(unwrap!(window.local_storage()));
-    let x = ls.set_item(
+    let _x = ls.set_item(
         "json_string",
         unwrap!(serde_json::to_string_pretty(&rrc.json_result)).as_str(),
     );
@@ -293,7 +301,7 @@ pub fn select_on_input(
     //rrc.json_result = format!("{}{}{}", rrc.json_result, ctrl.name(), ctrl.value());
     //rrc.json_result["aa"]=json!("object");
     // map.entry("whatever").or_insert(Vec::new());
-    logmod::debug_write(&format!("ctrl name {:?}", &ctrl.name()));
+    //logmod::debug_write(&format!("ctrl name {:?}", &ctrl.name()));
 
     let map = unwrap!(rrc.json_format.get_mut(ctrl.name().as_str()));
     logmod::debug_write(&format!("map from json {:?}", map));
@@ -302,9 +310,8 @@ pub fn select_on_input(
     rrc.json_result[ctrl.name().as_str()] = json!(ctrl.value());
 
     let window = unwrap!(web_sys::window(), "window");
-    let document = unwrap!(window.document(), "document");
     let ls = unwrap!(unwrap!(window.local_storage()));
-    let x = ls.set_item(
+    let _x = ls.set_item(
         "json_string",
         unwrap!(serde_json::to_string_pretty(&rrc.json_result)).as_str(),
     );
@@ -314,7 +321,7 @@ pub fn select_on_input(
 
 /// render the option of select
 pub fn select_options<'b>(
-    rrc: &RootRenderingComponent,
+    _rrc: &RootRenderingComponent,
     bump: &'b Bump,
     val_options: &serde_json::Value,
     selected: &str,

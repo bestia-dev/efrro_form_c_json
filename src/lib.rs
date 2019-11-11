@@ -86,19 +86,6 @@ use wasm_bindgen::prelude::wasm_bindgen;
 //use wasm_bindgen::JsValue;
 //endregion
 
-pub struct CtrlOption {
-    option: String,
-    caption: String,
-}
-
-pub struct CtrlMetaData {
-    ctrl_type: String,
-    caption: String,
-    value: String,
-    second_control_name: String,
-    options: Vec<CtrlOption>,
-}
-
 ///this is the start function that wasm_bindgen calls
 #[wasm_bindgen(start)]
 pub fn wasm_bindgen_start() {
