@@ -353,10 +353,10 @@ fn copy_to_clipboard() {
     //and again Safari is the problem
     if is_iphone() {
         let range = unwrap!(document.create_range());
-        range.select_node_contents(&el);
+        let _x = range.select_node_contents(&el);
         let selection = unwrap!(unwrap!(window.get_selection()));
-        selection.remove_all_ranges();
-        selection.add_range(&range);
+        let _x = selection.remove_all_ranges();
+        let _x = selection.add_range(&range);
         el.set_selection_range(0, 999_999);
     } else {
         el.select();
