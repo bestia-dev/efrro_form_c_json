@@ -108,7 +108,7 @@ impl Render for RootRenderingComponent {
                         </p>
                     </div>
                     <div>
-                        <button class="w3-button w3-block w3-round w3-green"
+                        <button class="w3-button w3-block w3-round w3-green w3-text-bold w3-text-color-black"
                             onclick={ move |root, vdom_weak, event| {
                                 copy_to_clipboard();
                             }}>
@@ -197,11 +197,11 @@ pub fn div_inputs<'b>(
                 if ctrl_type == "label" {
                     vec_node.push(dodrio!(bump,
                     <div >
-                        <p class="w3-panel w3-center w3-round w3-yellow"
+                        <h3 class="w3-center w3-text-yellow"
                          id={ctrl_name}
                         >
                         {vec![text(value)]}
-                        </p>
+                        </h3>
                     </div>
                     ));
                 } else if ctrl_type == "select" || ctrl_type == "radio" || ctrl_type == "checkbox" {
@@ -350,7 +350,26 @@ fn copy_to_clipboard() {
 
     let t = unwrap!(document.get_element_by_id("json_result"));
     let el = unwrap!(t.dyn_into::<web_sys::HtmlTextAreaElement>());
-    el.select();
+    //and again Safari is the problem
+    if is_iphone() {
+        let range = unwrap!(document.create_range());
+        range.select_node_contents(&el);
+        let selection = unwrap!(unwrap!(window.get_selection()));
+        selection.remove_all_ranges();
+        selection.add_range(&range);
+        el.set_selection_range(0, 999_999);
+    } else {
+        el.select();
+    }
+
     let hd = unwrap!(document.dyn_into::<web_sys::HtmlDocument>());
     let _x = hd.exec_command("copy");
+}
+
+///detect iphone
+fn is_iphone() -> bool {
+    let window = unwrap!(web_sys::window());
+    let navigator = window.navigator();
+    let user_agent = unwrap!(navigator.user_agent());
+    user_agent.to_ascii_lowercase().contains("iphone")
 }
