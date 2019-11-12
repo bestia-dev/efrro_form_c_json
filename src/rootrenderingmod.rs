@@ -16,12 +16,14 @@ use dodrio::{Node, Render};
 use typed_html::dodrio;
 use serde::{Deserialize, Serialize};
 use serde_json::json;
-use web_sys::{console};
 use wasm_bindgen::JsCast; //must be for dyn_into
-                          //use futures::Future;
-                          //use serde_json::map::Entry;
-                          //use wasm_bindgen::JsValue;
-                          //endregion
+use web_sys::{console};
+use conv::{ConvUtil};
+//use conv::{ConvAsUtil};
+//use futures::Future;
+//use serde_json::map::Entry;
+//use wasm_bindgen::JsValue;
+//endregion
 
 ///the struct with the only mutable data and the code for rendering it as html
 #[derive(Debug, Serialize, Deserialize, Clone)]
@@ -59,6 +61,17 @@ impl Render for RootRenderingComponent {
         <div id="div_all">
              <div id="div_two_col" class="w3-row-padding" >
                 <div class="w3-quarter">
+                    <div>
+                        <p>
+                            {vec![text(
+                                bumpalo::format!(in bump, "{}",
+                                "This webapp saves data only in the local storage of this device. \
+                                No data is ever sent over the network. This webapp works in all modern browsers. \
+                                Avoid old or non updated browsers.")
+                                .into_bump_str()
+                            )]}
+                        </p>
+                    </div>
                     {div_inputs(self, bump,"first_quarter")}
                 </div>
                 <div class="w3-quarter">
@@ -77,7 +90,7 @@ impl Render for RootRenderingComponent {
                                 .into_bump_str()
                         )]}
                     </label>
-                    <textarea style="height: 200px;" readonly="true" class="w3-input w3-dark-grey w3-border-0 w3-round" name="json_result" id="json_result" >
+                    <textarea style="height: 250px;" readonly="true" class="w3-input w3-dark-grey w3-border-0 w3-round" name="json_result" id="json_result" >
                         {vec![text(
                             bumpalo::format!(in bump, "{}",
                             unwrap!(serde_json::to_string_pretty(&self.json_result)))
@@ -89,10 +102,22 @@ impl Render for RootRenderingComponent {
                         <p>
                             {vec![text(
                                 bumpalo::format!(in bump, "{}",
-                                "Your data is stored only on this device locally. Copy/paste the json_result and send it to the hostel manager.")
+                                "Copy and send json_result to the hostel manager.")
                                 .into_bump_str()
                             )]}
                         </p>
+                    </div>
+                    <div>
+                        <button class="w3-button w3-block w3-round w3-green"
+                            onclick={ move |root, vdom_weak, event| {
+                                copy_to_clipboard();
+                            }}>
+                        {vec![text(
+                            bumpalo::format!(in bump, "{}",
+                            "Copy `json_result` to clipboard")
+                            .into_bump_str()
+                        )]}
+                        </button>
                     </div>
                     <div>
                         <h6 class="yellow">
@@ -118,6 +143,8 @@ impl Render for RootRenderingComponent {
 
 #[allow(clippy::cognitive_complexity)]
 #[allow(clippy::integer_arithmetic)]
+#[allow(clippy::shadow_reuse)]
+#[allow(clippy::nonminimal_bool)]
 ///render all the inputs
 pub fn div_inputs<'b>(
     rrc: &RootRenderingComponent,
@@ -129,16 +156,16 @@ pub fn div_inputs<'b>(
     if !rrc.json_format.is_empty() {
         let len_map = rrc.json_format.len();
         //the content of the last column is smaller than the others
-        // height of columns: 100% for 1st column, 100% second, 100% third, 30% fourth
-        let line_1_proc = len_map as f64 / (100.0 + 100.0 + 100.0 + 30.0);
-        let first_line_len = line_1_proc * 100.0;
+        // height of columns: 90% for 1st column, 100% second, 100% third, 30% fourth
+        let line_1_proc = unwrap!(len_map.approx_as::<f64>()) / (90.0 + 100.0 + 100.0 + 30.0);
+        let first_line_len = line_1_proc * 90.0;
         let second_line_len = line_1_proc * 100.0;
         let third_line_len = line_1_proc * 100.0;
         //let fourth_line_len = line_1_proc * 30.0;
-
-        let first_line_len = first_line_len as usize;
-        let second_line_len = second_line_len as usize;
-        let third_line_len = third_line_len as usize;
+        #[allow(clippy::shadow_reuse)]
+        let first_line_len = unwrap!(first_line_len.approx_as::<usize>());
+        let second_line_len = unwrap!(second_line_len.approx_as::<usize>());
+        let third_line_len = unwrap!(third_line_len.approx_as::<usize>());
         //let fourth_line_len = fourth_line_len as usize;
 
         //logmod::debug_write(format!("",lin))
@@ -157,36 +184,24 @@ pub fn div_inputs<'b>(
             {
                 let ctrl_name = bumpalo::format!(in bump, "{}",&key).into_bump_str();
 
-                let str_caption = val
-                    .get("caption")
-                    .unwrap_or(&json!(key))
-                    .as_str()
-                    .unwrap()
-                    .to_string();
+                let str_caption =
+                    unwrap!(val.get("caption").unwrap_or(&json!(key)).as_str()).to_string();
                 let caption = bumpalo::format!(in bump, "{}",str_caption).into_bump_str();
-                let str_value = val
-                    .get("value")
-                    .unwrap_or(&json!(""))
-                    .as_str()
-                    .unwrap()
-                    .to_string();
+                let str_value =
+                    unwrap!(val.get("value").unwrap_or(&json!("")).as_str()).to_string();
                 let value = bumpalo::format!(in bump, "{}",str_value).into_bump_str();
-                let str_ctrl_type = val
-                    .get("ctrl_type")
-                    .unwrap_or(&json!("text"))
-                    .as_str()
-                    .unwrap()
-                    .to_string();
+                let str_ctrl_type =
+                    unwrap!(val.get("ctrl_type").unwrap_or(&json!("text")).as_str()).to_string();
                 let ctrl_type = bumpalo::format!(in bump, "{}",str_ctrl_type).into_bump_str();
 
                 if ctrl_type == "label" {
                     vec_node.push(dodrio!(bump,
                     <div >
-                        <h3 class="w3-border-0 w3-round w3-yellow "
+                        <p class="w3-panel w3-center w3-round w3-yellow"
                          id={ctrl_name}
                         >
                         {vec![text(value)]}
-                        </h3>
+                        </p>
                     </div>
                     ));
                 } else if ctrl_type == "select" || ctrl_type == "radio" || ctrl_type == "checkbox" {
@@ -198,7 +213,16 @@ pub fn div_inputs<'b>(
                         <select class="w3-input w3-dark-grey w3-border-0 w3-round"
                         name={ctrl_name} id={ctrl_name}
                          oninput={ move |root, vdom_weak, event| {
-                             select_on_input(root, vdom_weak, event);
+                                // get the ctrl (target)
+                                let ctrl = match event
+                                    .target()
+                                    .and_then(|t| t.dyn_into::<web_sys::HtmlSelectElement>().ok())
+                                {
+                                    None => return,
+                                    //?? Don't understand what this does. The original was written for Input element.
+                                    Some(input) => input,
+                                };
+                             on_input(root, vdom_weak, ctrl.name().to_string(),ctrl.value().to_string());
                         }}>
                         {select_options(rrc,bump,val,&str_value)}
                         </select>
@@ -222,7 +246,16 @@ pub fn div_inputs<'b>(
                         <input type="text" class="w3-input w3-dark-grey w3-border-0 w3-round"
                         name={ctrl_name} id={ctrl_name} value={value}
                         oninput={ move |root, vdom_weak, event| {
-                            input_on_input(root, vdom_weak, event);
+                            // get the ctrl (target)
+                            let ctrl = match event
+                                .target()
+                                .and_then(|t| t.dyn_into::<web_sys::HtmlInputElement>().ok())
+                            {
+                                None => return,
+                                //?? Don't understand what this does. The original was written for Input element.
+                                Some(input) => input,
+                            };
+                            on_input(root, vdom_weak, ctrl.name().to_string(),ctrl.value().to_string());
                         }}>
                         </input>
                     </div>
@@ -236,79 +269,23 @@ pub fn div_inputs<'b>(
     vec_node
 }
 
-/// event on change
-pub fn input_on_input(
+/// event on input for ctrl input and select
+pub fn on_input(
     root: &mut (dyn dodrio::RootRender + 'static),
     vdom_weak: dodrio::VdomWeak,
-    event: web_sys::Event,
-) {
-    logmod::debug_write(&format!("input_on_input{}", ""));
-    //save on every key stroke
-    let rrc = root.unwrap_mut::<RootRenderingComponent>();
-    // get the ctrl (target)
-    let ctrl = match event
-        .target()
-        .and_then(|t| t.dyn_into::<web_sys::HtmlInputElement>().ok())
-    {
-        None => return,
-        //?? Don't understand what this does. The original was written for Input element.
-        Some(input) => input,
-    };
-
-    let v2 = vdom_weak.clone();
-    //save_to_localstorage(&v2, ctrl.name(), ctrl.value());
-    //rrc.json_result = format!("{}{}{}", rrc.json_result, ctrl.name(), ctrl.value());
-    //rrc.json_result["aa"]=json!("object");
-    // map.entry("whatever").or_insert(Vec::new());
-    //logmod::debug_write(&format!("ctrl name {:?}", &ctrl.name()));
-
-    let map = unwrap!(rrc.json_format.get_mut(ctrl.name().as_str()));
-    logmod::debug_write(&format!("map from json {:?}", map));
-    map["value"] = json!(ctrl.value());
-
-    rrc.json_result[ctrl.name().as_str()] = json!(ctrl.value());
-
-    let window = unwrap!(web_sys::window(), "window");
-    let ls = unwrap!(unwrap!(window.local_storage()));
-    let _x = ls.set_item(
-        "json_string",
-        unwrap!(serde_json::to_string_pretty(&rrc.json_result)).as_str(),
-    );
-
-    v2.schedule_render();
-}
-
-/// event on change
-pub fn select_on_input(
-    root: &mut (dyn dodrio::RootRender + 'static),
-    vdom_weak: dodrio::VdomWeak,
-    event: web_sys::Event,
+    ctrl_name: String,
+    ctrl_value: String,
 ) {
     logmod::debug_write(&format!("select_on_input{}", ""));
     //save on every key stroke
     let rrc = root.unwrap_mut::<RootRenderingComponent>();
-    // get the ctrl (target)
-    let ctrl = match event
-        .target()
-        .and_then(|t| t.dyn_into::<web_sys::HtmlSelectElement>().ok())
-    {
-        None => return,
-        //?? Don't understand what this does. The original was written for Input element.
-        Some(input) => input,
-    };
+    let v2 = vdom_weak;
 
-    let v2 = vdom_weak.clone();
-    //save_to_localstorage(&v2, ctrl.name(), ctrl.value());
-    //rrc.json_result = format!("{}{}{}", rrc.json_result, ctrl.name(), ctrl.value());
-    //rrc.json_result["aa"]=json!("object");
-    // map.entry("whatever").or_insert(Vec::new());
-    //logmod::debug_write(&format!("ctrl name {:?}", &ctrl.name()));
-
-    let map = unwrap!(rrc.json_format.get_mut(ctrl.name().as_str()));
+    let map = unwrap!(rrc.json_format.get_mut(ctrl_name.as_str()));
     logmod::debug_write(&format!("map from json {:?}", map));
-    map["value"] = json!(ctrl.value());
+    map["value"] = json!(ctrl_value);
 
-    rrc.json_result[ctrl.name().as_str()] = json!(ctrl.value());
+    rrc.json_result[ctrl_name.as_str()] = json!(ctrl_value);
 
     let window = unwrap!(web_sys::window(), "window");
     let ls = unwrap!(unwrap!(window.local_storage()));
@@ -364,4 +341,16 @@ pub fn select_options<'b>(
     }
     //return
     vec_node
+}
+
+///copy to clipboard
+fn copy_to_clipboard() {
+    let window = unwrap!(web_sys::window());
+    let document = unwrap!(window.document());
+
+    let t = unwrap!(document.get_element_by_id("json_result"));
+    let el = unwrap!(t.dyn_into::<web_sys::HtmlTextAreaElement>());
+    el.select();
+    let hd = unwrap!(document.dyn_into::<web_sys::HtmlDocument>());
+    let _x = hd.exec_command("copy");
 }

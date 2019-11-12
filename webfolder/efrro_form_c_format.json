@@ -1,14 +1,17 @@
 {
     "json_comment_description": {
         "ctrl_type": "label",
-        "value": "Guest `form C` for india efrro"
+        "value": "Guest data for `Form C` for india efrro"
     },
     "applicant_surname": {
         "ctrl_type": "text",
-        "caption": "applicant_surname"
+        "caption": "Surname"
     },
-    "applicant_givenname": {},
+    "applicant_givenname": {
+        "caption": "Given name"
+    },
     "applicant_sex": {
+        "caption": "Sex",
         "ctrl_type": "select",
         "options": [
             {
@@ -32,15 +35,68 @@
         "caption": "Date of birth in DD/MM/YYYY"
     },
     "applicant_dob": {
-        "caption": "Date of Birth",
+        "caption": "Date of Birth DD/MM/YYYY",
         "value": "DD/MM/YYYY"
     },
-    "applicant_age": {},
-    "actualDOB": {
-        "caption": "Real Date of Birth",
-        "value": "DD/MM/YYYY"
+    "applicant_age": {
+        "caption": "Age"
+    },
+    "applicant_special_category": {
+        "caption": "Special Category",
+        "ctrl_type": "select",
+        "options": [
+            {
+                "option": "3",
+                "caption": "Crew"
+            },
+            {
+                "option": "7",
+                "caption": "Diplomat Exempted"
+            },
+            {
+                "option": "4",
+                "caption": "Emergency Transit"
+            },
+            {
+                "option": "12",
+                "caption": "Loss of Passport"
+            },
+            {
+                "option": "1",
+                "caption": "Newly Born"
+            },
+            {
+                "option": "10",
+                "caption": "OCI"
+            },
+            {
+                "option": "6",
+                "caption": "Official Exempted"
+            },
+            {
+                "option": "8",
+                "caption": "Other Exempted"
+            },
+            {
+                "option": "9",
+                "caption": "Others"
+            },
+            {
+                "option": "11",
+                "caption": "PIO"
+            },
+            {
+                "option": "2",
+                "caption": "Refugee"
+            },
+            {
+                "option": "5",
+                "caption": "TLP"
+            }
+        ]
     },
     "applicant_nationality": {
+        "caption": "Nationality",
         "ctrl_type": "select",
         "options": [
             {
@@ -1097,9 +1153,14 @@
             }
         ]
     },
-    "applicant_permaddr": {},
-    "applicant_permcity": {},
+    "applicant_permaddr": {
+        "caption": "Permanent adress"
+    },
+    "applicant_permcity": {
+        "caption": "City"
+    },
     "applicant_permcountry": {
+        "caption": "Country",
         "ctrl_type": "select",
         "options": [
             {
@@ -2157,9 +2218,11 @@
         ]
     },
     "applicant_refaddr": {
-        "value": "Sturmfrei hostel, House No.167/2, Zhor Vaddo, Anjuna Beach - Vagator Beach Junction, 403509 Vagator"
+        "caption": "Address in India",
+        "value": ""
     },
     "applicant_refstate": {
+        "caption": "State",
         "ctrl_type": "select",
         "value": "9",
         "options": [
@@ -2309,15 +2372,21 @@
             }
         ]
     },
-    "applicant_refstatedistr": {},
+    "applicant_refstatedistr": {
+        "caption": "City/District"
+    },
     "applicant_refpincode": {
+        "caption": "Pin Code",
         "value": "403509"
     },
-    "applicant_passpno": {},
+    "applicant_passpno": {
+        "caption": "Passport No."
+    },
     "applicant_passplcofissue": {
-        "caption": "passport place of issue"
+        "caption": "City of issue"
     },
     "passport_issue_country": {
+        "caption": "Country of issue",
         "ctrl_type": "select",
         "options": [
             {
@@ -3375,18 +3444,21 @@
         ]
     },
     "applicant_passpdoissue": {
-        "caption": "passport date of issue",
+        "caption": "Passport date of issue",
         "value": "DD/MM/YYYY"
     },
     "applicant_passpvalidtill": {
-        "caption": "passport valid till",
+        "caption": "Passport valid till",
         "value": "DD/MM/YYYY"
     },
-    "applicant_visano": {},
+    "applicant_visano": {
+        "caption": "Visa no."
+    },
     "applicant_visaplcoissue": {
-        "caption": "visa place of issue"
+        "caption": "Visa City of issue"
     },
     "visa_issue_country": {
+        "caption": "Visa Country of issue",
         "ctrl_type": "select",
         "value": "IND",
         "options": [
@@ -4445,14 +4517,15 @@
         ]
     },
     "applicant_visadoissue": {
-        "caption": "visa date of issue",
+        "caption": "Visa date of issue",
         "value": "DD/MM/YYYY"
     },
     "applicant_visavalidtill": {
-        "caption": "visa valid till",
+        "caption": "Visa valid till",
         "value": "DD/MM/YYYY"
     },
     "applicant_visatype": {
+        "caption": "Type of visa",
         "ctrl_type": "select",
         "options": [
             {
@@ -4573,16 +4646,8 @@
             }
         ]
     },
-    "applicant_visa_subtype_code": {
-        "ctrl_type": "select",
-        "options": [
-            {
-                "option": "00",
-                "caption": "subtype"
-            }
-        ]
-    },
     "applicant_arrivedfromcountry": {
+        "caption": "Arrived from Country",
         "ctrl_type": "select",
         "options": [
             {
@@ -5639,22 +5704,29 @@
             }
         ]
     },
-    "applicant_arrivedfromcity": {},
-    "applicant_arrivedfromplace": {},
+    "applicant_arrivedfromcity": {
+        "caption": "Arrived from City"
+    },
+    "applicant_arrivedfromplace": {
+        "caption": "Arrived from Place"
+    },
     "applicant_doarrivalindia": {
-        "caption": "date of arrival in India",
+        "caption": "Date of arrival in India",
         "value": "DD/MM/YYYY"
     },
     "applicant_doarrivalhotel": {
-        "caption": "date of arrival to hotel",
+        "caption": "Date of arrival to hostel",
         "value": "DD/MM/YYYY"
     },
     "applicant_timeoarrivalhotel": {
-        "caption": "time of arrival to hotel",
+        "caption": "Time of arrival to hostel",
         "value": "HH:mm"
     },
-    "applicant_intnddurhotel": {},
+    "applicant_intnddurhotel": {
+        "caption": "Intended duration"
+    },
     "employed": {
+        "caption": "Employed in India",
         "ctrl_type": "radio",
         "options": [
             {
@@ -5669,6 +5741,7 @@
         "value": "Y"
     },
     "applicant_purpovisit": {
+        "caption": "Purpose of Visit",
         "ctrl_type": "select",
         "options": [
             {
@@ -5754,21 +5827,23 @@
         ]
     },
     "applicant_next_dest_country_flag_r": {
+        "caption": "Next destination",
         "ctrl_type": "radio",
         "second_control_name": "applicant_next_dest_country_flag",
         "options": [
             {
                 "option": "I",
-                "caption": "inside India"
+                "caption": "Inside India"
             },
             {
                 "option": "O",
-                "caption": "outside India"
+                "caption": "Outside India"
             }
         ],
         "value": "I"
     },
     "applicant_next_destination_state_IN": {
+        "caption": "State",
         "ctrl_type": "select",
         "options": [
             {
@@ -5917,11 +5992,25 @@
             }
         ]
     },
-    "applicant_next_destination_city_district_IN": {},
-    "applicant_next_destination_place_IN": {},
-    "applicant_contactnoinindia": {},
-    "applicant_mcontactnoinindia": {},
-    "applicant_contactnoperm": {},
-    "applicant_mcontactnoperm": {},
-    "applicant_remark": {}
+    "applicant_next_destination_city_district_IN": {
+        "caption": "City/District"
+    },
+    "applicant_next_destination_place_IN": {
+        "caption": "Place"
+    },
+    "applicant_contactnoinindia": {
+        "caption": "Phone in India"
+    },
+    "applicant_mcontactnoinindia": {
+        "caption": "Mobile in India"
+    },
+    "applicant_contactnoperm": {
+        "caption": "Phone in residing Country"
+    },
+    "applicant_mcontactnoperm": {
+        "caption": "Mobile in residing Country"
+    },
+    "applicant_remark": {
+        "caption": "Remarks (if any)"
+    }
 }

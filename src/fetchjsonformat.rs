@@ -7,6 +7,7 @@ use crate::fetchmod;
 use crate::logmod;
 
 use unwrap::unwrap;
+use indexmap::IndexMap;
 use web_sys::{Request, RequestInit};
 use serde_json::json;
 //use indexmap::IndexMap;
@@ -40,27 +41,28 @@ pub fn set_json_format(rrc: &mut RootRenderingComponent, respbody: String) {
     //fill json_result from local storage
     let window = unwrap!(web_sys::window(), "window");
     let ls = unwrap!(unwrap!(window.local_storage()));
-    let x = unwrap!(ls.get_item("json_string"));
+    let option_stored_str = unwrap!(ls.get_item("json_string"));
     logmod::debug_write("ls.get_item(json_string)");
-    if let Some(x) = x {
-        //logmod::debug_write("x.is_some");
-        rrc.json_result = unwrap!(serde_json::from_str(&x));
+    if let Some(stored_str) = option_stored_str {
+        logmod::debug_write("x.is_some");
+        let stored_json: IndexMap<String, serde_json::Value> =
+            unwrap!(serde_json::from_str(&stored_str));
         //fill json_format with local storage values
-        for (k, _v) in &rrc.json_result {
-            if rrc.json_format.contains_key(k.as_str())
-                && unwrap!(unwrap!(rrc.json_format.get(k)).get("value"))
-                    != unwrap!(rrc.json_result.get(k.as_str()))
-            {
-                unwrap!(rrc.json_format.get_mut(k))["value"] =
-                    unwrap!(rrc.json_result.get(k.as_str())).clone();
+        for (k, v) in &stored_json {
+            logmod::debug_write(&format!("{:?} {:?}", k, v));
+            let record = rrc.json_format.get_mut(k);
+            if let Some(record) = record {
+                if record.get("ctrl_type").unwrap_or(&json!("")) != "label" {
+                    record["value"] = v.clone();
+                }
             }
         }
         //logmod::debug_write(&format!("{:?}", rrc.json_format));
         //logmod::debug_write(&format!("{:?}", rrc.json_result));
     }
-    //fill result with missing keys
+    //fill rrc.json_result with json_format values and preserve order
     for (k, v) in &rrc.json_format {
-        if !rrc.json_result.contains_key(k.as_str()) {
+        if v.get("ctrl_type").unwrap_or(&json!("text")) != "label" {
             rrc.json_result
                 .insert(k.to_string(), v.get("value").unwrap_or(&json!("")).clone());
         }
