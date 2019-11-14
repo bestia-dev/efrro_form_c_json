@@ -2376,8 +2376,7 @@
         "caption": "City/District"
     },
     "applicant_refpincode": {
-        "caption": "Pin Code",
-        "value": "403509"
+        "caption": "Pin Code"
     },
     "applicant_passpno": {
         "caption": "Passport No."
