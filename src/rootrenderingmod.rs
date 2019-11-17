@@ -104,8 +104,9 @@ impl Render for RootRenderingComponent {
                             {vec![text(
                                 bumpalo::format!(in bump, "{}",
                                 "The result of the webapp is a simple json text. \
-                                It can be easily saved, copied, modified and sent (by email, WhatsUp,...). \
-                                But all this actions are outside of this webapp for security and privacy reasons.\")
+                                It can be easily saved, copied, modified and sent (by email, WhatsApp, messanger,...). \
+                                But all this actions are outside of this webapp for security and privacy reasons.
+                                ")
                                 .into_bump_str()
                             )]}
                         </p>
@@ -117,7 +118,7 @@ impl Render for RootRenderingComponent {
                             }}>
                         {vec![text(
                             bumpalo::format!(in bump, "{}",
-                            "Copy `json_result` to clipboard")
+                            "Copy json_result to clipboard")
                             .into_bump_str()
                         )]}
                         </button>
@@ -129,7 +130,7 @@ impl Render for RootRenderingComponent {
                     </div>
                     <div>
                         <h6 class="yellow">
-                        {vec![text(bumpalo::format!(in bump, "Instructions and source code: {}", version).into_bump_str(),)]}
+                        {vec![text(bumpalo::format!(in bump, "Instructions and source code:{}", "").into_bump_str(),)]}
                             <a href= "https://github.com/LucianoBestia/efrro_form_c_json" target="_blank">
                                 {vec![text(bumpalo::format!(in bump, "https://github.com / LucianoBestia / efrro_form_c_json{}", "").into_bump_str(),)]}
                             </a>
@@ -371,7 +372,7 @@ fn copy_to_clipboard() {
 }
 
 ///detect iphone
-fn is_iphone() -> bool {
+pub fn is_iphone() -> bool {
     let window = unwrap!(web_sys::window());
     let navigator = window.navigator();
     let user_agent = unwrap!(navigator.user_agent());
