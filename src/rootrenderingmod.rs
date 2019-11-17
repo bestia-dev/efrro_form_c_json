@@ -66,8 +66,9 @@ impl Render for RootRenderingComponent {
                             {vec![text(
                                 bumpalo::format!(in bump, "{}",
                                 "This webapp saves data only in the local storage of this device. \
-                                No data is ever sent over the network. This webapp works in all modern browsers. \
-                                Avoid old or non updated browsers.")
+                                No data is ever sent over the network. \
+                                This webapp works in all modern browsers (chrome, firefox, safari). \
+                                Avoid old or non updated browsers (for your own security and comfort).")
                                 .into_bump_str()
                             )]}
                         </p>
@@ -102,7 +103,9 @@ impl Render for RootRenderingComponent {
                         <p>
                             {vec![text(
                                 bumpalo::format!(in bump, "{}",
-                                "Copy and send json_result to the hostel manager.")
+                                "The result of the webapp is a simple json text. \
+                                It can be easily saved, copied, modified and sent (by email, WhatsUp,...). \
+                                But all this actions are outside of this webapp for security and privacy reasons.\")
                                 .into_bump_str()
                             )]}
                         </p>
@@ -126,6 +129,7 @@ impl Render for RootRenderingComponent {
                     </div>
                     <div>
                         <h6 class="yellow">
+                        {vec![text(bumpalo::format!(in bump, "Instructions and source code: {}", version).into_bump_str(),)]}
                             <a href= "https://github.com/LucianoBestia/efrro_form_c_json" target="_blank">
                                 {vec![text(bumpalo::format!(in bump, "https://github.com / LucianoBestia / efrro_form_c_json{}", "").into_bump_str(),)]}
                             </a>

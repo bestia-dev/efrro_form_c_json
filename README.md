@@ -12,8 +12,10 @@ Quote from the Bureau of Immigration in India (form C is compulsory by law):
 The webapp is supposed to be used on the guest's personal smartphone.  
 This webapp saves data only in the local storage of this device. No data is ever sent over the network.  
 This webapp works in all modern browsers (chrome, firefox, safari). Avoid old or non updated browsers (for your own security and comfort).  
-The result of the webapp is a simple json text. It can be easily saved, copied, modified and sent. But all this actions are outside of this webapp and a personal choice od the user.  
-The guest can use this same json text in every hostel where the hostel manager uses the chrome extension. The guest could instruct the hostel manager about the chrome extension to make life easier for both the guest and the manager.  
+The result of the webapp is a simple json text. It can be easily saved, copied, modified and sent.  
+But all this actions are outside of this webapp for security and privacy reasons.  
+They are a personal choice of the user.  
+The guest can use this same json text in every hostel where the hostel manager uses the chrome extension. If the manager doesn't know about the extension, the guest could instruct the hostel manager and make life easier for both the guest and the manager.  
 
 ## chrome extension
 
@@ -38,3 +40,4 @@ The project is open source stored on github and the source code can be easily ch
 ## TODO
 
 - use json to fill the same form data on another device  
+- add google adds to provide some funding for the maintenance of the project  
