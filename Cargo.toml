@@ -1,6 +1,6 @@
 [package]
 name = "efrro_form_c_json"
-version = "19.11.19-12.42"
+version = "19.11.19-12.52"
 authors = ["Luciano Bestia <luciano.bestia@gmail.com>"]
 edition = "2018"
 description="User iterface to enter data for e-frro and export it as json."
