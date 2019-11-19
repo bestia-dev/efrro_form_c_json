@@ -80,8 +80,8 @@ impl Render for RootRenderingComponent {
         //https://www.w3schools.com/w3css/tryit.asp?filename=tryw3css_input_select_border
         let xdiv = dodrio!(bump,
         <div id="div_all">
-             <div id="div_two_col" class="w3-row-padding" >
-                <div class="w3-quarter">
+             <div class="w3-row-padding" >
+                <div>
                 {div_img_hostel(&self,&bump)}
                     <div>
                         <p>
@@ -95,16 +95,7 @@ impl Render for RootRenderingComponent {
                             )]}
                         </p>
                     </div>
-                    {div_inputs(self, bump,"first_quarter")}
-                </div>
-                <div class="w3-quarter">
-                    {div_inputs(self, bump,"second_quarter")}
-                </div>
-                <div class="w3-quarter">
-                    {div_inputs(self, bump,"third_quarter")}
-                </div>
-                <div class="w3-quarter">
-                    {div_inputs(self, bump,"fourth_quarter")}
+                    {div_inputs(self, bump)}
                     <div>
                         <label for="json_result" >
                         {vec![text(
@@ -176,125 +167,96 @@ impl Render for RootRenderingComponent {
 #[allow(clippy::shadow_reuse)]
 #[allow(clippy::nonminimal_bool)]
 ///render all the inputs
-pub fn div_inputs<'b>(
-    rrc: &RootRenderingComponent,
-    bump: &'b Bump,
-    what_quarter: &str,
-) -> Vec<Node<'b>> {
+pub fn div_inputs<'b>(rrc: &RootRenderingComponent, bump: &'b Bump) -> Vec<Node<'b>> {
     let mut vec_node = Vec::new();
     //json is an object that has a map
     if !rrc.json_format.is_empty() {
         let len_map = rrc.json_format.len();
         //the content of the last column is smaller than the others
         // height of columns: 90% for 1st column, 100% second, 100% third, 30% fourth
-        let line_1_proc = unwrap!(len_map.approx_as::<f64>()) / (90.0 + 100.0 + 100.0 + 30.0);
-        let first_line_len = line_1_proc * 90.0;
-        let second_line_len = line_1_proc * 100.0;
-        let third_line_len = line_1_proc * 100.0;
-        //let fourth_line_len = line_1_proc * 30.0;
-        #[allow(clippy::shadow_reuse)]
-        let first_line_len = unwrap!(first_line_len.approx_as::<usize>());
-        let second_line_len = unwrap!(second_line_len.approx_as::<usize>());
-        let third_line_len = unwrap!(third_line_len.approx_as::<usize>());
-        //let fourth_line_len = fourth_line_len as usize;
 
         //logmod::debug_write(format!("",lin))
-        let mut i = 0;
-        //add a <div class="w3-quarter"> in the middle
         for (key, val) in &rrc.json_format {
-            if (what_quarter == "first_quarter" && i < first_line_len)
-                || (what_quarter == "second_quarter"
-                    && i >= first_line_len
-                    && i < (first_line_len + second_line_len))
-                || (what_quarter == "third_quarter"
-                    && i >= (first_line_len + second_line_len)
-                    && i < (first_line_len + second_line_len + third_line_len))
-                || (what_quarter == "fourth_quarter"
-                    && i >= (first_line_len + second_line_len + third_line_len))
-            {
-                let ctrl_name = bumpalo::format!(in bump, "{}",&key).into_bump_str();
+            let ctrl_name = bumpalo::format!(in bump, "{}",&key).into_bump_str();
 
-                let str_caption =
-                    unwrap!(val.get("caption").unwrap_or(&json!(key)).as_str()).to_string();
-                let caption = bumpalo::format!(in bump, "{}",str_caption).into_bump_str();
-                let str_value =
-                    unwrap!(val.get("value").unwrap_or(&json!("")).as_str()).to_string();
-                let value = bumpalo::format!(in bump, "{}",str_value).into_bump_str();
-                let str_ctrl_type =
-                    unwrap!(val.get("ctrl_type").unwrap_or(&json!("text")).as_str()).to_string();
-                let ctrl_type = bumpalo::format!(in bump, "{}",str_ctrl_type).into_bump_str();
+            let str_caption =
+                unwrap!(val.get("caption").unwrap_or(&json!(key)).as_str()).to_string();
+            let caption = bumpalo::format!(in bump, "{}",str_caption).into_bump_str();
+            let str_value = unwrap!(val.get("value").unwrap_or(&json!("")).as_str()).to_string();
+            let value = bumpalo::format!(in bump, "{}",str_value).into_bump_str();
+            let str_ctrl_type =
+                unwrap!(val.get("ctrl_type").unwrap_or(&json!("text")).as_str()).to_string();
+            let ctrl_type = bumpalo::format!(in bump, "{}",str_ctrl_type).into_bump_str();
 
-                if ctrl_type == "label" {
-                    vec_node.push(dodrio!(bump,
-                    <div >
-                        <h3 class="w3-center w3-text-yellow"
-                         id={ctrl_name}
-                        >
-                        {vec![text(value)]}
-                        </h3>
-                    </div>
-                    ));
-                } else if ctrl_type == "select" || ctrl_type == "radio" || ctrl_type == "checkbox" {
-                    vec_node.push(dodrio!(bump,
-                    <div >
-                        <label for={ctrl_name} >
-                            {vec![text(caption)]}
-                        </label>
-                        <select class="w3-input w3-dark-grey w3-border-0 w3-round"
-                        name={ctrl_name} id={ctrl_name}
-                         oninput={ move |root, vdom_weak, event| {
-                                // get the ctrl (target)
-                                let ctrl = match event
-                                    .target()
-                                    .and_then(|t| t.dyn_into::<web_sys::HtmlSelectElement>().ok())
-                                {
-                                    None => return,
-                                    //?? Don't understand what this does. The original was written for Input element.
-                                    Some(input) => input,
-                                };
-                                let rrc = root.unwrap_mut::<RootRenderingComponent>();
-                             on_input(rrc, vdom_weak, ctrl.name().to_string(),ctrl.value().to_string());
-                        }}>
-                        {select_options(rrc,bump,val,&str_value)}
-                        </select>
-                    </div>
-                    ));
-                } else if ctrl_type == "hidden" {
-                    vec_node.push(dodrio!(bump,
-                    <div >
-                        <input type="hidden"
-                        name={ctrl_name} id={ctrl_name} value={value}>
-                        </input>
-                    </div>
-                    ));
-                } else {
-                    //to je za type=text
-                    vec_node.push(dodrio!(bump,
-                    <div >
-                        <label for={ctrl_name} >
-                            {vec![text(caption)]}
-                        </label>
-                        <input type="text" class="w3-input w3-dark-grey w3-border-0 w3-round"
-                        name={ctrl_name} id={ctrl_name} value={value}
-                        oninput={ move |root, vdom_weak, event| {
+            if ctrl_type == "label" {
+                vec_node.push(dodrio!(bump,
+                <div >
+                    <h3 class="w3-center w3-text-yellow"
+                     id={ctrl_name}
+                    >
+                    {vec![text(value)]}
+                    </h3>
+                </div>
+                ));
+            } else if ctrl_type == "select" || ctrl_type == "radio" || ctrl_type == "checkbox" {
+                vec_node.push(dodrio!(bump,
+                <div >
+                    <label for={ctrl_name} >
+                        {vec![text(caption)]}
+                    </label>
+                    <select class="w3-input w3-dark-grey w3-border-0 w3-round"
+                    name={ctrl_name} id={ctrl_name}
+                     oninput={ move |root, vdom_weak, event| {
                             // get the ctrl (target)
                             let ctrl = match event
                                 .target()
-                                .and_then(|t| t.dyn_into::<web_sys::HtmlInputElement>().ok())
+                                .and_then(|t| t.dyn_into::<web_sys::HtmlSelectElement>().ok())
                             {
                                 None => return,
                                 //?? Don't understand what this does. The original was written for Input element.
                                 Some(input) => input,
                             };
                             let rrc = root.unwrap_mut::<RootRenderingComponent>();
-                            on_input(rrc, vdom_weak, ctrl.name().to_string(),ctrl.value().to_string());
-                        }}>
-                        </input>
-                    </div>
-                    ));
-                }
+                         on_input(rrc, vdom_weak, ctrl.name().to_string(),ctrl.value().to_string());
+                    }}>
+                    {select_options(rrc,bump,val,&str_value)}
+                    </select>
+                </div>
+                ));
+            } else if ctrl_type == "hidden" {
+                vec_node.push(dodrio!(bump,
+                <div >
+                    <input type="hidden"
+                    name={ctrl_name} id={ctrl_name} value={value}>
+                    </input>
+                </div>
+                ));
+            } else {
+                //to je za type=text
+                vec_node.push(dodrio!(bump,
+                <div >
+                    <label for={ctrl_name} >
+                        {vec![text(caption)]}
+                    </label>
+                    <input type="text" class="w3-input w3-dark-grey w3-border-0 w3-round"
+                    name={ctrl_name} id={ctrl_name} value={value}
+                    oninput={ move |root, vdom_weak, event| {
+                        // get the ctrl (target)
+                        let ctrl = match event
+                            .target()
+                            .and_then(|t| t.dyn_into::<web_sys::HtmlInputElement>().ok())
+                        {
+                            None => return,
+                            //?? Don't understand what this does. The original was written for Input element.
+                            Some(input) => input,
+                        };
+                        let rrc = root.unwrap_mut::<RootRenderingComponent>();
+                        on_input(rrc, vdom_weak, ctrl.name().to_string(),ctrl.value().to_string());
+                    }}>
+                    </input>
+                </div>
+                ));
             }
-            i += 1;
         }
     }
     //return
@@ -429,9 +391,55 @@ pub fn div_img_hostel<'b>(rrc: &'b RootRenderingComponent, bump: &'b Bump) -> Op
             let alt = bumpalo::format!(in bump, "{}",
                   hostel_data.name)
             .into_bump_str();
+            let href = bumpalo::format!(in bump, "{}",
+                  hostel_data.web)
+            .into_bump_str();
             //return
             Some(dodrio!(bump,
-                <img src={str_src} alt={alt} ></img>))
+                <div>
+                    <a href={href} target="_blank">
+                        <img src={str_src} alt={alt} ></img>
+                    </a>
+                    {
+                    let mut ppp =vec![ dodrio!(bump,
+                        <h2>
+                        {vec![text(
+                            bumpalo::format!(in bump, "{}",
+                            hostel_data.name)
+                            .into_bump_str()
+                        )]}
+                        </h2>)];
+
+                        for x in &hostel_data.text_vector{
+                            ppp.push(
+                                dodrio!(bump,
+                                    <h4>
+                                    {vec![text(
+                                        bumpalo::format!(in bump, "{}",
+                                        x)
+                                        .into_bump_str()
+                                    )]}
+                                    </h4>)
+                                );
+                        }
+                        for x in &hostel_data.urls{
+                            ppp.push(
+                                dodrio!(bump,
+                                    <h4><a href={&x.url} target="_blank">
+                                    {vec![text(
+                                        bumpalo::format!(in bump, "{}",
+                                        x.name)
+                                        .into_bump_str()
+                                    )]}
+                                    </a>
+                                    </h4>)
+                                );
+                        }
+                        //result
+                        ppp
+                    }
+                </div>
+            ))
         }
         None => None,
     }

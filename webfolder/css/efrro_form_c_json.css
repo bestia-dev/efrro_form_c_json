@@ -1,5 +1,10 @@
 /* special css for efrro_form_c_json */
 
+body {
+    max-width: 600px;
+    min-width: 300px;
+}
+
 img {
     display: inline-block;
     width: 100%;
