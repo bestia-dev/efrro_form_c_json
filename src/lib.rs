@@ -68,6 +68,7 @@
 mod rootrenderingmod;
 mod fetchmod;
 mod fetchjsonformat;
+mod fetchjsonhostel;
 mod logmod;
 
 extern crate console_error_panic_hook;
@@ -102,20 +103,38 @@ pub fn wasm_bindgen_start() {
 
     // Construct a new rendering component.
     let rrc = rootrenderingmod::RootRenderingComponent::new();
-
     // Mount the component to the div
     let vdom = dodrio::Vdom::new(&div_for_virtual_dom, rrc);
 
-    //fetch the json_format
-    let vdom_weak = vdom.weak();
-    //find out URL
+    //region: find out URL and parameters
     let mut location_href = unwrap!(window.location().href(), "href not known");
+    logmod::debug_write(&location_href);
+    //everything after the first ? is parameters.
+    let mut parameters = "".to_string();
+    let mut hostel_id: Option<String> = None;
+    if let Some(x) = location_href.find('?') {
+        parameters = unwrap!(location_href.get(x..)).to_string();
+        //only 1 parameter allowed ex. ?id=sturmfrei_goa
+        hostel_id = Some(parameters.replace("?id=", ""));
+
+        //href without parameters
+        location_href = unwrap!(location_href.get(..x)).to_string();
+    }
     //without /index.html
     location_href = location_href.to_lowercase().replace("index.html", "");
+    logmod::debug_write(&location_href);
+    logmod::debug_write(&parameters);
+    //endregion
+
     //logmod::debug_write(&format!("location_href: {}", &location_href));
-
-    fetchjsonformat::fetch_json_format_request(vdom_weak, &location_href);
-
+    //fetch the json_format
+    let v2 = vdom.weak();
+    fetchjsonformat::fetch_json_format_request(v2, &location_href);
+    if let Some(str_hostel_id) = hostel_id {
+        //fetch the json_format
+        let v3 = vdom.weak();
+        fetchjsonhostel::fetch_json_format_request(v3, &location_href, &str_hostel_id);
+    }
     // Run the component forever. Never drop the memory.
     vdom.forget();
 }

@@ -37,7 +37,11 @@ Json is just a text that can be easily copied. He can send it by email to the ho
 
 The project is open source stored on github and the source code can be easily checked to prove there are not dangers like malware or viruses.  
 
+## Customization
+
+It is possible to customize the webapp with a hostel logo and email address. So it is more user-friendly to the guest.  
+
 ## TODO
 
 - use json to fill the same form data on another device  
-- add google adds to provide some funding for the maintenance of the project  
+- customization - add hostel image and send to email - it is the payable option for 20 $  

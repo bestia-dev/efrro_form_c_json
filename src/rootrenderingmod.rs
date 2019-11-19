@@ -19,17 +19,37 @@ use serde_json::json;
 use wasm_bindgen::JsCast; //must be for dyn_into
 use web_sys::{console};
 use conv::{ConvUtil};
+use urlencoding;
 //use conv::{ConvAsUtil};
 //use futures::Future;
 //use serde_json::map::Entry;
 //use wasm_bindgen::JsValue;
 //endregion
 
+///url struct
+#[derive(Debug, Serialize, Deserialize, Clone)]
+pub struct Url {
+    pub name: String,
+    pub url: String,
+}
+
+///hostel data saved in hostels folder json
+#[derive(Debug, Serialize, Deserialize, Clone)]
+pub struct HostelData {
+    pub id: String,
+    pub name: String,
+    pub email: String,
+    pub web: String,
+    pub text_vector: Vec<String>,
+    pub urls: Vec<Url>,
+}
+
 ///the struct with the only mutable data and the code for rendering it as html
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct RootRenderingComponent {
     pub json_format: IndexMap<String, serde_json::Value>,
     pub json_result: IndexMap<String, serde_json::Value>,
+    pub hostel_data: Option<HostelData>,
 }
 
 impl RootRenderingComponent {
@@ -39,6 +59,7 @@ impl RootRenderingComponent {
         RootRenderingComponent {
             json_format: IndexMap::new(),
             json_result: IndexMap::new(),
+            hostel_data: None,
         }
     }
 }
@@ -61,6 +82,7 @@ impl Render for RootRenderingComponent {
         <div id="div_all">
              <div id="div_two_col" class="w3-row-padding" >
                 <div class="w3-quarter">
+                {div_img_hostel(&self,&bump)}
                     <div>
                         <p>
                             {vec![text(
@@ -111,6 +133,7 @@ impl Render for RootRenderingComponent {
                             )]}
                         </p>
                     </div>
+                    {div_send_email(self,bump)}
                     <div>
                         <button class="w3-button w3-block w3-round w3-green w3-text-bold w3-text-color-black"
                             onclick={ move |root, vdom_weak, event| {
@@ -122,15 +145,17 @@ impl Render for RootRenderingComponent {
                             .into_bump_str()
                         )]}
                         </button>
-                    </div>
+                        </div>
                     <div>
                         <h6 class="yellow">
                             {vec![text(bumpalo::format!(in bump, "Version: {}", version).into_bump_str(),)]}
                         </h6>
                     </div>
                     <div>
-                        <h6 class="yellow">
+                    <h6 class="yellow">
                         {vec![text(bumpalo::format!(in bump, "Instructions and source code:{}", "").into_bump_str(),)]}
+                        </h6>
+                        <h6 class="yellow">
                             <a href= "https://github.com/LucianoBestia/efrro_form_c_json" target="_blank">
                                 {vec![text(bumpalo::format!(in bump, "https://github.com / LucianoBestia / efrro_form_c_json{}", "").into_bump_str(),)]}
                             </a>
@@ -227,7 +252,8 @@ pub fn div_inputs<'b>(
                                     //?? Don't understand what this does. The original was written for Input element.
                                     Some(input) => input,
                                 };
-                             on_input(root, vdom_weak, ctrl.name().to_string(),ctrl.value().to_string());
+                                let rrc = root.unwrap_mut::<RootRenderingComponent>();
+                             on_input(rrc, vdom_weak, ctrl.name().to_string(),ctrl.value().to_string());
                         }}>
                         {select_options(rrc,bump,val,&str_value)}
                         </select>
@@ -260,7 +286,8 @@ pub fn div_inputs<'b>(
                                 //?? Don't understand what this does. The original was written for Input element.
                                 Some(input) => input,
                             };
-                            on_input(root, vdom_weak, ctrl.name().to_string(),ctrl.value().to_string());
+                            let rrc = root.unwrap_mut::<RootRenderingComponent>();
+                            on_input(rrc, vdom_weak, ctrl.name().to_string(),ctrl.value().to_string());
                         }}>
                         </input>
                     </div>
@@ -276,15 +303,13 @@ pub fn div_inputs<'b>(
 
 /// event on input for ctrl input and select
 pub fn on_input(
-    root: &mut (dyn dodrio::RootRender + 'static),
+    rrc: &mut RootRenderingComponent,
     vdom_weak: dodrio::VdomWeak,
     ctrl_name: String,
     ctrl_value: String,
 ) {
     logmod::debug_write(&format!("select_on_input{}", ""));
     //save on every key stroke
-    let rrc = root.unwrap_mut::<RootRenderingComponent>();
-    let v2 = vdom_weak;
 
     let map = unwrap!(rrc.json_format.get_mut(ctrl_name.as_str()));
     logmod::debug_write(&format!("map from json {:?}", map));
@@ -299,7 +324,7 @@ pub fn on_input(
         unwrap!(serde_json::to_string_pretty(&rrc.json_result)).as_str(),
     );
 
-    v2.schedule_render();
+    vdom_weak.schedule_render();
 }
 
 /// render the option of select
@@ -362,7 +387,7 @@ fn copy_to_clipboard() {
         let selection = unwrap!(unwrap!(window.get_selection()));
         let _x = selection.remove_all_ranges();
         let _x = selection.add_range(&range);
-        el.set_selection_range(0, 999_999);
+        let _x = el.set_selection_range(0, 999_999);
     } else {
         el.select();
     }
@@ -377,4 +402,66 @@ pub fn is_iphone() -> bool {
     let navigator = window.navigator();
     let user_agent = unwrap!(navigator.user_agent());
     user_agent.to_ascii_lowercase().contains("iphone")
+}
+
+///open email client for send email
+pub fn send_email(rrc: &RootRenderingComponent) {
+    if let Some(hostel_data) = &rrc.hostel_data {
+        let window = unwrap!(web_sys::window(), "window");
+
+        let link = format!(
+            "mailto:{}?subject={}&body={}",
+            urlencoding::encode(&hostel_data.email),
+            "Form C data",
+            urlencoding::encode(&unwrap!(serde_json::to_string_pretty(&rrc.json_result)))
+        );
+        let _x = window.open_with_url_and_target(&link, "_blank");
+    }
+}
+
+///node for img
+pub fn div_img_hostel<'b>(rrc: &'b RootRenderingComponent, bump: &'b Bump) -> Option<Node<'b>> {
+    match &rrc.hostel_data {
+        Some(hostel_data) => {
+            let str_src = bumpalo::format!(in bump, "hostels/{}/header_img.jpg",
+                 hostel_data.id)
+            .into_bump_str();
+            let alt = bumpalo::format!(in bump, "{}",
+                  hostel_data.name)
+            .into_bump_str();
+            //return
+            Some(dodrio!(bump,
+                <img src={str_src} alt={alt} ></img>))
+        }
+        None => None,
+    }
+}
+
+///div for send email
+pub fn div_send_email<'b>(rrc: &'b RootRenderingComponent, bump: &'b Bump) -> Option<Node<'b>> {
+    match &rrc.hostel_data {
+        Some(_hostel_data) => {
+            //return
+            Some(dodrio!(bump,
+                <div id="div_send_email">
+                    <button class="w3-button w3-block w3-round w3-green w3-text-bold w3-text-color-black"
+                        onclick={ move |root, vdom_weak, event| {
+                            let rrc = root.unwrap_mut::<RootRenderingComponent>();
+                            send_email(rrc);
+                        }}>
+                    {vec![text(
+                        bumpalo::format!(in bump, "{}",
+                        "Send email")
+                        .into_bump_str()
+                    )]}
+                    </button>
+                    <p>
+                        {vec![text(
+                            bumpalo::format!(in bump, "{}","or").into_bump_str()
+                        )]}
+                    </p>
+                </div>))
+        }
+        None => None,
+    }
 }

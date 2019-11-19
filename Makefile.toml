@@ -58,7 +58,7 @@ args = ["build", "--target", "web","--dev"]
     # and then another time I have to escape the backslash. So 4 backslash for one backslash.
     script = [
         "rsync -avz --delete-after /home/luciano/rustprojects/efrro_form_c_json/webfolder/ /home/luciano/rustprojects/googlecloud/var/www/html/efrro_form_c_json/",
-        "rsync -e ssh -avz --delete-after /home/luciano/rustprojects/googlecloud/var/www/html/efrro_form_c_json/ luciano_bestia@34.87.17.103:/var/www/html/efrro_form_c_json/",
+        "rsync -e ssh -avz --delete-after /home/luciano/rustprojects/googlecloud/var/www/html/efrro_form_c_json/ luciano_bestia@34.87.17.103:/var/www/html/efrro_form_c_json_beta/",
     ]
 
     [tasks.sshadd]
@@ -77,7 +77,7 @@ private = true
 description = "open browser and start http server"
 script = [
     "alias chrome=\"/mnt/c/Program\\ Files\\ \\(x86\\)/Google/Chrome/Application/chrome.exe\"",
-    "chrome http://127.0.0.1:8086/webfolder", 
+    "chrome http://127.0.0.1:8086/webfolder?id=sturmfrei_goa", 
     #"start \"firefox\" \"C:\\Program Files\\Mozilla Firefox\\firefox.exe\" 127.0.0.1:8086",
     "basic-http-server -a 127.0.0.1:8086",
 ]

@@ -1,6 +1,6 @@
 [package]
 name = "efrro_form_c_json"
-version = "19.11.17-9.59"
+version = "19.11.19-12.4"
 authors = ["Luciano Bestia <luciano.bestia@gmail.com>"]
 edition = "2018"
 description="User iterface to enter data for e-frro and export it as json."
@@ -34,6 +34,7 @@ log = "0.4.8"
 typed-html = {version="0.2.1", features = ["dodrio_macro"]}
 indexmap={ version = "1.3.0", features = ["serde-1"] }
 conv = "0.3.3"
+urlencoding = "1.0.0"
 
 [dependencies.web-sys]
 version = "0.3.26"

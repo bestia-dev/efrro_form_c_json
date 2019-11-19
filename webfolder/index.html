@@ -7,13 +7,58 @@
   <meta http-equiv="Cache-Control" content="no-store" />
   <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
   <title>efrro_form_c_json</title>
+  <meta name="Description" content="Guest data for `Form C` for india efrro.">
+  <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/w3.css">
   <link rel="stylesheet" href="css/efrro_form_c_json.css">
+  <!-- google AdSense is not working for this website
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).push({
+      google_ad_client: "ca-pub-1665080890968761",
+      enable_page_level_ads: true
+    });
+  </script>
+   -->
+
 </head>
 
 <body class="w3-black">
+  <noscript>
+    <h2>
+      !!!???!!!<br>
+      This webapp <br>
+      cannot work <br>
+      without javascript<br>
+      enabled<br>
+      !!!???!!!</h2>
+  </noscript>
   <div id="div_for_virtual_dom">
+    <h2>
+      Waiting to<br>
+      download <br>
+      form C...<br>
+      The browser must support Wasm/Webassembly. <br>
+      All modern browsers do (Chrome, Firefox, Safari).<br>
+      Avoid old and not updated browser for your own security and comfort.<br>
+    </h2>
   </div>
+  <h3 id="wasm_support" style="color:red"></h3>
+  <script>
+    function supported() {
+      try {
+        if (typeof WebAssembly === "object"
+          && typeof WebAssembly.instantiate === "function") {
+          const module = new WebAssembly.Module(Uint8Array.of(0x0, 0x61, 0x73, 0x6d, 0x01, 0x00, 0x00, 0x00));
+          if (module instanceof WebAssembly.Module)
+            return new WebAssembly.Instance(module) instanceof WebAssembly.Instance;
+        }
+      } catch (e) {
+      }
+      return false;
+    };
+    document.getElementById("wasm_support").innerText = (supported ? "" : "Sorry, Wasm/Webassembly is NOT supported in this browser!");
+  </script>
   <script type="module">
     import init from "./pkg/efrro_form_c_json.js";
     init("./pkg/efrro_form_c_json_bg.wasm");
