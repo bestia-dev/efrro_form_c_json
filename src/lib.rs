@@ -127,14 +127,14 @@ pub fn wasm_bindgen_start() {
     //endregion
 
     //logmod::debug_write(&format!("location_href: {}", &location_href));
-    //fetch the json_format
-    let v2 = vdom.weak();
-    fetchjsonformat::fetch_json_format_request(v2, &location_href);
     if let Some(str_hostel_id) = hostel_id {
         //fetch the json_format
         let v3 = vdom.weak();
         fetchjsonhostel::fetch_json_format_request(v3, &location_href, &str_hostel_id);
     }
+    //fetch the json_format
+    let v2 = vdom.weak();
+    fetchjsonformat::fetch_json_format_request(v2, &location_href);
     // Run the component forever. Never drop the memory.
     vdom.forget();
 }

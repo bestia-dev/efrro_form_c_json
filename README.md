@@ -11,7 +11,7 @@ Quote from the Bureau of Immigration in India (form C is compulsory by law):
   
 The webapp is supposed to be used on the guest's personal smartphone.  
 This webapp saves data only in the local storage of this device. No data is ever sent over the network.  
-This webapp works in all modern browsers (chrome, firefox, safari). Avoid old or non updated browsers (for your own security and comfort).  
+This webapp works in all modern mobile browsers (chrome, firefox, safari). Avoid old or non updated browsers (for your own security and comfort).  
 The result of the webapp is a simple json text. It can be easily saved, copied, modified and sent.  
 But all this actions are outside of this webapp for security and privacy reasons.  
 They are a personal choice of the user.  
@@ -39,9 +39,11 @@ The project is open source stored on github and the source code can be easily ch
 
 ## Customization
 
-It is possible to customize the webapp with a hostel logo and email address. So it is more user-friendly to the guest.  
+It is possible to customize the webapp with the hostel's logo and data. Because there is a known email address, the guest then have the easy button "send by default email client". It is not possible to do this in the basic version. So it is more user-friendly to the guest. Hostel managers should contact me to add their hostel data and logo for a small donation for cloud provider expenses. 
+Look at the example:  
+<https://bestia.dev/efrro_form_c_json_beta/?id=sturmfrei_goa>  
 
 ## TODO
 
 - use json to fill the same form data on another device  
-- customization - add hostel image and send to email - it is the payable option for 20 $  
+

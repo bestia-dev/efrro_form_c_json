@@ -58,6 +58,7 @@ args = ["build", "--target", "web","--dev"]
     # and then another time I have to escape the backslash. So 4 backslash for one backslash.
     script = [
         "rsync -avz --delete-after /home/luciano/rustprojects/efrro_form_c_json/webfolder/ /home/luciano/rustprojects/googlecloud/var/www/html/efrro_form_c_json/",
+		"rsync -avz --delete-after /home/luciano/rustprojects/efrro_form_c_json_hostels/ /home/luciano/rustprojects/googlecloud/var/www/html/efrro_form_c_json/efrro_form_c_json_hostels/",
         "rsync -e ssh -avz --delete-after /home/luciano/rustprojects/googlecloud/var/www/html/efrro_form_c_json/ luciano_bestia@34.87.17.103:/var/www/html/efrro_form_c_json_beta/",
     ]
 

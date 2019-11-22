@@ -13,6 +13,7 @@
     "applicant_sex": {
         "caption": "Sex",
         "ctrl_type": "select",
+        "value":"M",
         "options": [
             {
                 "option": "M",
@@ -26,8 +27,7 @@
                 "option": "X",
                 "caption": "transgender"
             }
-        ],
-        "value": "M"
+        ]
     },
     "dobformat": {
         "ctrl_type": "hidden",
@@ -44,7 +44,12 @@
     "applicant_special_category": {
         "caption": "Special Category",
         "ctrl_type": "select",
+        "value":"0",
         "options": [
+            {
+                "option": "0",
+                "caption": ""
+            },
             {
                 "option": "3",
                 "caption": "Crew"
@@ -2224,8 +2229,12 @@
     "applicant_refstate": {
         "caption": "State",
         "ctrl_type": "select",
-        "value": "9",
+        "value": "0",
         "options": [
+            {
+                "option": "0",
+                "caption": ""
+            },
             {
                 "option": "1",
                 "caption": "ANDAMAN AND NICOBAR ISLANDS"
@@ -2373,10 +2382,12 @@
         ]
     },
     "applicant_refstatedistr": {
-        "caption": "City/District"
+        "caption": "City/District",
+        "value": ""
     },
     "applicant_refpincode": {
-        "caption": "Pin Code"
+        "caption": "Pin Code",
+        "value": ""
     },
     "applicant_passpno": {
         "caption": "Passport No."
@@ -4526,6 +4537,7 @@
     "applicant_visatype": {
         "caption": "Type of visa",
         "ctrl_type": "select",
+        "value": "17",
         "options": [
             {
                 "option": "1",
@@ -5742,6 +5754,7 @@
     "applicant_purpovisit": {
         "caption": "Purpose of Visit",
         "ctrl_type": "select",
+        "value":"16",
         "options": [
             {
                 "option": "18",
@@ -5829,6 +5842,7 @@
         "caption": "Next destination",
         "ctrl_type": "radio",
         "second_control_name": "applicant_next_dest_country_flag",
+        "value":"I",
         "options": [
             {
                 "option": "I",

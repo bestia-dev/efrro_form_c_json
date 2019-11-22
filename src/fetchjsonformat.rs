@@ -38,6 +38,7 @@ pub fn create_webrequest(location_href: &str) -> web_sys::Request {
 pub fn set_json_format(rrc: &mut RootRenderingComponent, respbody: String) {
     //respbody is json, parse it to IndexMap
     rrc.json_format = unwrap!(serde_json::from_str(respbody.as_str()));
+
     //fill json_result from local storage
     let window = unwrap!(web_sys::window(), "window");
     let ls = unwrap!(unwrap!(window.local_storage()));
@@ -59,6 +60,40 @@ pub fn set_json_format(rrc: &mut RootRenderingComponent, respbody: String) {
         }
         //logmod::debug_write(&format!("{:?}", rrc.json_format));
         //logmod::debug_write(&format!("{:?}", rrc.json_result));
+    }
+
+    //fill hostel data if values are empty.
+    //This is async. No garantee it will be executed after fetch.
+    if let Some(hostel_data) = &rrc.hostel_data {
+        logmod::debug_write("hostel data");
+        logmod::debug_write(&format!(
+            "..{}..",
+            unwrap!(unwrap!(rrc.json_format.get_mut("applicant_refaddr"))["value"].as_str())
+        ));
+        if unwrap!(unwrap!(rrc.json_format.get_mut("applicant_refaddr"))["value"].as_str()) == "" {
+            logmod::debug_write("writing to json_format applicant_refaddr");
+            logmod::debug_write(&format!(
+                "...{}...",
+                json!(hostel_data.applicant_refaddr.as_str())
+            ));
+            unwrap!(rrc.json_format.get_mut("applicant_refaddr"))["value"] =
+                json!(hostel_data.applicant_refaddr.as_str());
+        }
+        if unwrap!(unwrap!(rrc.json_format.get_mut("applicant_refstate"))["value"].as_str()) == "" {
+            unwrap!(rrc.json_format.get_mut("applicant_refstate"))["value"] =
+                json!(hostel_data.applicant_refstate.as_str());
+        }
+        if unwrap!(unwrap!(rrc.json_format.get_mut("applicant_refstatedistr"))["value"].as_str())
+            == ""
+        {
+            unwrap!(rrc.json_format.get_mut("applicant_refstatedistr"))["value"] =
+                json!(hostel_data.applicant_refstatedistr.as_str());
+        }
+        if unwrap!(unwrap!(rrc.json_format.get_mut("applicant_refpincode"))["value"].as_str()) == ""
+        {
+            unwrap!(rrc.json_format.get_mut("applicant_refpincode"))["value"] =
+                json!(hostel_data.applicant_refpincode.as_str());
+        }
     }
     //fill rrc.json_result with json_format values and preserve order
     for (k, v) in &rrc.json_format {

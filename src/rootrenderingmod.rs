@@ -18,7 +18,7 @@ use serde::{Deserialize, Serialize};
 use serde_json::json;
 use wasm_bindgen::JsCast; //must be for dyn_into
 use web_sys::{console};
-use conv::{ConvUtil};
+//use conv::{ConvUtil};
 use urlencoding;
 //use conv::{ConvAsUtil};
 //use futures::Future;
@@ -40,6 +40,10 @@ pub struct HostelData {
     pub name: String,
     pub email: String,
     pub web: String,
+    pub applicant_refaddr: String,
+    pub applicant_refstate: String,
+    pub applicant_refstatedistr: String,
+    pub applicant_refpincode: String,
     pub text_vector: Vec<String>,
     pub urls: Vec<Url>,
 }
@@ -74,7 +78,6 @@ impl Render for RootRenderingComponent {
         'a: 'bump,
     {
         console::time_with_label("render");
-        let version = env!("CARGO_PKG_VERSION");
         //let _start = SystemTime::now();
         //create the virtual Dom with typed-html macro dodrio!
         //https://www.w3schools.com/w3css/tryit.asp?filename=tryw3css_input_select_border
@@ -87,9 +90,12 @@ impl Render for RootRenderingComponent {
                         <p>
                             {vec![text(
                                 bumpalo::format!(in bump, "{}",
-                                "This webapp saves data only in the local storage of this device. \
+                                "Form C is compulsory in India: 'Accommodation providers to foreigners MUST \
+                                submit the details of the residing foreigner in Form C to the Registration \
+                                authorities within 24 hours of the arrival.'\n\
+                                For security and privacy of personal data this webapp saves data only in the local storage of this device. \
                                 No data is ever sent over the network. \
-                                This webapp works in all modern browsers (chrome, firefox, safari). \
+                                This webapp works in all modern mobile browsers with Webassembly/Wasm enabled (chrome, firefox, safari). \
                                 Avoid old or non updated browsers (for your own security and comfort).")
                                 .into_bump_str()
                             )]}
@@ -138,11 +144,7 @@ impl Render for RootRenderingComponent {
                         </button>
                         </div>
                     <div>
-                        <h6 class="yellow">
-                            {vec![text(bumpalo::format!(in bump, "Version: {}", version).into_bump_str(),)]}
-                        </h6>
-                    </div>
-                    <div>
+                    {div_version(self,bump)}
                     <h6 class="yellow">
                         {vec![text(bumpalo::format!(in bump, "Instructions and source code:{}", "").into_bump_str(),)]}
                         </h6>
@@ -171,7 +173,6 @@ pub fn div_inputs<'b>(rrc: &RootRenderingComponent, bump: &'b Bump) -> Vec<Node<
     let mut vec_node = Vec::new();
     //json is an object that has a map
     if !rrc.json_format.is_empty() {
-        let len_map = rrc.json_format.len();
         //the content of the last column is smaller than the others
         // height of columns: 90% for 1st column, 100% second, 100% third, 30% fourth
 
@@ -356,6 +357,7 @@ fn copy_to_clipboard() {
 
     let hd = unwrap!(document.dyn_into::<web_sys::HtmlDocument>());
     let _x = hd.exec_command("copy");
+    let _x = window.alert_with_message("json copied");
 }
 
 ///detect iphone
@@ -385,7 +387,7 @@ pub fn send_email(rrc: &RootRenderingComponent) {
 pub fn div_img_hostel<'b>(rrc: &'b RootRenderingComponent, bump: &'b Bump) -> Option<Node<'b>> {
     match &rrc.hostel_data {
         Some(hostel_data) => {
-            let str_src = bumpalo::format!(in bump, "hostels/{}/header_img.jpg",
+            let str_src = bumpalo::format!(in bump, "efrro_form_c_json_hostels/{}/header_img.jpg",
                  hostel_data.id)
             .into_bump_str();
             let alt = bumpalo::format!(in bump, "{}",
@@ -459,7 +461,7 @@ pub fn div_send_email<'b>(rrc: &'b RootRenderingComponent, bump: &'b Bump) -> Op
                         }}>
                     {vec![text(
                         bumpalo::format!(in bump, "{}",
-                        "Send email")
+                        "Send from default email client")
                         .into_bump_str()
                     )]}
                     </button>
@@ -472,4 +474,27 @@ pub fn div_send_email<'b>(rrc: &'b RootRenderingComponent, bump: &'b Bump) -> Op
         }
         None => None,
     }
+}
+
+/// div version
+pub fn div_version<'b>(rrc: &'b RootRenderingComponent, bump: &'b Bump) -> Vec<Node<'b>> {
+    let version = env!("CARGO_PKG_VERSION");
+    let mut vec_node = Vec::new();
+    vec_node.push(
+    match &rrc.hostel_data {
+        Some(hostel_data) => dodrio!(bump,
+                    <div>
+                    <h6 class="yellow">
+                        {vec![text(bumpalo::format!(in bump, "Version: {}", version).into_bump_str(),)]}                
+                    </h6>
+                    </div>),
+        None => dodrio!(bump,
+                    <div>
+                    <h6 class="yellow">
+                        {vec![text(bumpalo::format!(in bump, "This is the basic free version of the webapp. Contact the author to customize with Hostel's data and logo. Version: {}", version).into_bump_str(),)]}
+                    </h6>
+                    </div>),
+    });
+    //return
+    vec_node
 }
