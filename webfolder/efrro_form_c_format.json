@@ -13,7 +13,7 @@
     "applicant_sex": {
         "caption": "Sex",
         "ctrl_type": "select",
-        "value":"M",
+        "value": "M",
         "options": [
             {
                 "option": "M",
@@ -32,19 +32,16 @@
     "dobformat": {
         "ctrl_type": "hidden",
         "value": "DY",
-        "caption": "Date of birth in DD/MM/YYYY"
+        "caption": "Format DD/MM/YYYY"
     },
     "applicant_dob": {
         "caption": "Date of Birth DD/MM/YYYY",
         "value": "DD/MM/YYYY"
     },
-    "applicant_age": {
-        "caption": "Age"
-    },
     "applicant_special_category": {
         "caption": "Special Category",
         "ctrl_type": "select",
-        "value":"0",
+        "value": "0",
         "options": [
             {
                 "option": "0",
@@ -103,6 +100,7 @@
     "applicant_nationality": {
         "caption": "Nationality",
         "ctrl_type": "select",
+        "value": "LUX",
         "options": [
             {
                 "option": "AFG",
@@ -1167,6 +1165,7 @@
     "applicant_permcountry": {
         "caption": "Country",
         "ctrl_type": "select",
+        "value": "LUX",
         "options": [
             {
                 "option": "AFG",
@@ -2222,173 +2221,6 @@
             }
         ]
     },
-    "applicant_refaddr": {
-        "caption": "Address in India",
-        "value": ""
-    },
-    "applicant_refstate": {
-        "caption": "State",
-        "ctrl_type": "select",
-        "value": "0",
-        "options": [
-            {
-                "option": "0",
-                "caption": ""
-            },
-            {
-                "option": "1",
-                "caption": "ANDAMAN AND NICOBAR ISLANDS"
-            },
-            {
-                "option": "2",
-                "caption": "ANDHRA PRADESH"
-            },
-            {
-                "option": "3",
-                "caption": "ARUNACHAL PRADESH"
-            },
-            {
-                "option": "4",
-                "caption": "ASSAM"
-            },
-            {
-                "option": "5",
-                "caption": "BIHAR"
-            },
-            {
-                "option": "34",
-                "caption": "CHANDIGARH"
-            },
-            {
-                "option": "6",
-                "caption": "CHHATTISGARH"
-            },
-            {
-                "option": "35",
-                "caption": "DADRA AND NAGAR HAVELI"
-            },
-            {
-                "option": "7",
-                "caption": "DAMAN AND DIU"
-            },
-            {
-                "option": "8",
-                "caption": "DELHI"
-            },
-            {
-                "option": "9",
-                "caption": "GOA"
-            },
-            {
-                "option": "10",
-                "caption": "GUJARAT"
-            },
-            {
-                "option": "11",
-                "caption": "HARYANA"
-            },
-            {
-                "option": "12",
-                "caption": "HIMACHAL PRADESH"
-            },
-            {
-                "option": "13",
-                "caption": "JAMMU AND KASHMIR"
-            },
-            {
-                "option": "14",
-                "caption": "JHARKHAND"
-            },
-            {
-                "option": "15",
-                "caption": "KARNATAKA"
-            },
-            {
-                "option": "16",
-                "caption": "KERALA"
-            },
-            {
-                "option": "36",
-                "caption": "LAKSHADWEEP"
-            },
-            {
-                "option": "17",
-                "caption": "MADHYA PRADESH"
-            },
-            {
-                "option": "18",
-                "caption": "MAHARASHTRA"
-            },
-            {
-                "option": "19",
-                "caption": "MANIPUR"
-            },
-            {
-                "option": "20",
-                "caption": "MEGHALAYA"
-            },
-            {
-                "option": "21",
-                "caption": "MIZORAM"
-            },
-            {
-                "option": "22",
-                "caption": "NAGALAND"
-            },
-            {
-                "option": "23",
-                "caption": "ODISHA"
-            },
-            {
-                "option": "24",
-                "caption": "PUDUCHERRY"
-            },
-            {
-                "option": "25",
-                "caption": "PUNJAB"
-            },
-            {
-                "option": "26",
-                "caption": "RAJASTHAN"
-            },
-            {
-                "option": "27",
-                "caption": "SIKKIM"
-            },
-            {
-                "option": "28",
-                "caption": "TAMIL NADU"
-            },
-            {
-                "option": "37",
-                "caption": "TELANGANA"
-            },
-            {
-                "option": "29",
-                "caption": "TRIPURA"
-            },
-            {
-                "option": "31",
-                "caption": "UTTARAKHAND"
-            },
-            {
-                "option": "30",
-                "caption": "UTTAR PRADESH"
-            },
-            {
-                "option": "32",
-                "caption": "WEST BENGAL"
-            }
-        ]
-    },
-    "applicant_refstatedistr": {
-        "caption": "City/District",
-        "value": ""
-    },
-    "applicant_refpincode": {
-        "caption": "Pin Code",
-        "value": ""
-    },
     "applicant_passpno": {
         "caption": "Passport No."
     },
@@ -2398,6 +2230,7 @@
     "passport_issue_country": {
         "caption": "Country of issue",
         "ctrl_type": "select",
+        "value": "LUX",
         "options": [
             {
                 "option": "AFG",
@@ -4660,6 +4493,7 @@
     "applicant_arrivedfromcountry": {
         "caption": "Arrived from Country",
         "ctrl_type": "select",
+        "value": "LUX",
         "options": [
             {
                 "option": "AFG",
@@ -5725,20 +5559,10 @@
         "caption": "Date of arrival in India",
         "value": "DD/MM/YYYY"
     },
-    "applicant_doarrivalhotel": {
-        "caption": "Date of arrival to hostel",
-        "value": "DD/MM/YYYY"
-    },
-    "applicant_timeoarrivalhotel": {
-        "caption": "Time of arrival to hostel",
-        "value": "HH:mm"
-    },
-    "applicant_intnddurhotel": {
-        "caption": "Intended duration"
-    },
     "employed": {
         "caption": "Employed in India",
         "ctrl_type": "radio",
+        "value": "Y",
         "options": [
             {
                 "option": "Y",
@@ -5748,13 +5572,12 @@
                 "option": "N",
                 "caption": "no"
             }
-        ],
-        "value": "Y"
+        ]
     },
     "applicant_purpovisit": {
         "caption": "Purpose of Visit",
         "ctrl_type": "select",
-        "value":"16",
+        "value": "16",
         "options": [
             {
                 "option": "18",
@@ -5842,7 +5665,7 @@
         "caption": "Next destination",
         "ctrl_type": "radio",
         "second_control_name": "applicant_next_dest_country_flag",
-        "value":"I",
+        "value": "I",
         "options": [
             {
                 "option": "I",
@@ -6011,19 +5834,192 @@
     "applicant_next_destination_place_IN": {
         "caption": "Place"
     },
-    "applicant_contactnoinindia": {
-        "caption": "Phone in India"
-    },
     "applicant_mcontactnoinindia": {
         "caption": "Mobile in India"
-    },
-    "applicant_contactnoperm": {
-        "caption": "Phone in residing Country"
     },
     "applicant_mcontactnoperm": {
         "caption": "Mobile in residing Country"
     },
     "applicant_remark": {
         "caption": "Remarks (if any)"
+    },
+    "applicant_refaddr": {
+        "caption": "Address in India (hotel)",
+        "value": ""
+    },
+    "applicant_refstate": {
+        "caption": "State",
+        "ctrl_type": "select",
+        "value": "0",
+        "options": [
+            {
+                "option": "0",
+                "caption": ""
+            },
+            {
+                "option": "1",
+                "caption": "ANDAMAN AND NICOBAR ISLANDS"
+            },
+            {
+                "option": "2",
+                "caption": "ANDHRA PRADESH"
+            },
+            {
+                "option": "3",
+                "caption": "ARUNACHAL PRADESH"
+            },
+            {
+                "option": "4",
+                "caption": "ASSAM"
+            },
+            {
+                "option": "5",
+                "caption": "BIHAR"
+            },
+            {
+                "option": "34",
+                "caption": "CHANDIGARH"
+            },
+            {
+                "option": "6",
+                "caption": "CHHATTISGARH"
+            },
+            {
+                "option": "35",
+                "caption": "DADRA AND NAGAR HAVELI"
+            },
+            {
+                "option": "7",
+                "caption": "DAMAN AND DIU"
+            },
+            {
+                "option": "8",
+                "caption": "DELHI"
+            },
+            {
+                "option": "9",
+                "caption": "GOA"
+            },
+            {
+                "option": "10",
+                "caption": "GUJARAT"
+            },
+            {
+                "option": "11",
+                "caption": "HARYANA"
+            },
+            {
+                "option": "12",
+                "caption": "HIMACHAL PRADESH"
+            },
+            {
+                "option": "13",
+                "caption": "JAMMU AND KASHMIR"
+            },
+            {
+                "option": "14",
+                "caption": "JHARKHAND"
+            },
+            {
+                "option": "15",
+                "caption": "KARNATAKA"
+            },
+            {
+                "option": "16",
+                "caption": "KERALA"
+            },
+            {
+                "option": "36",
+                "caption": "LAKSHADWEEP"
+            },
+            {
+                "option": "17",
+                "caption": "MADHYA PRADESH"
+            },
+            {
+                "option": "18",
+                "caption": "MAHARASHTRA"
+            },
+            {
+                "option": "19",
+                "caption": "MANIPUR"
+            },
+            {
+                "option": "20",
+                "caption": "MEGHALAYA"
+            },
+            {
+                "option": "21",
+                "caption": "MIZORAM"
+            },
+            {
+                "option": "22",
+                "caption": "NAGALAND"
+            },
+            {
+                "option": "23",
+                "caption": "ODISHA"
+            },
+            {
+                "option": "24",
+                "caption": "PUDUCHERRY"
+            },
+            {
+                "option": "25",
+                "caption": "PUNJAB"
+            },
+            {
+                "option": "26",
+                "caption": "RAJASTHAN"
+            },
+            {
+                "option": "27",
+                "caption": "SIKKIM"
+            },
+            {
+                "option": "28",
+                "caption": "TAMIL NADU"
+            },
+            {
+                "option": "37",
+                "caption": "TELANGANA"
+            },
+            {
+                "option": "29",
+                "caption": "TRIPURA"
+            },
+            {
+                "option": "31",
+                "caption": "UTTARAKHAND"
+            },
+            {
+                "option": "30",
+                "caption": "UTTAR PRADESH"
+            },
+            {
+                "option": "32",
+                "caption": "WEST BENGAL"
+            }
+        ]
+    },
+    "applicant_refstatedistr": {
+        "caption": "City/District",
+        "value": ""
+    },
+    "applicant_refpincode": {
+        "caption": "Pin Code",
+        "value": ""
+    },
+    "applicant_doarrivalhotel": {
+        "caption": "Date of arrival to hotel",
+        "value": "DD/MM/YYYY"
+    },
+    "applicant_timeoarrivalhotel": {
+        "caption": "Time of arrival to hotel",
+        "value": "13:00"
+    },
+    "applicant_intnddurhotel": {
+        "caption": "Intended duration (days)"
+		"value": "2"
     }
 }

@@ -39,11 +39,10 @@ The project is open source stored on github and the source code can be easily ch
 
 ## Customization
 
-It is possible to customize the webapp with the hostel's logo and data. Because there is a known email address, the guest then have the easy button "send by default email client". It is not possible to do this in the basic version. So it is more user-friendly to the guest. Hostel managers should contact me to add their hostel data and logo for a small donation for cloud provider expenses. 
+It is possible to customize the webapp with the hostel's logo and data. Because there is a known email address, the guest then have the easy button "send by default email client". It is not possible to do this in the basic version. So it is more user-friendly to the guest. Hostel managers should contact me to add their hostel data, logo and email address for a small donation for cloud provider expenses.  
 Look at the example:  
 <https://bestia.dev/efrro_form_c_json_beta/?id=sturmfrei_goa>  
 
 ## TODO
 
 - use json to fill the same form data on another device  
-
