@@ -72,20 +72,24 @@ mod fetchjsonhostel;
 mod logmod;
 
 extern crate console_error_panic_hook;
-extern crate log;
+//extern crate log;
 extern crate serde;
 //#[macro_use]
 extern crate serde_derive;
 extern crate serde_json;
 extern crate web_sys;
-#[macro_use]
-extern crate unwrap;
+//#[macro_use]
+//extern crate unwrap;
 extern crate wasm_bindgen_futures;
 
 use wasm_bindgen::prelude::wasm_bindgen;
+use wee_alloc;
 //use web_sys::{console};
 //use wasm_bindgen::JsValue;
 //endregion
+
+#[global_allocator]
+static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
 
 ///this is the start function that wasm_bindgen calls
 #[wasm_bindgen(start)]
@@ -94,12 +98,10 @@ pub fn wasm_bindgen_start() {
     console_error_panic_hook::set_once();
 
     // Get the div for rendering html inside
-    let window = unwrap!(web_sys::window());
-    let document = unwrap!(window.document());
-    let div_for_virtual_dom = unwrap!(
-        document.get_element_by_id("div_for_virtual_dom"),
-        "No #div_for_virtual_dom"
-    );
+    let window = unwrap_option_abort(web_sys::window());
+    let document = unwrap_option_abort(window.document());
+    let div_for_virtual_dom =
+        unwrap_option_abort(document.get_element_by_id("div_for_virtual_dom"));
 
     // Construct a new rendering component.
     let rrc = rootrenderingmod::RootRenderingComponent::new();
@@ -107,18 +109,18 @@ pub fn wasm_bindgen_start() {
     let vdom = dodrio::Vdom::new(&div_for_virtual_dom, rrc);
 
     //region: find out URL and parameters
-    let mut location_href = unwrap!(window.location().href(), "href not known");
+    let mut location_href = unwrap_result_abort(window.location().href());
     logmod::debug_write(&location_href);
     //everything after the first ? is parameters.
     let mut parameters = "".to_string();
     let mut hostel_id: Option<String> = None;
     if let Some(x) = location_href.find('?') {
-        parameters = unwrap!(location_href.get(x..)).to_string();
+        parameters = unwrap_option_abort(location_href.get(x..)).to_string();
         //only 1 parameter allowed ex. ?id=sturmfrei_goa
         hostel_id = Some(parameters.replace("?id=", ""));
 
         //href without parameters
-        location_href = unwrap!(location_href.get(..x)).to_string();
+        location_href = unwrap_option_abort(location_href.get(..x)).to_string();
     }
     //without /index.html
     location_href = location_href.to_lowercase().replace("index.html", "");
@@ -137,6 +139,24 @@ pub fn wasm_bindgen_start() {
     fetchjsonformat::fetch_json_format_request(v2, &location_href);
     // Run the component forever. Never drop the memory.
     vdom.forget();
+}
+
+#[inline]
+pub fn unwrap_option_abort<T>(o: Option<T>) -> T {
+    use std::process;
+    match o {
+        Some(t) => t,
+        None => process::abort(),
+    }
+}
+
+#[inline]
+pub fn unwrap_result_abort<T, E>(o: Result<T, E>) -> T {
+    use std::process;
+    match o {
+        Ok(t) => t,
+        Err(_e) => process::abort(),
+    }
 }
 
 /*

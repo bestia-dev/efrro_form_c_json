@@ -4,9 +4,10 @@
 //region: use
 use crate::rootrenderingmod::RootRenderingComponent;
 use crate::fetchmod;
+use crate::*;
 //use crate::logmod;
 
-use unwrap::unwrap;
+//use unwrap::unwrap;
 use web_sys::{Request, RequestInit};
 //use indexmap::IndexMap;
 //endregion
@@ -31,7 +32,7 @@ pub fn create_webrequest(location_href: &str) -> web_sys::Request {
     let mut opts = RequestInit::new();
     opts.method("GET");
 
-    let w_webrequest = unwrap!(Request::new_with_str_and_init(location_href, &opts));
+    let w_webrequest = unwrap_result_abort(Request::new_with_str_and_init(location_href, &opts));
 
     //logmod::debug_write("let w_webrequest =");
     //return
@@ -42,5 +43,5 @@ pub fn create_webrequest(location_href: &str) -> web_sys::Request {
 /// update a field in the struct
 pub fn set_hostel_id(rrc: &mut RootRenderingComponent, respbody: String) {
     //respbody is json, parse it
-    rrc.hostel_data = unwrap!(serde_json::from_str(respbody.as_str()));
+    rrc.hostel_data = unwrap_result_abort(serde_json::from_str(respbody.as_str()));
 }

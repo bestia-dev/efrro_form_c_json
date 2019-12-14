@@ -7,6 +7,7 @@
 
 //region use
 use crate::logmod;
+use crate::*;
 
 //use std::collections::HashMap;
 use indexmap::IndexMap;
@@ -113,7 +114,7 @@ impl Render for RootRenderingComponent {
                     <textarea style="height: 250px;" readonly="true" class="w3-input w3-dark-grey w3-border-0 w3-round" name="json_result" id="json_result" >
                         {vec![text(
                             bumpalo::format!(in bump, "{}",
-                            unwrap!(serde_json::to_string_pretty(&self.json_result)))
+                            unwrap_result_abort(serde_json::to_string_pretty(&self.json_result)))
                                 .into_bump_str()
                             )]}
                     </textarea>
@@ -181,12 +182,14 @@ pub fn div_inputs<'b>(rrc: &RootRenderingComponent, bump: &'b Bump) -> Vec<Node<
             let ctrl_name = bumpalo::format!(in bump, "{}",&key).into_bump_str();
 
             let str_caption =
-                unwrap!(val.get("caption").unwrap_or(&json!(key)).as_str()).to_string();
+                unwrap_option_abort(val.get("caption").unwrap_or(&json!(key)).as_str()).to_string();
             let caption = bumpalo::format!(in bump, "{}",str_caption).into_bump_str();
-            let str_value = unwrap!(val.get("value").unwrap_or(&json!("")).as_str()).to_string();
+            let str_value =
+                unwrap_option_abort(val.get("value").unwrap_or(&json!("")).as_str()).to_string();
             let value = bumpalo::format!(in bump, "{}",str_value).into_bump_str();
             let str_ctrl_type =
-                unwrap!(val.get("ctrl_type").unwrap_or(&json!("text")).as_str()).to_string();
+                unwrap_option_abort(val.get("ctrl_type").unwrap_or(&json!("text")).as_str())
+                    .to_string();
             let ctrl_type = bumpalo::format!(in bump, "{}",str_ctrl_type).into_bump_str();
 
             if ctrl_type == "label" {
@@ -274,17 +277,17 @@ pub fn on_input(
     logmod::debug_write(&format!("select_on_input{}", ""));
     //save on every key stroke
 
-    let map = unwrap!(rrc.json_format.get_mut(ctrl_name.as_str()));
+    let map = unwrap_option_abort(rrc.json_format.get_mut(ctrl_name.as_str()));
     logmod::debug_write(&format!("map from json {:?}", map));
     map["value"] = json!(ctrl_value);
 
     rrc.json_result[ctrl_name.as_str()] = json!(ctrl_value);
 
-    let window = unwrap!(web_sys::window(), "window");
-    let ls = unwrap!(unwrap!(window.local_storage()));
+    let window = unwrap_option_abort(web_sys::window());
+    let ls = unwrap_option_abort(unwrap_result_abort(window.local_storage()));
     let _x = ls.set_item(
         "json_string",
-        unwrap!(serde_json::to_string_pretty(&rrc.json_result)).as_str(),
+        unwrap_result_abort(serde_json::to_string_pretty(&rrc.json_result)).as_str(),
     );
 
     vdom_weak.schedule_render();
@@ -300,18 +303,19 @@ pub fn select_options<'b>(
     let mut vec_node = Vec::new();
 
     let default = json!(r#"[{"option": "","caption": ""},]"#);
-    let str_ctrl_options = unwrap!(val_options.get("options").unwrap_or(&default).as_array());
+    let str_ctrl_options =
+        unwrap_option_abort(val_options.get("options").unwrap_or(&default).as_array());
 
     for x in str_ctrl_options {
         //logmod::debug_write(&format!("x {:?}", x));
-        let value = bumpalo::format!(in bump, "{}",unwrap!(x.get("option")
+        let value = bumpalo::format!(in bump, "{}",unwrap_option_abort(x.get("option")
         .unwrap_or(&json!(""))
         .as_str()
         ).to_string())
         .into_bump_str();
         let caption = {
             vec![text(
-                bumpalo::format!(in bump, "{}",unwrap!(x.get("caption")
+                bumpalo::format!(in bump, "{}",unwrap_option_abort(x.get("caption")
                 .unwrap_or(&json!(""))
                 .as_str()
                 ).to_string())
@@ -338,16 +342,16 @@ pub fn select_options<'b>(
 
 ///copy to clipboard
 fn copy_to_clipboard() {
-    let window = unwrap!(web_sys::window());
-    let document = unwrap!(window.document());
+    let window = unwrap_option_abort(web_sys::window());
+    let document = unwrap_option_abort(window.document());
 
-    let t = unwrap!(document.get_element_by_id("json_result"));
-    let el = unwrap!(t.dyn_into::<web_sys::HtmlTextAreaElement>());
+    let t = unwrap_option_abort(document.get_element_by_id("json_result"));
+    let el = unwrap_result_abort(t.dyn_into::<web_sys::HtmlTextAreaElement>());
     //and again Safari is the problem
     if is_iphone() {
-        let range = unwrap!(document.create_range());
+        let range = unwrap_result_abort(document.create_range());
         let _x = range.select_node_contents(&el);
-        let selection = unwrap!(unwrap!(window.get_selection()));
+        let selection = unwrap_option_abort(unwrap_result_abort(window.get_selection()));
         let _x = selection.remove_all_ranges();
         let _x = selection.add_range(&range);
         let _x = el.set_selection_range(0, 999_999);
@@ -355,29 +359,31 @@ fn copy_to_clipboard() {
         el.select();
     }
 
-    let hd = unwrap!(document.dyn_into::<web_sys::HtmlDocument>());
+    let hd = unwrap_result_abort(document.dyn_into::<web_sys::HtmlDocument>());
     let _x = hd.exec_command("copy");
     let _x = window.alert_with_message("json copied");
 }
 
 ///detect iphone
 pub fn is_iphone() -> bool {
-    let window = unwrap!(web_sys::window());
+    let window = unwrap_option_abort(web_sys::window());
     let navigator = window.navigator();
-    let user_agent = unwrap!(navigator.user_agent());
+    let user_agent = unwrap_result_abort(navigator.user_agent());
     user_agent.to_ascii_lowercase().contains("iphone")
 }
 
 ///open email client for send email
 pub fn send_email(rrc: &RootRenderingComponent) {
     if let Some(hostel_data) = &rrc.hostel_data {
-        let window = unwrap!(web_sys::window(), "window");
+        let window = unwrap_option_abort(web_sys::window());
 
         let link = format!(
             "mailto:{}?subject={}&body={}",
             urlencoding::encode(&hostel_data.email),
             "Form C data",
-            urlencoding::encode(&unwrap!(serde_json::to_string_pretty(&rrc.json_result)))
+            urlencoding::encode(&unwrap_result_abort(serde_json::to_string_pretty(
+                &rrc.json_result
+            )))
         );
         let _x = window.open_with_url_and_target(&link, "_blank");
     }

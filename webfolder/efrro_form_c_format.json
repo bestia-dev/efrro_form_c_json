@@ -5675,8 +5675,7 @@
                 "option": "O",
                 "caption": "Outside India"
             }
-        ],
-        "value": "I"
+        ]
     },
     "applicant_next_destination_state_IN": {
         "caption": "State",
@@ -6019,7 +6018,7 @@
         "value": "13:00"
     },
     "applicant_intnddurhotel": {
-        "caption": "Intended duration (days)"
-		"value": "2"
+        "caption": "Intended duration (days)",
+        "value": "2"
     }
 }

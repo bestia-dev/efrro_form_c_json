@@ -5,8 +5,9 @@
 use crate::rootrenderingmod::RootRenderingComponent;
 use crate::fetchmod;
 use crate::logmod;
+use crate::*;
 
-use unwrap::unwrap;
+//use unwrap::unwrap;
 use indexmap::IndexMap;
 use web_sys::{Request, RequestInit};
 use serde_json::json;
@@ -26,7 +27,7 @@ pub fn create_webrequest(location_href: &str) -> web_sys::Request {
     let mut opts = RequestInit::new();
     opts.method("GET");
 
-    let w_webrequest = unwrap!(Request::new_with_str_and_init(location_href, &opts));
+    let w_webrequest = unwrap_result_abort(Request::new_with_str_and_init(location_href, &opts));
 
     //logmod::debug_write("let w_webrequest =");
     //return
@@ -37,17 +38,17 @@ pub fn create_webrequest(location_href: &str) -> web_sys::Request {
 /// update a field in the struct
 pub fn set_json_format(rrc: &mut RootRenderingComponent, respbody: String) {
     //respbody is json, parse it to IndexMap
-    rrc.json_format = unwrap!(serde_json::from_str(respbody.as_str()));
+    rrc.json_format = unwrap_result_abort(serde_json::from_str(respbody.as_str()));
 
     //fill json_result from local storage
-    let window = unwrap!(web_sys::window(), "window");
-    let ls = unwrap!(unwrap!(window.local_storage()));
-    let option_stored_str = unwrap!(ls.get_item("json_string"));
+    let window = unwrap_option_abort(web_sys::window());
+    let ls = unwrap_option_abort(unwrap_result_abort(window.local_storage()));
+    let option_stored_str = unwrap_result_abort(ls.get_item("json_string"));
     logmod::debug_write("ls.get_item(json_string)");
     if let Some(stored_str) = option_stored_str {
         logmod::debug_write("x.is_some");
         let stored_json: IndexMap<String, serde_json::Value> =
-            unwrap!(serde_json::from_str(&stored_str));
+            unwrap_result_abort(serde_json::from_str(&stored_str));
         //fill json_format with local storage values
         for (k, v) in &stored_json {
             logmod::debug_write(&format!("{:?} {:?}", k, v));
@@ -68,30 +69,42 @@ pub fn set_json_format(rrc: &mut RootRenderingComponent, respbody: String) {
         logmod::debug_write("hostel data");
         logmod::debug_write(&format!(
             "..{}..",
-            unwrap!(unwrap!(rrc.json_format.get_mut("applicant_refaddr"))["value"].as_str())
+            unwrap_option_abort(
+                unwrap_option_abort(rrc.json_format.get_mut("applicant_refaddr"))["value"].as_str()
+            )
         ));
-        if unwrap!(unwrap!(rrc.json_format.get_mut("applicant_refaddr"))["value"].as_str()) == "" {
+        if unwrap_option_abort(
+            unwrap_option_abort(rrc.json_format.get_mut("applicant_refaddr"))["value"].as_str(),
+        ) == ""
+        {
             logmod::debug_write("writing to json_format applicant_refaddr");
             logmod::debug_write(&format!(
                 "...{}...",
                 json!(hostel_data.applicant_refaddr.as_str())
             ));
-            unwrap!(rrc.json_format.get_mut("applicant_refaddr"))["value"] =
+            unwrap_option_abort(rrc.json_format.get_mut("applicant_refaddr"))["value"] =
                 json!(hostel_data.applicant_refaddr.as_str());
         }
-        if unwrap!(unwrap!(rrc.json_format.get_mut("applicant_refstate"))["value"].as_str()) == "" {
-            unwrap!(rrc.json_format.get_mut("applicant_refstate"))["value"] =
+        if unwrap_option_abort(
+            unwrap_option_abort(rrc.json_format.get_mut("applicant_refstate"))["value"].as_str(),
+        ) == ""
+        {
+            unwrap_option_abort(rrc.json_format.get_mut("applicant_refstate"))["value"] =
                 json!(hostel_data.applicant_refstate.as_str());
         }
-        if unwrap!(unwrap!(rrc.json_format.get_mut("applicant_refstatedistr"))["value"].as_str())
-            == ""
+        if unwrap_option_abort(
+            unwrap_option_abort(rrc.json_format.get_mut("applicant_refstatedistr"))["value"]
+                .as_str(),
+        ) == ""
         {
-            unwrap!(rrc.json_format.get_mut("applicant_refstatedistr"))["value"] =
+            unwrap_option_abort(rrc.json_format.get_mut("applicant_refstatedistr"))["value"] =
                 json!(hostel_data.applicant_refstatedistr.as_str());
         }
-        if unwrap!(unwrap!(rrc.json_format.get_mut("applicant_refpincode"))["value"].as_str()) == ""
+        if unwrap_option_abort(
+            unwrap_option_abort(rrc.json_format.get_mut("applicant_refpincode"))["value"].as_str(),
+        ) == ""
         {
-            unwrap!(rrc.json_format.get_mut("applicant_refpincode"))["value"] =
+            unwrap_option_abort(rrc.json_format.get_mut("applicant_refpincode"))["value"] =
                 json!(hostel_data.applicant_refpincode.as_str());
         }
     }
