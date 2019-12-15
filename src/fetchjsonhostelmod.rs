@@ -42,12 +42,7 @@ pub fn fetch_json_format_request(
     location_href: &str,
     hostel_id: &str,
 ) {
-    let url_json = stringmod::concat_4(
-        location_href,
-        "/efrro_form_c_json_hostels/",
-        hostel_id,
-        "/hostel.json",
-    );
+    let url_json = stringmod::concat_4(location_href, "/hostels/", hostel_id, "/hostel.json");
     //logmod::debug_write(url_json.as_str());
     let webrequest = create_webrequest(&url_json);
     fetchmod::fetch_response(vdom_weak, &webrequest, &set_hostel_id);

@@ -379,7 +379,7 @@ pub fn send_email(rrc: &RootRenderingComponent) {
 pub fn div_img_hostel<'b>(rrc: &'b RootRenderingComponent, bump: &'b Bump) -> Option<Node<'b>> {
     match &rrc.hostel_data {
         Some(hostel_data) => {
-            let str_src = bumpalo::format!(in bump, "efrro_form_c_json_hostels/{}/header_img.jpg",
+            let str_src = bumpalo::format!(in bump, "hostels/{}/header_img.jpg",
                  hostel_data.id)
             .into_bump_str();
             let alt = bumpalo::format!(in bump, "{}",
