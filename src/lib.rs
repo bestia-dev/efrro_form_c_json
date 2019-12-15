@@ -67,10 +67,11 @@
 //rust modules system
 mod rootrenderingmod;
 mod fetchmod;
-mod fetchjsonformat;
-mod fetchjsonhostel;
+mod fetchjsonformatmod;
+mod fetchjsonhostelmod;
 mod logmod;
 mod stringmod;
+mod unwrapmod;
 
 extern crate console_error_panic_hook;
 //extern crate log;
@@ -99,10 +100,10 @@ pub fn wasm_bindgen_start() {
     console_error_panic_hook::set_once();
 
     // Get the div for rendering html inside
-    let window = unwrap_option_abort(web_sys::window());
-    let document = unwrap_option_abort(window.document());
+    let window = unwrapmod::unwrap_option_abort(web_sys::window());
+    let document = unwrapmod::unwrap_option_abort(window.document());
     let div_for_virtual_dom =
-        unwrap_option_abort(document.get_element_by_id("div_for_virtual_dom"));
+        unwrapmod::unwrap_option_abort(document.get_element_by_id("div_for_virtual_dom"));
 
     // Construct a new rendering component.
     let rrc = rootrenderingmod::RootRenderingComponent::new();
@@ -110,18 +111,18 @@ pub fn wasm_bindgen_start() {
     let vdom = dodrio::Vdom::new(&div_for_virtual_dom, rrc);
 
     //region: find out URL and parameters
-    let mut location_href = unwrap_result_abort(window.location().href());
+    let mut location_href = unwrapmod::unwrap_result_abort(window.location().href());
     logmod::debug_write(&location_href);
     //everything after the first ? is parameters.
     let mut parameters = "".to_string();
     let mut hostel_id: Option<String> = None;
     if let Some(x) = location_href.find('?') {
-        parameters = unwrap_option_abort(location_href.get(x..)).to_string();
+        parameters = unwrapmod::unwrap_option_abort(location_href.get(x..)).to_string();
         //only 1 parameter allowed ex. ?id=sturmfrei_goa
         hostel_id = Some(parameters.replace("?id=", ""));
 
         //href without parameters
-        location_href = unwrap_option_abort(location_href.get(..x)).to_string();
+        location_href = unwrapmod::unwrap_option_abort(location_href.get(..x)).to_string();
     }
     //without /index.html
     location_href = location_href.to_lowercase().replace("index.html", "");
@@ -133,31 +134,13 @@ pub fn wasm_bindgen_start() {
     if let Some(str_hostel_id) = hostel_id {
         //fetch the json_format
         let v3 = vdom.weak();
-        fetchjsonhostel::fetch_json_format_request(v3, &location_href, &str_hostel_id);
+        fetchjsonhostelmod::fetch_json_format_request(v3, &location_href, &str_hostel_id);
     }
     //fetch the json_format
     let v2 = vdom.weak();
-    fetchjsonformat::fetch_json_format_request(v2, &location_href);
+    fetchjsonformatmod::fetch_json_format_request(v2, &location_href);
     // Run the component forever. Never drop the memory.
     vdom.forget();
-}
-
-#[inline]
-pub fn unwrap_option_abort<T>(o: Option<T>) -> T {
-    use std::process;
-    match o {
-        Some(t) => t,
-        None => process::abort(),
-    }
-}
-
-#[inline]
-pub fn unwrap_result_abort<T, E>(o: Result<T, E>) -> T {
-    use std::process;
-    match o {
-        Ok(t) => t,
-        Err(_e) => process::abort(),
-    }
 }
 
 /*

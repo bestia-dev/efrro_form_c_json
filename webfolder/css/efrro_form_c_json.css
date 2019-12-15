@@ -19,8 +19,8 @@ img {
 }
 
 /* html elements by name because is easier to change css then tho compile rust code */
-#json {
-    height: 450px;
+#json_result {
+    height: 250px;
 }
 
 label, input, textarea { display:block;}

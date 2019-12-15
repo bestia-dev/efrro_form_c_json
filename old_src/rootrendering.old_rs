@@ -7,11 +7,7 @@
 
 //region use
 use crate::logmod;
-use crate::fetchjsonformatmod;
-use crate::unwrapmod;
-use crate::fetchjsonhostelmod;
-use crate::unwrapmod::required;
-use crate::stringmod;
+use crate::*;
 
 //use std::collections::HashMap;
 use indexmap::IndexMap;
@@ -20,6 +16,7 @@ use dodrio::bumpalo::{self, Bump};
 use dodrio::{Node, Render};
 use typed_html::dodrio;
 use serde::{Deserialize, Serialize};
+use serde_json::json;
 use wasm_bindgen::JsCast; //must be for dyn_into
 use web_sys::{console};
 //use conv::{ConvUtil};
@@ -30,12 +27,34 @@ use urlencoding;
 //use wasm_bindgen::JsValue;
 //endregion
 
+///url struct
+#[derive(Debug, Serialize, Deserialize, Clone)]
+pub struct Url {
+    pub name: String,
+    pub url: String,
+}
+
+///hostel data saved in hostels folder json
+#[derive(Debug, Serialize, Deserialize, Clone)]
+pub struct HostelData {
+    pub id: String,
+    pub name: String,
+    pub email: String,
+    pub web: String,
+    pub applicant_refaddr: String,
+    pub applicant_refstate: String,
+    pub applicant_refstatedistr: String,
+    pub applicant_refpincode: String,
+    pub text_vector: Vec<String>,
+    pub urls: Vec<Url>,
+}
+
 ///the struct with the only mutable data and the code for rendering it as html
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct RootRenderingComponent {
-    pub json_format: Vec<fetchjsonformatmod::CtrlFormat>,
-    pub json_result: IndexMap<String, String>,
-    pub hostel_data: Option<fetchjsonhostelmod::HostelData>,
+    pub json_format: IndexMap<String, serde_json::Value>,
+    pub json_result: IndexMap<String, serde_json::Value>,
+    pub hostel_data: Option<HostelData>,
 }
 
 impl RootRenderingComponent {
@@ -43,7 +62,7 @@ impl RootRenderingComponent {
     pub fn new() -> RootRenderingComponent {
         //return
         RootRenderingComponent {
-            json_format: Vec::new(),
+            json_format: IndexMap::new(),
             json_result: IndexMap::new(),
             hostel_data: None,
         }
@@ -69,14 +88,6 @@ impl Render for RootRenderingComponent {
                 <div>
                 {div_img_hostel(&self,&bump)}
                     <div>
-                    <h1 class="w3-center w3-text-yellow">
-                        {vec![text(bumpalo::format!(in bump, "{}",
-                            "Form C guest data")
-                            .into_bump_str()
-                        )]}
-                    </h1>
-                    </div>
-                    <div>
                         <p>
                             {vec![text(bumpalo::format!(in bump, "{}",
                                 "Form C is compulsory in India: 'Accommodation providers to foreigners MUST \
@@ -92,18 +103,17 @@ impl Render for RootRenderingComponent {
                     </div>
                     {div_inputs(self, bump)}
                     <div>
-                    <h3 class="w3-center w3-text-yellow">
-                        {vec![text(bumpalo::format!(in bump, "{}",
-                            "JSON result")
-                            .into_bump_str()
-                        )]}
-                    </h3>
-                    </div>
-                    <div>
-                    <textarea readonly="true" class="w3-input w3-dark-grey w3-border-0 w3-round" name="json_result" id="json_result" >
+                        <label for="json_result" >
                         {vec![text(
                             bumpalo::format!(in bump, "{}",
-                            unwrapmod::unwrap_result_abort(serde_json::to_string_pretty(&self.json_result)))
+                                "json_result")
+                                .into_bump_str()
+                        )]}
+                    </label>
+                    <textarea style="height: 250px;" readonly="true" class="w3-input w3-dark-grey w3-border-0 w3-round" name="json_result" id="json_result" >
+                        {vec![text(
+                            bumpalo::format!(in bump, "{}",
+                            unwrap_result_abort(serde_json::to_string_pretty(&self.json_result)))
                                 .into_bump_str()
                             )]}
                     </textarea>
@@ -112,7 +122,7 @@ impl Render for RootRenderingComponent {
                         <p>
                             {vec![text(
                                 bumpalo::format!(in bump, "{}",
-                                "The result of the web page is a simple JSON text. \
+                                "The result of the web page is a simple json text. \
                                 It can be easily saved, copied, modified and sent (by email, WhatsApp, messanger,...). \
                                 But all this actions are outside of this web page for security and privacy reasons.
                                 ")
@@ -135,10 +145,10 @@ impl Render for RootRenderingComponent {
                         </div>
                     <div>
                     {div_version(self,bump)}
-                    <h6 class="w3-text-yellow">
+                    <h6 class="yellow">
                         {vec![text(bumpalo::format!(in bump, "Instructions and source code:{}", "").into_bump_str(),)]}
                         </h6>
-                        <h6 class="w3-text-yellow">
+                        <h6 class="yellow">
                             <a href= "https://github.com/LucianoBestia/efrro_form_c_json" target="_blank">
                                 {vec![text(bumpalo::format!(in bump, "https://github.com / LucianoBestia / efrro_form_c_json{}", "").into_bump_str(),)]}
                             </a>
@@ -167,16 +177,19 @@ pub fn div_inputs<'b>(rrc: &RootRenderingComponent, bump: &'b Bump) -> Vec<Node<
         // height of columns: 90% for 1st column, 100% second, 100% third, 30% fourth
 
         //logmod::debug_write(format!("",lin))
-        for ctrl_format in &rrc.json_format {
-            let ctrl_name = bumpalo::format!(in bump, "{}",&ctrl_format.name).into_bump_str();
+        for (key, val) in &rrc.json_format {
+            let ctrl_name = bumpalo::format!(in bump, "{}",&key).into_bump_str();
 
-            let str_caption = ctrl_format
-                .caption
-                .clone()
-                .unwrap_or_else(|| ctrl_format.name.clone());
+            let str_caption =
+                unwrap_option_abort(val.get("caption").unwrap_or(&json!(key)).as_str()).to_string();
             let caption = bumpalo::format!(in bump, "{}",str_caption).into_bump_str();
-            let value = bumpalo::format!(in bump, "{}",ctrl_format.value).into_bump_str();
-            let ctrl_type = bumpalo::format!(in bump, "{}",ctrl_format.ctrl_type).into_bump_str();
+            let str_value =
+                unwrap_option_abort(val.get("value").unwrap_or(&json!("")).as_str()).to_string();
+            let value = bumpalo::format!(in bump, "{}",str_value).into_bump_str();
+            let str_ctrl_type =
+                unwrap_option_abort(val.get("ctrl_type").unwrap_or(&json!("text")).as_str())
+                    .to_string();
+            let ctrl_type = bumpalo::format!(in bump, "{}",str_ctrl_type).into_bump_str();
 
             if ctrl_type == "label" {
                 vec_node.push(dodrio!(bump,
@@ -209,9 +222,7 @@ pub fn div_inputs<'b>(rrc: &RootRenderingComponent, bump: &'b Bump) -> Vec<Node<
                             let rrc = root.unwrap_mut::<RootRenderingComponent>();
                          on_input(rrc, vdom_weak, ctrl.name().to_string(),ctrl.value().to_string());
                     }}>
-                    {select_options(rrc,bump,
-                        required(ctrl_format.options.as_ref())[..].as_ref(),
-                        &ctrl_format.value)}
+                    {select_options(rrc,bump,val,&str_value)}
                     </select>
                 </div>
                 ));
@@ -265,17 +276,17 @@ pub fn on_input(
     logmod::debug_write(&format!("select_on_input{}", ""));
     //save on every key stroke
 
-    let map = fetchjsonformatmod::get_mut_by_name_req(&mut rrc.json_format, ctrl_name.as_str());
+    let map = unwrap_option_abort(rrc.json_format.get_mut(ctrl_name.as_str()));
     logmod::debug_write(&format!("map from json {:?}", map));
-    map.value = ctrl_value.clone();
+    map["value"] = json!(ctrl_value);
 
-    rrc.json_result[ctrl_name.as_str()] = ctrl_value;
+    rrc.json_result[ctrl_name.as_str()] = json!(ctrl_value);
 
-    let window = unwrapmod::unwrap_option_abort(web_sys::window());
-    let ls = unwrapmod::unwrap_option_abort(unwrapmod::unwrap_result_abort(window.local_storage()));
+    let window = unwrap_option_abort(web_sys::window());
+    let ls = unwrap_option_abort(unwrap_result_abort(window.local_storage()));
     let _x = ls.set_item(
         "json_string",
-        unwrapmod::unwrap_result_abort(serde_json::to_string_pretty(&rrc.json_result)).as_str(),
+        unwrap_result_abort(serde_json::to_string_pretty(&rrc.json_result)).as_str(),
     );
 
     vdom_weak.schedule_render();
@@ -285,17 +296,29 @@ pub fn on_input(
 pub fn select_options<'b>(
     _rrc: &RootRenderingComponent,
     bump: &'b Bump,
-    vec_options: &[fetchjsonformatmod::CtrlOption],
+    val_options: &serde_json::Value,
     selected: &str,
 ) -> Vec<Node<'b>> {
     let mut vec_node = Vec::new();
 
-    for x in vec_options {
+    let default = json!(r#"[{"option": "","caption": ""},]"#);
+    let str_ctrl_options =
+        unwrap_option_abort(val_options.get("options").unwrap_or(&default).as_array());
+
+    for x in str_ctrl_options {
         //logmod::debug_write(&format!("x {:?}", x));
-        let value = bumpalo::format!(in bump, "{}",x.option).into_bump_str();
+        let value = bumpalo::format!(in bump, "{}",unwrap_option_abort(x.get("option")
+        .unwrap_or(&json!(""))
+        .as_str()
+        ).to_string())
+        .into_bump_str();
         let caption = {
             vec![text(
-                bumpalo::format!(in bump, "{}",x.caption).into_bump_str(),
+                bumpalo::format!(in bump, "{}",unwrap_option_abort(x.get("caption")
+                .unwrap_or(&json!(""))
+                .as_str()
+                ).to_string())
+                .into_bump_str(),
             )]
         };
         if selected == value {
@@ -318,17 +341,16 @@ pub fn select_options<'b>(
 
 ///copy to clipboard
 fn copy_to_clipboard() {
-    let window = unwrapmod::unwrap_option_abort(web_sys::window());
-    let document = unwrapmod::unwrap_option_abort(window.document());
+    let window = unwrap_option_abort(web_sys::window());
+    let document = unwrap_option_abort(window.document());
 
-    let t = unwrapmod::unwrap_option_abort(document.get_element_by_id("json_result"));
-    let el = unwrapmod::unwrap_result_abort(t.dyn_into::<web_sys::HtmlTextAreaElement>());
+    let t = unwrap_option_abort(document.get_element_by_id("json_result"));
+    let el = unwrap_result_abort(t.dyn_into::<web_sys::HtmlTextAreaElement>());
     //and again Safari is the problem
     if is_iphone() {
-        let range = unwrapmod::unwrap_result_abort(document.create_range());
+        let range = unwrap_result_abort(document.create_range());
         let _x = range.select_node_contents(&el);
-        let selection =
-            unwrapmod::unwrap_option_abort(unwrapmod::unwrap_result_abort(window.get_selection()));
+        let selection = unwrap_option_abort(unwrap_result_abort(window.get_selection()));
         let _x = selection.remove_all_ranges();
         let _x = selection.add_range(&range);
         let _x = el.set_selection_range(0, 999_999);
@@ -336,40 +358,31 @@ fn copy_to_clipboard() {
         el.select();
     }
 
-    let hd = unwrapmod::unwrap_result_abort(document.dyn_into::<web_sys::HtmlDocument>());
+    let hd = unwrap_result_abort(document.dyn_into::<web_sys::HtmlDocument>());
     let _x = hd.exec_command("copy");
-    let _x = window.alert_with_message("JSON text copied to clipboard.");
+    let _x = window.alert_with_message("json copied");
 }
 
 ///detect iphone
 pub fn is_iphone() -> bool {
-    let window = unwrapmod::unwrap_option_abort(web_sys::window());
+    let window = unwrap_option_abort(web_sys::window());
     let navigator = window.navigator();
-    let user_agent = unwrapmod::unwrap_result_abort(navigator.user_agent());
+    let user_agent = unwrap_result_abort(navigator.user_agent());
     user_agent.to_ascii_lowercase().contains("iphone")
 }
 
 ///open email client for send email
 pub fn send_email(rrc: &RootRenderingComponent) {
     if let Some(hostel_data) = &rrc.hostel_data {
-        let window = unwrapmod::unwrap_option_abort(web_sys::window());
+        let window = unwrap_option_abort(web_sys::window());
 
         let link = format!(
             "mailto:{}?subject={}&body={}",
             urlencoding::encode(&hostel_data.email),
-            stringmod::concat_4(
-                "Form C data ",
-                fetchjsonformatmod::get_by_name_req(&rrc.json_format, "applicant_surname")
-                    .value
-                    .as_str(),
-                " ",
-                fetchjsonformatmod::get_by_name_req(&rrc.json_format, "applicant_givenname")
-                    .value
-                    .as_str()
-            ),
-            urlencoding::encode(&unwrapmod::unwrap_result_abort(
-                serde_json::to_string_pretty(&rrc.json_result)
-            ))
+            "Form C data",
+            urlencoding::encode(&unwrap_result_abort(serde_json::to_string_pretty(
+                &rrc.json_result
+            )))
         );
         let _x = window.open_with_url_and_target(&link, "_blank");
     }
@@ -396,7 +409,7 @@ pub fn div_img_hostel<'b>(rrc: &'b RootRenderingComponent, bump: &'b Bump) -> Op
                     </a>
                     {
                     let mut ppp =vec![ dodrio!(bump,
-                        <h2 class="w3-center w3-text-yellow">
+                        <h2>
                         {vec![text(
                             bumpalo::format!(in bump, "{}",
                             hostel_data.name)
@@ -404,44 +417,33 @@ pub fn div_img_hostel<'b>(rrc: &'b RootRenderingComponent, bump: &'b Bump) -> Op
                         )]}
                         </h2>)];
 
-                    for x in &hostel_data.text_vector{
-                        ppp.push(
-                            dodrio!(bump,
-                                <h4>
-                                {vec![text(
-                                    bumpalo::format!(in bump, "{}",
-                                    x)
-                                    .into_bump_str()
-                                )]}
-                                </h4>)
-                            );
-                    }
-                    let mut delim = "";
-                    for x in &hostel_data.urls{
-                        ppp.push(
-                            dodrio!(bump,
-                                <b>
-                                {vec![text(
-                                    bumpalo::format!(in bump, "{}",
-                                    delim)
-                                    .into_bump_str()
-                                )]}
-                                </b>
-                            ));
-                        ppp.push(
-                        dodrio!(bump,
-                            <a href={&x.url} target="_blank">
-                            {vec![text(
-                                bumpalo::format!(in bump, "{}",
-                                x.name)
-                                .into_bump_str()
-                            )]}
-                            </a>
-                        ));
-                        delim = " , ";
-                    }
-                    //result
-                    ppp
+                        for x in &hostel_data.text_vector{
+                            ppp.push(
+                                dodrio!(bump,
+                                    <h4>
+                                    {vec![text(
+                                        bumpalo::format!(in bump, "{}",
+                                        x)
+                                        .into_bump_str()
+                                    )]}
+                                    </h4>)
+                                );
+                        }
+                        for x in &hostel_data.urls{
+                            ppp.push(
+                                dodrio!(bump,
+                                    <h4><a href={&x.url} target="_blank">
+                                    {vec![text(
+                                        bumpalo::format!(in bump, "{}",
+                                        x.name)
+                                        .into_bump_str()
+                                    )]}
+                                    </a>
+                                    </h4>)
+                                );
+                        }
+                        //result
+                        ppp
                     }
                 </div>
             ))
@@ -487,13 +489,13 @@ pub fn div_version<'b>(rrc: &'b RootRenderingComponent, bump: &'b Bump) -> Vec<N
     match &rrc.hostel_data {
         Some(_hostel_data) => dodrio!(bump,
                     <div>
-                    <h6 class="w3-text-yellow">
+                    <h6 class="yellow">
                         {vec![text(bumpalo::format!(in bump, "Version: {}", version).into_bump_str(),)]}                
                     </h6>
                     </div>),
         None => dodrio!(bump,
                     <div>
-                    <h6 class="w3-text-yellow">
+                    <h6 class="yellow">
                         {vec![text(bumpalo::format!(in bump, "This is the basic free version of the web page. Contact the author to customize with Hostel's data, logo and email address for the button 'Send email'. Version: {}", version).into_bump_str(),)]}
                     </h6>
                     </div>),

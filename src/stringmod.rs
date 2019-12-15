@@ -3,7 +3,7 @@
 
 ///concat
 pub fn concat_4(one: &str, two: &str, three: &str, four: &str) -> String {
-    let mut ret = String::new();
+    let mut ret = String::with_capacity(50);
     ret.push_str(one);
     ret.push_str(two);
     ret.push_str(three);

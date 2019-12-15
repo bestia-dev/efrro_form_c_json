@@ -53,7 +53,7 @@
 //region: use
 //use crate::logmod;
 use crate::rootrenderingmod::RootRenderingComponent;
-use crate::*;
+use crate::unwrapmod;
 
 //use unwrap::unwrap;
 use wasm_bindgen::JsValue;
@@ -74,7 +74,7 @@ pub fn fetch_response(
         std::string::String,
     ) + 'static),
 ) {
-    let window = unwrap_option_abort(web_sys::window());
+    let window = unwrapmod::unwrap_option_abort(web_sys::window());
     //1. wasm_bindgen knows only method fetch_with_request, and that returns a promise
     let request_promise = window.fetch_with_request(request);
     //transform promise into future
@@ -82,7 +82,7 @@ pub fn fetch_response(
         .and_then(|resp_value| {
             // `resp_value` is a `Response` object.
             assert!(resp_value.is_instance_of::<Response>());
-            let resp: Response = unwrap_result_abort(resp_value.dyn_into());
+            let resp: Response = unwrapmod::unwrap_result_abort(resp_value.dyn_into());
             //the text() method returns a promise
             resp.text()
         })
@@ -91,7 +91,7 @@ pub fn fetch_response(
             wasm_bindgen_futures::JsFuture::from(text_promise)
         })
         .and_then(move |text_jsvalue| {
-            let txt_response: String = unwrap_option_abort(text_jsvalue.as_string());
+            let txt_response: String = unwrapmod::unwrap_option_abort(text_jsvalue.as_string());
             //To change the data in rrc I must use the future `vdom.with_component`
             //it will be executed at the next tick to avoid concurrent data races.
             wasm_bindgen_futures::spawn_local(
