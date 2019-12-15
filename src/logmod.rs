@@ -1,5 +1,6 @@
 // logmod.rs
 //! logging in wasm
+use crate::stringmod;
 
 use web_sys::console;
 use wasm_bindgen::prelude::*;
@@ -24,7 +25,12 @@ pub fn debug_write(text: &str) {
     //I must write it on the UI.
     //so I must access this string from the UI rendere
     //sessionstoragemod::add_to_begin_of_debug_text(text);
-    console::log_1(&JsValue::from_str(&format!("{} {}", now_string(), text)));
+    console::log_1(&JsValue::from_str(&stringmod::concat_4(
+        &now_string(),
+        " ",
+        text,
+        "",
+    )));
 }
 
 ///string of now time

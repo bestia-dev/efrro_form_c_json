@@ -70,6 +70,7 @@ mod fetchmod;
 mod fetchjsonformat;
 mod fetchjsonhostel;
 mod logmod;
+mod stringmod;
 
 extern crate console_error_panic_hook;
 //extern crate log;

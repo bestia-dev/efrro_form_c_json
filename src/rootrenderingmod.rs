@@ -89,14 +89,13 @@ impl Render for RootRenderingComponent {
                 {div_img_hostel(&self,&bump)}
                     <div>
                         <p>
-                            {vec![text(
-                                bumpalo::format!(in bump, "{}",
+                            {vec![text(bumpalo::format!(in bump, "{}",
                                 "Form C is compulsory in India: 'Accommodation providers to foreigners MUST \
                                 submit the details of the residing foreigner in Form C to the Registration \
                                 authorities within 24 hours of the arrival.'\n\
-                                For security and privacy of personal data this webapp saves data only in the local storage of this device. \
+                                For security and privacy of personal data this web page saves data only in the local storage of this device. \
                                 No data is ever sent over the network. \
-                                This webapp works in all modern mobile browsers with Webassembly/Wasm enabled (chrome, firefox, safari). \
+                                This web page works in all modern mobile browsers with Webassembly/Wasm enabled (chrome, firefox, safari). \
                                 Avoid old or non updated browsers (for your own security and comfort).")
                                 .into_bump_str()
                             )]}
@@ -123,9 +122,9 @@ impl Render for RootRenderingComponent {
                         <p>
                             {vec![text(
                                 bumpalo::format!(in bump, "{}",
-                                "The result of the webapp is a simple json text. \
+                                "The result of the web page is a simple json text. \
                                 It can be easily saved, copied, modified and sent (by email, WhatsApp, messanger,...). \
-                                But all this actions are outside of this webapp for security and privacy reasons.
+                                But all this actions are outside of this web page for security and privacy reasons.
                                 ")
                                 .into_bump_str()
                             )]}
@@ -497,7 +496,7 @@ pub fn div_version<'b>(rrc: &'b RootRenderingComponent, bump: &'b Bump) -> Vec<N
         None => dodrio!(bump,
                     <div>
                     <h6 class="yellow">
-                        {vec![text(bumpalo::format!(in bump, "This is the basic free version of the webapp. Contact the author to customize with Hostel's data, logo and email address for the button 'Send email'. Version: {}", version).into_bump_str(),)]}
+                        {vec![text(bumpalo::format!(in bump, "This is the basic free version of the web page. Contact the author to customize with Hostel's data, logo and email address for the button 'Send email'. Version: {}", version).into_bump_str(),)]}
                     </h6>
                     </div>),
     });

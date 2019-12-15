@@ -14,6 +14,7 @@ categories = ["frro","form C"]
 crate-type = ["cdylib"]
 
 [profile.release]
+debug = false
 #smaller wasm size
 lto = true
 #optimize for size 's', more opt for size 'z', 3 for speed

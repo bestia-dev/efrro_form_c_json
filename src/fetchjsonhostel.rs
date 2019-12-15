@@ -18,9 +18,11 @@ pub fn fetch_json_format_request(
     location_href: &str,
     hostel_id: &str,
 ) {
-    let url_json = format!(
-        "{}/efrro_form_c_json_hostels/{}/hostel.json",
-        location_href, hostel_id
+    let url_json = stringmod::concat_4(
+        location_href,
+        "/efrro_form_c_json_hostels/",
+        hostel_id,
+        "/hostel.json",
     );
     //logmod::debug_write(url_json.as_str());
     let webrequest = create_webrequest(&url_json);
@@ -32,11 +34,13 @@ pub fn create_webrequest(location_href: &str) -> web_sys::Request {
     let mut opts = RequestInit::new();
     opts.method("GET");
 
-    let w_webrequest = unwrap_result_abort(Request::new_with_str_and_init(location_href, &opts));
+    //let w_webrequest =
+    //return
+    unwrap_result_abort(Request::new_with_str_and_init(location_href, &opts))
 
     //logmod::debug_write("let w_webrequest =");
     //return
-    w_webrequest
+    //w_webrequest
 }
 
 #[allow(clippy::needless_pass_by_value)]
