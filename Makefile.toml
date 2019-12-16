@@ -15,7 +15,7 @@ skip_core_tasks = true
     description = "cargo build development"
     clear = true
     dependencies = [
-       # "lmake_version_from_date",
+        "lmake_version_from_date",
         "build-dev",
         "post-build",
     ]
@@ -24,7 +24,7 @@ skip_core_tasks = true
     description = "cargo build release"
     clear = true
     dependencies = [
-        #"lmake_version_from_date",
+        "lmake_version_from_date",
         "build_release",
         "copy_pkg_to_webfolder",
         "post-build",
@@ -38,28 +38,31 @@ skip_core_tasks = true
         "cargo-doc",
 		"doc-copy",
     ]
-# endregion
-
-
-[tasks.build-dev]
-clear = true
-private = true
-description = "build wasm in dev mode"
-command = "wasm-pack"
-args = ["build", "--target", "web","--dev"]
-
 
     [tasks.publish]
-    description = "publish the webfolder to google vm"
+    description = "publish the webfolder to beta to google vm"
     # First copies the content of /efrro_form_c_json/webfolder to //googlecloud/ folder and then to google vm with use of sshagent."
     workspace = false
     clear = true
     # backslash is the escape character for all other special characters.
     # and then another time I have to escape the backslash. So 4 backslash for one backslash.
     script = [
-        "rsync -avz --delete-after /home/luciano/rustprojects/efrro_form_c_json/webfolder/ /home/luciano/rustprojects/googlecloud/var/www/html/efrro_form_c_json/",
-		"rsync -avz --delete-after /home/luciano/rustprojects/efrro_form_c_json_hostels/hostels/ /home/luciano/rustprojects/googlecloud/var/www/html/efrro_form_c_json/hostels/",
-        "rsync -e ssh -avz --delete-after /home/luciano/rustprojects/googlecloud/var/www/html/efrro_form_c_json/ luciano_bestia@34.87.17.103:/var/www/html/efrro_form_c_json_beta/",
+        "rsync -avz --delete-after /home/luciano/rustprojects/efrro_form_c_json/webfolder/ /home/luciano/rustprojects/googlecloud/var/www/html/efrro_form_c_json_beta/",
+		"rsync -avz --delete-after /home/luciano/rustprojects/efrro_form_c_json_hostels/hostels/ /home/luciano/rustprojects/googlecloud/var/www/html/efrro_form_c_json_beta/hostels/",
+        "rsync -e ssh -avz --delete-after /home/luciano/rustprojects/googlecloud/var/www/html/efrro_form_c_json_beta/ luciano_bestia@34.87.17.103:/var/www/html/efrro_form_c_json_beta/",
+    ]
+
+
+    [tasks.publish_to_stable]
+    description = "publish from beta to stable"
+    # First copies the content of /efrro_form_c_json/webfolder to //googlecloud/ folder and then to google vm with use of sshagent."
+    workspace = false
+    clear = true
+    # backslash is the escape character for all other special characters.
+    # and then another time I have to escape the backslash. So 4 backslash for one backslash.
+    script = [
+        "rsync -avz --delete-after /home/luciano/rustprojects/googlecloud/var/www/html/efrro_form_c_json_beta/ /home/luciano/rustprojects/googlecloud/var/www/html/efrro_form_c_json/",
+        "rsync -e ssh -avz --delete-after /home/luciano/rustprojects/googlecloud/var/www/html/efrro_form_c_json/ luciano_bestia@34.87.17.103:/var/www/html/efrro_form_c_json/",
     ]
 
     [tasks.sshadd]
@@ -71,6 +74,16 @@ args = ["build", "--target", "web","--dev"]
         "ssh-add /home/luciano/.ssh/lucianobestia_mac",
         "ssh-add -l",
     ]
+
+# endregion
+
+
+[tasks.build-dev]
+clear = true
+private = true
+description = "build wasm in dev mode"
+command = "wasm-pack"
+args = ["build", "--target", "web","--dev"]
 
 [tasks.post-build]
 clear = true
