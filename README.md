@@ -38,12 +38,14 @@ JSON is just a text that can be easily copied. He can send it by email to the ho
 The project is open source stored on github and the source code can be easily checked to prove there are not dangers like malware or viruses.  
 
 ## Support
+
 Maybe the best way to support this app is with a group with questions and answers  
 <https://groups.google.com/forum/#!forum/bestiaformc>  
 
-## Customization
+## Personalization
 
-It is possible to customize the webapp with the hostel's logo and data. Because there is a known email address, the guest then have the easy button "send by default email client". It is not possible to do this in the basic version. So it is more user-friendly to the guest. Hostel managers should contact me to add their hostel data, logo and email address for a small donation for cloud provider expenses.  
+If you are happy with the app please donate to <paypal.me/LucianoBestia>.
+To show my gratitude I will personalize the webapp with your hostel's logo and data. Because there is a known email address, the guest then have the easy button "send by default email client". It is not possible to do this in the basic version. So it is more user-friendly to the guest. Hostel managers should contact me on <Luciano.Bestia2@gmail.com> to add their hostel data, logo and email address.  
 Look at the example:  
 <https://bestia.dev/efrro_form_c_json_beta/?id=sturmfrei_goa>  
 
