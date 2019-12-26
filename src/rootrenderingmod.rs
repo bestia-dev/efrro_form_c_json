@@ -494,8 +494,13 @@ pub fn div_version<'b>(rrc: &'b RootRenderingComponent, bump: &'b Bump) -> Vec<N
         None => dodrio!(bump,
                     <div>
                     <h6 class="w3-text-yellow">
-                        {vec![text(bumpalo::format!(in bump, "This is the basic free version of the web page. Contact the author to customize with Hostel's data, logo and email address for the button 'Send email'. Version: {}", version).into_bump_str(),)]}
+                        {vec![text(bumpalo::format!(in bump, "This is the basic free fully functional version of the web page. Contact the author to personalize with Hostel's data, logo and email address for the easy-to-use button 'Send email'. Version: {}", version).into_bump_str(),)]}
                     </h6>
+                    <h6 class="w3-text-yellow">
+                    <a href= "https://bestia.dev/formc/example/FormCInvite.html" target="_blank">
+                        {vec![text(bumpalo::format!(in bump, "Invite the accommodation to use and personalize this web page.{}", "").into_bump_str(),)]}
+                    </a>
+                </h6>
                     </div>),
     });
     //return

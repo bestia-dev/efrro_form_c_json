@@ -19,10 +19,10 @@ The guest can use this same JSON text in every hostel where the hostel manager u
 
 ## chrome extension
 
-This result JSON text is then sent to the hostel manager. He uses the chrome extension chext_fill_form_from_json to fill the e-frro form C.  
-<https://chrome.google.com/webstore/detail/chextfillformfromjson/gdgkhgfgpfhnmiebaedlcaignonmjobe>  
+This result JSON text is then sent to the hostel manager. He uses the chrome extension to fill the online form C.  
+<https://chrome.google.com/webstore/detail/fill-the-online-form-c-fr/echcbgpcbpnpjdnpckmomhdjgecifbaa>  
 Source code and instructions:  
-<https://github.com/LucianoBestia/chext_fill_form_from_json>  
+<https://github.com/LucianoBestia/efrro_form_c_chrome_ext>  
 
 ## The long story
 
@@ -36,6 +36,10 @@ JSON is just a text that can be easily copied. He can send it by email to the ho
 ## Opensource
 
 The project is open source stored on github and the source code can be easily checked to prove there are not dangers like malware or viruses.  
+
+## Support
+Maybe the best way to support this app is with a group with questions and answers  
+<https://groups.google.com/forum/#!forum/bestiaformc>  
 
 ## Customization
 
