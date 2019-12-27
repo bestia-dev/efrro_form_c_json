@@ -47,9 +47,9 @@ skip_core_tasks = true
     # backslash is the escape character for all other special characters.
     # and then another time I have to escape the backslash. So 4 backslash for one backslash.
     script = [
-        "rsync -avz --delete-after /home/luciano/rustprojects/efrro_form_c_json/webfolder/ /home/luciano/rustprojects/googlecloud/var/www/html/efrro_form_c_json_beta/",
-		"rsync -avz --delete-after /home/luciano/rustprojects/efrro_form_c_json_hostels/hostels/ /home/luciano/rustprojects/googlecloud/var/www/html/efrro_form_c_json_beta/hostels/",
-        "rsync -e ssh -avz --delete-after /home/luciano/rustprojects/googlecloud/var/www/html/efrro_form_c_json_beta/ luciano_bestia@34.87.17.103:/var/www/html/efrro_form_c_json_beta/",
+        "rsync -avz --delete-after /home/luciano/rustprojects/efrro_form_c_json/webfolder/ /home/luciano/rustprojects/googlecloud/var/www/html/formc_beta/",
+		"rsync -avz --delete-after /home/luciano/rustprojects/efrro_form_c_json_accommodations/accommodations/ /home/luciano/rustprojects/googlecloud/var/www/html/formc_beta/accommodations/",
+        "rsync -e ssh -avz --delete-after /home/luciano/rustprojects/googlecloud/var/www/html/formc_beta/ luciano_bestia@34.87.17.103:/var/www/html/formc_beta/",
     ]
 
 
@@ -61,8 +61,8 @@ skip_core_tasks = true
     # backslash is the escape character for all other special characters.
     # and then another time I have to escape the backslash. So 4 backslash for one backslash.
     script = [
-        "rsync -avz --delete-after /home/luciano/rustprojects/googlecloud/var/www/html/efrro_form_c_json_beta/ /home/luciano/rustprojects/googlecloud/var/www/html/efrro_form_c_json/",
-        "rsync -e ssh -avz --delete-after /home/luciano/rustprojects/googlecloud/var/www/html/efrro_form_c_json/ luciano_bestia@34.87.17.103:/var/www/html/efrro_form_c_json/",
+        "rsync -avz --delete-after /home/luciano/rustprojects/googlecloud/var/www/html/formc_beta/ /home/luciano/rustprojects/googlecloud/var/www/html/formc/",
+        "rsync -e ssh -avz --delete-after /home/luciano/rustprojects/googlecloud/var/www/html/formc/ luciano_bestia@34.87.17.103:/var/www/html/formc/",
     ]
 
     [tasks.sshadd]

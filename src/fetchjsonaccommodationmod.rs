@@ -1,5 +1,5 @@
-// fetchjsonhostelmod.rs
-//! fetch JSON hostel
+// fetchjsonaccommodationmod.rs
+//! fetch JSON accommodations
 
 //region: use
 use crate::rootrenderingmod::RootRenderingComponent;
@@ -21,9 +21,9 @@ pub struct Url {
     pub url: String,
 }
 
-///hostel data saved in hostels folder JSON
+/// data saved in accommodations folder JSON
 #[derive(Debug, Serialize, Deserialize, Clone)]
-pub struct HostelData {
+pub struct AccommodationData {
     pub id: String,
     pub name: String,
     pub email: String,
@@ -40,12 +40,17 @@ pub struct HostelData {
 pub fn fetch_json_format_request(
     vdom_weak: dodrio::VdomWeak,
     location_href: &str,
-    hostel_id: &str,
+    accommodation_id: &str,
 ) {
-    let url_json = stringmod::concat_4(location_href, "/hostels/", hostel_id, "/hostel.json");
+    let url_json = stringmod::concat_4(
+        location_href,
+        "/accommodations/",
+        accommodation_id,
+        "/accommodation.json",
+    );
     //logmod::debug_write(url_json.as_str());
     let webrequest = create_webrequest(&url_json);
-    fetchmod::fetch_response(vdom_weak, &webrequest, &set_hostel_id);
+    fetchmod::fetch_response(vdom_weak, &webrequest, &set_accommodation_id);
 }
 
 ///create web request from string
@@ -64,7 +69,8 @@ pub fn create_webrequest(location_href: &str) -> web_sys::Request {
 
 #[allow(clippy::needless_pass_by_value)]
 /// update a field in the struct
-pub fn set_hostel_id(rrc: &mut RootRenderingComponent, respbody: String) {
+pub fn set_accommodation_id(rrc: &mut RootRenderingComponent, respbody: String) {
     //respbody is JSON, parse it
-    rrc.hostel_data = unwrapmod::unwrap_result_abort(serde_json::from_str(respbody.as_str()));
+    rrc.accommodation_data =
+        unwrapmod::unwrap_result_abort(serde_json::from_str(respbody.as_str()));
 }

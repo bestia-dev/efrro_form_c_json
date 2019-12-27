@@ -9,7 +9,7 @@
 use crate::logmod;
 use crate::fetchjsonformatmod;
 use crate::unwrapmod;
-use crate::fetchjsonhostelmod;
+use crate::fetchjsonaccommodationmod;
 use crate::unwrapmod::required;
 use crate::stringmod;
 
@@ -35,7 +35,7 @@ use urlencoding;
 pub struct RootRenderingComponent {
     pub json_format: Vec<fetchjsonformatmod::CtrlFormat>,
     pub json_result: IndexMap<String, String>,
-    pub hostel_data: Option<fetchjsonhostelmod::HostelData>,
+    pub accommodation_data: Option<fetchjsonaccommodationmod::AccommodationData>,
 }
 
 impl RootRenderingComponent {
@@ -45,7 +45,7 @@ impl RootRenderingComponent {
         RootRenderingComponent {
             json_format: Vec::new(),
             json_result: IndexMap::new(),
-            hostel_data: None,
+            accommodation_data: None,
         }
     }
 }
@@ -67,7 +67,7 @@ impl Render for RootRenderingComponent {
         <div id="div_all">
              <div class="w3-row-padding" >
                 <div>
-                {div_img_hostel(&self,&bump)}
+                {div_img_accommodation(&self,&bump)}
                     <div>
                     <h1 class="w3-center w3-text-yellow">
                         {vec![text(bumpalo::format!(in bump, "{}",
@@ -351,12 +351,12 @@ pub fn is_iphone() -> bool {
 
 ///open email client for send email
 pub fn send_email(rrc: &RootRenderingComponent) {
-    if let Some(hostel_data) = &rrc.hostel_data {
+    if let Some(accommodation_data) = &rrc.accommodation_data {
         let window = unwrapmod::unwrap_option_abort(web_sys::window());
 
         let link = format!(
             "mailto:{}?subject={}&body={}",
-            urlencoding::encode(&hostel_data.email),
+            urlencoding::encode(&accommodation_data.email),
             stringmod::concat_4(
                 "Form C data ",
                 fetchjsonformatmod::get_by_name_req(&rrc.json_format, "applicant_surname")
@@ -376,17 +376,20 @@ pub fn send_email(rrc: &RootRenderingComponent) {
 }
 
 ///node for img
-pub fn div_img_hostel<'b>(rrc: &'b RootRenderingComponent, bump: &'b Bump) -> Option<Node<'b>> {
-    match &rrc.hostel_data {
-        Some(hostel_data) => {
-            let str_src = bumpalo::format!(in bump, "hostels/{}/header_img.jpg",
-                 hostel_data.id)
+pub fn div_img_accommodation<'b>(
+    rrc: &'b RootRenderingComponent,
+    bump: &'b Bump,
+) -> Option<Node<'b>> {
+    match &rrc.accommodation_data {
+        Some(accommodation_data) => {
+            let str_src = bumpalo::format!(in bump, "accommodations/{}/header_img.jpg",
+                 accommodation_data.id)
             .into_bump_str();
             let alt = bumpalo::format!(in bump, "{}",
-                  hostel_data.name)
+                  accommodation_data.name)
             .into_bump_str();
             let href = bumpalo::format!(in bump, "{}",
-                  hostel_data.web)
+                  accommodation_data.web)
             .into_bump_str();
             //return
             Some(dodrio!(bump,
@@ -399,12 +402,12 @@ pub fn div_img_hostel<'b>(rrc: &'b RootRenderingComponent, bump: &'b Bump) -> Op
                         <h2 class="w3-center w3-text-yellow">
                         {vec![text(
                             bumpalo::format!(in bump, "{}",
-                            hostel_data.name)
+                            accommodation_data.name)
                             .into_bump_str()
                         )]}
                         </h2>)];
 
-                    for x in &hostel_data.text_vector{
+                    for x in &accommodation_data.text_vector{
                         ppp.push(
                             dodrio!(bump,
                                 <h4>
@@ -417,7 +420,7 @@ pub fn div_img_hostel<'b>(rrc: &'b RootRenderingComponent, bump: &'b Bump) -> Op
                             );
                     }
                     let mut delim = "";
-                    for x in &hostel_data.urls{
+                    for x in &accommodation_data.urls{
                         ppp.push(
                             dodrio!(bump,
                                 <b>
@@ -452,8 +455,8 @@ pub fn div_img_hostel<'b>(rrc: &'b RootRenderingComponent, bump: &'b Bump) -> Op
 
 ///div for send email
 pub fn div_send_email<'b>(rrc: &'b RootRenderingComponent, bump: &'b Bump) -> Option<Node<'b>> {
-    match &rrc.hostel_data {
-        Some(_hostel_data) => {
+    match &rrc.accommodation_data {
+        Some(_accommodation_data) => {
             //return
             Some(dodrio!(bump,
                 <div id="div_send_email">
@@ -484,8 +487,8 @@ pub fn div_version<'b>(rrc: &'b RootRenderingComponent, bump: &'b Bump) -> Vec<N
     let version = env!("CARGO_PKG_VERSION");
     let mut vec_node = Vec::new();
     vec_node.push(
-    match &rrc.hostel_data {
-        Some(_hostel_data) => dodrio!(bump,
+    match &rrc.accommodation_data {
+        Some(_accommodation_data) => dodrio!(bump,
                     <div>
                     <h6 class="w3-text-yellow">
                         {vec![text(bumpalo::format!(in bump, "Version: {}", version).into_bump_str(),)]}                
@@ -494,7 +497,7 @@ pub fn div_version<'b>(rrc: &'b RootRenderingComponent, bump: &'b Bump) -> Vec<N
         None => dodrio!(bump,
                     <div>
                     <h6 class="w3-text-yellow">
-                        {vec![text(bumpalo::format!(in bump, "This is the basic free fully functional version of the web page. Contact the author to personalize with Hostel's data, logo and email address for the easy-to-use button 'Send email'. Version: {}", version).into_bump_str(),)]}
+                        {vec![text(bumpalo::format!(in bump, "This is the basic free fully functional version of the web page. Contact the author to personalize with accommodation's data, logo and email address for the easy-to-use button 'Send email' for your guest's comfort. Version: {}", version).into_bump_str(),)]}
                     </h6>
                     <h6 class="w3-text-yellow">
                     <a href= "https://bestia.dev/formc/example/FormCInvite.html" target="_blank">

@@ -1,37 +1,37 @@
 # efrro_form_c_json
 
 *Things are changing fast. This is the situation on 2019-11-11.*  
-Efrro_form_c_json ia a webapp for the hostel guest to enter data for e-frro form C and export it as JSON.  
-The webapp link is this:  
+This is a webpage for the accommodation guests in India to enter data for Form C and export it as JSON.  
+The web page link is this:  
 <https://bestia.dev/efrro_form_c_json/>  
   
 Quote from the Bureau of Immigration in India (form C is compulsory by law):  
 "Any Hotel, Guest House, Dharmashala, Individual House, University, Hospital, Institute and Others etc. who provide accommodation to foreigners **must** submit the details of the residing foreigner in Form C to the Registration authorities within 24 hours of the arrival of the foreigner at their premises. This will help the registration authorities in locating and tracking the foreigners."  
 <https://www.india.gov.in/online-form-c-bureau-immigration>  
   
-The webapp is supposed to be used on the guest's personal smartphone.  
-This webapp saves data only in the local storage of this device. No data is ever sent over the network.  
-This webapp works in all modern mobile browsers (chrome, firefox, safari). Avoid old or non updated browsers (for your own security and comfort).  
-The result of the webapp is a simple JSON text. It can be easily saved, copied, modified and sent.  
-But all this actions are outside of this webapp for security and privacy reasons.  
+The web page is supposed to be used on the guest's personal smartphone.  
+This web page saves data only in the local storage of this device. No data is ever sent over the network.  
+This web page works in all modern mobile browsers (chrome, firefox, safari). Avoid old or non updated browsers (for your own security and comfort).  
+The result of the web page is a simple JSON text. It can be easily saved, copied, modified and sent.  
+But all this actions are outside of this web page for security and privacy reasons.  
 They are a personal choice of the user.  
-The guest can use this same JSON text in every hostel where the hostel manager uses the chrome extension. If the manager doesn't know about the extension, the guest could instruct the hostel manager and make life easier for both the guest and the manager.  
+The guest can use this same JSON text in every accommodation where the accommodation manager uses the chrome extension. If the manager doesn't know about the extension, the guest could instruct the accommodation manager and make life easier for both the guest and the manager.  
 
 ## chrome extension
 
-This result JSON text is then sent to the hostel manager. He uses the chrome extension to fill the online form C.  
+This result JSON text is then sent to the accommodation manager. He uses the chrome extension to fill the online form C.  
 <https://chrome.google.com/webstore/detail/fill-the-online-form-c-fr/echcbgpcbpnpjdnpckmomhdjgecifbaa>  
 Source code and instructions:  
 <https://github.com/LucianoBestia/efrro_form_c_chrome_ext>  
 
 ## The long story
 
-The hostel managers in India must fill the government online Form C for every guest.  
+The accommodation managers in India must fill the government online Form C for every guest.  
 This is boring, time consuming and error prone.  
 The guests today must fill their data repeatedly on paper forms. Super annoying.  
-In an ideal world the guest should have his digital data on his smartphone and just give this digital data to the hostel manager. Just like an (digital) ID card.  
-With efrro_form_c_json the guest writes his data only once and they are saved on his device locally. Than he uses this same JSON data for all the hostels.  
-JSON is just a text that can be easily copied. He can send it by email to the hostel manager or by any other digital communication channel.  
+In an ideal world the guest should have his digital data on his smartphone and just give this digital data to the accommodation manager. Just like an (digital) ID card.  
+With efrro_form_c_json the guest writes his data only once and they are saved on his device locally. Than he uses this same JSON data for all the accommodations.  
+JSON is just a text that can be easily copied. He can send it by email to the accommodation manager or by any other digital communication channel.  
 
 ## Opensource
 
@@ -39,13 +39,13 @@ The project is open source stored on github and the source code can be easily ch
 
 ## Support
 
-Maybe the best way to support this app is with a group with questions and answers  
+Maybe the best way to support this web page is with a group with questions and answers  
 <https://groups.google.com/forum/#!forum/bestiaformc>  
 
 ## Personalization
 
-If you are happy with the app please donate to <paypal.me/LucianoBestia>.
-To show my gratitude I will personalize the webapp with your hostel's logo and data. Because there is a known email address, the guest then have the easy button "send by default email client". It is not possible to do this in the basic version. So it is more user-friendly to the guest. Hostel managers should contact me on <Luciano.Bestia2@gmail.com> to add their hostel data, logo and email address.  
+If you are happy with the web page please donate to <paypal.me/LucianoBestia>.
+To show my gratitude I will personalize the web page with your accommodation's logo and data. Because there is a known email address, the guest then have the easy button "send by default email client". It is not possible to do this in the basic version. So it is more user-friendly to the guest. accommodation managers should contact me on <Luciano.Bestia2@gmail.com> to add their accommodation data, logo and email address.  
 Look at the example:  
 <https://bestia.dev/efrro_form_c_json_beta/?id=sturmfrei_goa>  
 

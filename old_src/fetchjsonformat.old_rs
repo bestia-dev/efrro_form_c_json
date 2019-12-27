@@ -66,10 +66,10 @@ pub fn set_json_format(rrc: &mut RootRenderingComponent, respbody: String) {
         //logmod::debug_write(&format!("{:?}", rrc.json_result));
     }
 
-    //fill hostel data if values are empty.
+    //fill accommodation data if values are empty.
     //This is async. No garantee it will be executed after fetch.
-    if let Some(hostel_data) = &rrc.hostel_data {
-        logmod::debug_write("hostel data");
+    if let Some(accommodation_data) = &rrc.accommodation_data {
+        logmod::debug_write("accommodation data");
         //format!("..{}..",x);
         logmod::debug_write(&stringmod::concat_4(
             "..",
@@ -87,21 +87,21 @@ pub fn set_json_format(rrc: &mut RootRenderingComponent, respbody: String) {
 
             logmod::debug_write(&stringmod::concat_4(
                 "..",
-                json!(hostel_data.applicant_refaddr.as_str())
+                json!(accommodation_data.applicant_refaddr.as_str())
                     .to_string()
                     .as_str(),
                 "..",
                 "",
             ));
             unwrap_option_abort(rrc.json_format.get_mut("applicant_refaddr"))["value"] =
-                json!(hostel_data.applicant_refaddr.as_str());
+                json!(accommodation_data.applicant_refaddr.as_str());
         }
         if unwrap_option_abort(
             unwrap_option_abort(rrc.json_format.get_mut("applicant_refstate"))["value"].as_str(),
         ) == ""
         {
             unwrap_option_abort(rrc.json_format.get_mut("applicant_refstate"))["value"] =
-                json!(hostel_data.applicant_refstate.as_str());
+                json!(accommodation_data.applicant_refstate.as_str());
         }
         if unwrap_option_abort(
             unwrap_option_abort(rrc.json_format.get_mut("applicant_refstatedistr"))["value"]
@@ -109,14 +109,14 @@ pub fn set_json_format(rrc: &mut RootRenderingComponent, respbody: String) {
         ) == ""
         {
             unwrap_option_abort(rrc.json_format.get_mut("applicant_refstatedistr"))["value"] =
-                json!(hostel_data.applicant_refstatedistr.as_str());
+                json!(accommodation_data.applicant_refstatedistr.as_str());
         }
         if unwrap_option_abort(
             unwrap_option_abort(rrc.json_format.get_mut("applicant_refpincode"))["value"].as_str(),
         ) == ""
         {
             unwrap_option_abort(rrc.json_format.get_mut("applicant_refpincode"))["value"] =
-                json!(hostel_data.applicant_refpincode.as_str());
+                json!(accommodation_data.applicant_refpincode.as_str());
         }
     }
     //fill rrc.json_result with json_format values and preserve order

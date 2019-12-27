@@ -90,10 +90,10 @@ pub fn set_json_format(rrc: &mut RootRenderingComponent, respbody: String) {
         //logmod::debug_write(&format!("{:?}", rrc.json_result));
     }
 
-    //fill hostel data if values are empty.
+    //fill accommodation data if values are empty.
     //This is async. No garantee it will be executed after fetch.
-    if let Some(hostel_data) = &rrc.hostel_data {
-        logmod::debug_write("hostel data");
+    if let Some(accommodation_data) = &rrc.accommodation_data {
+        logmod::debug_write("accommodation data");
         //format!("..{}..",x);
         logmod::debug_write(&stringmod::concat_4(
             "..",
@@ -108,28 +108,28 @@ pub fn set_json_format(rrc: &mut RootRenderingComponent, respbody: String) {
             .is_empty()
         {
             get_mut_by_name_req(&mut rrc.json_format, "applicant_refaddr").value =
-                hostel_data.applicant_refaddr.clone();
+                accommodation_data.applicant_refaddr.clone();
         }
         if get_by_name_req(&rrc.json_format, "applicant_refstate")
             .value
             .is_empty()
         {
             get_mut_by_name_req(&mut rrc.json_format, "applicant_refstate").value =
-                hostel_data.applicant_refstate.clone();
+                accommodation_data.applicant_refstate.clone();
         }
         if get_by_name_req(&rrc.json_format, "applicant_refstatedistr")
             .value
             .is_empty()
         {
             get_mut_by_name_req(&mut rrc.json_format, "applicant_refstatedistr").value =
-                hostel_data.applicant_refstatedistr.clone();
+                accommodation_data.applicant_refstatedistr.clone();
         }
         if get_by_name_req(&rrc.json_format, "applicant_refpincode")
             .value
             .is_empty()
         {
             get_mut_by_name_req(&mut rrc.json_format, "applicant_refpincode").value =
-                hostel_data.applicant_refpincode.clone();
+                accommodation_data.applicant_refpincode.clone();
         }
     }
     //fill rrc.json_result with json_format values and preserve order

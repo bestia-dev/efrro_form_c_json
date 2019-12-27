@@ -68,7 +68,7 @@
 mod rootrenderingmod;
 mod fetchmod;
 mod fetchjsonformatmod;
-mod fetchjsonhostelmod;
+mod fetchjsonaccommodationmod;
 mod logmod;
 mod stringmod;
 mod unwrapmod;
@@ -115,11 +115,11 @@ pub fn wasm_bindgen_start() {
     logmod::debug_write(&location_href);
     //everything after the first ? is parameters.
     let mut parameters = "".to_string();
-    let mut hostel_id: Option<String> = None;
+    let mut accommodation_id: Option<String> = None;
     if let Some(x) = location_href.find('?') {
         parameters = unwrapmod::unwrap_option_abort(location_href.get(x..)).to_string();
         //only 1 parameter allowed ex. ?id=sturmfrei_goa
-        hostel_id = Some(parameters.replace("?id=", ""));
+        accommodation_id = Some(parameters.replace("?id=", ""));
 
         //href without parameters
         location_href = unwrapmod::unwrap_option_abort(location_href.get(..x)).to_string();
@@ -131,10 +131,14 @@ pub fn wasm_bindgen_start() {
     //endregion
 
     //logmod::debug_write(&format!("location_href: {}", &location_href));
-    if let Some(str_hostel_id) = hostel_id {
+    if let Some(str_accommodation_id) = accommodation_id {
         //fetch the json_format
         let v3 = vdom.weak();
-        fetchjsonhostelmod::fetch_json_format_request(v3, &location_href, &str_hostel_id);
+        fetchjsonaccommodationmod::fetch_json_format_request(
+            v3,
+            &location_href,
+            &str_accommodation_id,
+        );
     }
     //fetch the json_format
     let v2 = vdom.weak();
