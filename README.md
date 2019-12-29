@@ -3,7 +3,7 @@
 *Things are changing fast. This is the situation on 2019-11-11.*  
 This is a webpage for the accommodation guests in India to enter data for Form C and export it as JSON.  
 The web page link is this:  
-<https://bestia.dev/efrro_form_c_json/>  
+<https://bestia.dev/formc/>  
   
 Quote from the Bureau of Immigration in India (form C is compulsory by law):  
 "Any Hotel, Guest House, Dharmashala, Individual House, University, Hospital, Institute and Others etc. who provide accommodation to foreigners **must** submit the details of the residing foreigner in Form C to the Registration authorities within 24 hours of the arrival of the foreigner at their premises. This will help the registration authorities in locating and tracking the foreigners."  
@@ -30,7 +30,7 @@ The accommodation managers in India must fill the government online Form C for e
 This is boring, time consuming and error prone.  
 The guests today must fill their data repeatedly on paper forms. Super annoying.  
 In an ideal world the guest should have his digital data on his smartphone and just give this digital data to the accommodation manager. Just like an (digital) ID card.  
-With efrro_form_c_json the guest writes his data only once and they are saved on his device locally. Than he uses this same JSON data for all the accommodations.  
+With this web page the guest writes his data only once and they are saved on his device locally. Than he uses this same JSON data for all the accommodations.  
 JSON is just a text that can be easily copied. He can send it by email to the accommodation manager or by any other digital communication channel.  
 
 ## Opensource
@@ -47,8 +47,5 @@ Maybe the best way to support this web page is with a group with questions and a
 If you are happy with the web page please donate to <paypal.me/LucianoBestia>.
 To show my gratitude I will personalize the web page with your accommodation's logo and data. Because there is a known email address, the guest then have the easy button "send by default email client". It is not possible to do this in the basic version. So it is more user-friendly to the guest. accommodation managers should contact me on <Luciano.Bestia2@gmail.com> to add their accommodation data, logo and email address.  
 Look at the example:  
-<https://bestia.dev/efrro_form_c_json_beta/?id=sturmfrei_goa>  
+<https://bestia.dev/formc_beta/?id=sturmfrei_goa>  
 
-## TODO
-
-- use JSON to fill the same form data on another device  
