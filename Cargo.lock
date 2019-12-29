@@ -251,7 +251,7 @@ dependencies = [
 
 [[package]]
 name = "efrro_form_c_json"
-version = "2019.1227.1952"
+version = "2019.1229.1621"
 dependencies = [
  "console_error_panic_hook 0.1.6 (registry+https://github.com/rust-lang/crates.io-index)",
  "conv 0.3.3 (registry+https://github.com/rust-lang/crates.io-index)",

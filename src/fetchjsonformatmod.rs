@@ -30,6 +30,7 @@ pub struct CtrlFormat {
     pub value: String,
     pub caption: Option<String>,
     pub options: Option<Vec<CtrlOption>>,
+    pub date_format: Option<String>,
 }
 
 ///async fetch_response() for JSON format

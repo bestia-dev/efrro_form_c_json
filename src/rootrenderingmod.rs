@@ -173,7 +173,8 @@ pub fn div_inputs<'b>(rrc: &RootRenderingComponent, bump: &'b Bump) -> Vec<Node<
             let str_caption = ctrl_format
                 .caption
                 .clone()
-                .unwrap_or_else(|| ctrl_format.name.clone());
+                .unwrap_or_else(|| ctrl_format.name.to_string());
+
             let caption = bumpalo::format!(in bump, "{}",str_caption).into_bump_str();
             let value = bumpalo::format!(in bump, "{}",ctrl_format.value).into_bump_str();
             let ctrl_type = bumpalo::format!(in bump, "{}",ctrl_format.ctrl_type).into_bump_str();
@@ -263,14 +264,21 @@ pub fn on_input(
     ctrl_value: String,
 ) {
     logmod::debug_write(&format!("select_on_input{}", ""));
-    //save on every key stroke
+    let field_in_struct =
+        fetchjsonformatmod::get_mut_by_name_req(&mut rrc.json_format, ctrl_name.as_str());
+    logmod::debug_write(&format!("field_in_struct {:?}", field_in_struct));
 
-    let map = fetchjsonformatmod::get_mut_by_name_req(&mut rrc.json_format, ctrl_name.as_str());
-    logmod::debug_write(&format!("map from json {:?}", map));
-    map.value = ctrl_value.clone();
+    let mut ctrl_value = ctrl_value;
 
-    rrc.json_result[ctrl_name.as_str()] = ctrl_value;
-
+    //mask the date_format
+    if field_in_struct.date_format.is_some() {
+        ctrl_value = mask_date_format(field_in_struct, &ctrl_value);
+    }
+    //write to main struct
+    field_in_struct.value = ctrl_value.clone();
+    //write to result json
+    rrc.json_result[ctrl_name.as_str()] = ctrl_value.clone();
+    //save to local storage
     let window = unwrapmod::unwrap_option_abort(web_sys::window());
     let ls = unwrapmod::unwrap_option_abort(unwrapmod::unwrap_result_abort(window.local_storage()));
     let _x = ls.set_item(
@@ -279,6 +287,51 @@ pub fn on_input(
     );
 
     vdom_weak.schedule_render();
+}
+
+///mask date format
+#[allow(clippy::indexing_slicing)] // I always check the len() of the string first
+pub fn mask_date_format(
+    field_in_struct: &mut fetchjsonformatmod::CtrlFormat,
+    ctrl_value: &str,
+) -> String {
+    let mut ret_val = ctrl_value.to_string();
+    logmod::debug_write(&format!("ctrl_value: {}", &ctrl_value));
+    //make a local old_value
+    let old_value = field_in_struct.value.clone();
+    logmod::debug_write(&format!("old_value: {}", &old_value));
+
+    //get rid of all non numeric characters
+    let mut v = String::with_capacity(10);
+    for x in ctrl_value.chars() {
+        if char::is_numeric(x) {
+            v.push(x);
+        }
+    }
+    logmod::debug_write(&format!("v: {}", &v));
+    if v.len() > 8 {
+        v = v[0..8].to_string();
+    }
+    logmod::debug_write(&format!("v: {}", &v));
+    logmod::debug_write(&format!("old_value len: {}", old_value.len()));
+    logmod::debug_write(&format!("ctrl_value len: {}", ctrl_value.len()));
+    if old_value.len() <= ctrl_value.len() {
+        if v.len() > 4 {
+            ret_val = stringmod::concat_5(&v[0..2], "/", &v[2..4], "/", &v[4..]);
+        } else if v.len() == 4 {
+            ret_val = stringmod::concat_5(&v[0..2], "/", &v[2..4], "/", "");
+        } else if v.len() > 2 {
+            ret_val = stringmod::concat_5(&v[0..2], "/", &v[2..], "", "");
+        } else if v.len() == 2 {
+            ret_val = stringmod::concat_5(&v[0..2], "/", "", "", "");
+        } else if v.is_empty() {
+            ret_val = "dd/mm/yyyy".to_string();
+        } else {
+            ret_val = v;
+        }
+    }
+    //return
+    ret_val
 }
 
 /// render the option of select

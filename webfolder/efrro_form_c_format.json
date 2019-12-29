@@ -40,13 +40,14 @@
             "name": "dobformat",
             "ctrl_type": "hidden",
             "value": "DY",
-            "caption": "Format DD/MM/YYYY"
+            "caption": "dobformat"
         },
         {
             "name": "applicant_dob",
             "ctrl_type": "text",
             "caption": "Date of Birth DD/MM/YYYY",
-            "value": "DD/MM/YYYY"
+            "value": "DD/MM/YYYY",
+            "date_format": "DD/MM/YYYY"
         },
         {
             "name": "applicant_special_category",
@@ -3316,13 +3317,15 @@
             "name": "applicant_passpdoissue",
             "ctrl_type": "text",
             "caption": "Passport date of issue",
-            "value": "DD/MM/YYYY"
+            "value": "DD/MM/YYYY",
+            "date_format": "DD/MM/YYYY"
         },
         {
             "name": "applicant_passpvalidtill",
             "ctrl_type": "text",
             "caption": "Passport valid till",
-            "value": "DD/MM/YYYY"
+            "value": "DD/MM/YYYY",
+            "date_format": "DD/MM/YYYY"
         },
         {
             "name": "applicant_visano",
@@ -4400,13 +4403,15 @@
             "name": "applicant_visadoissue",
             "ctrl_type": "text",
             "caption": "Visa date of issue",
-            "value": "DD/MM/YYYY"
+            "value": "DD/MM/YYYY",
+            "date_format": "DD/MM/YYYY"
         },
         {
             "name": "applicant_visavalidtill",
             "ctrl_type": "text",
             "caption": "Visa valid till",
-            "value": "DD/MM/YYYY"
+            "value": "DD/MM/YYYY",
+            "date_format": "DD/MM/YYYY"
         },
         {
             "name": "applicant_visatype",
@@ -5608,7 +5613,8 @@
             "name": "applicant_doarrivalindia",
             "ctrl_type": "text",
             "caption": "Date of arrival in India",
-            "value": "DD/MM/YYYY"
+            "value": "DD/MM/YYYY",
+            "date_format": "DD/MM/YYYY"
         },
         {
             "name": "employed",
@@ -5915,7 +5921,8 @@
             "name": "applicant_doarrivalhotel",
             "ctrl_type": "text",
             "caption": "Date of arrival to hotel",
-            "value": "DD/MM/YYYY"
+            "value": "DD/MM/YYYY",
+            "date_format": "DD/MM/YYYY"
         },
         {
             "name": "applicant_timeoarrivalhotel",
