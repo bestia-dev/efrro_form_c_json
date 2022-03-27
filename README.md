@@ -1,8 +1,9 @@
 # efrro_form_c_json
 
-*Things are changing fast. This is the situation on 2019-12-29.*  
-This is a webpage for the accommodation guests in India to enter data for Form C and export it as JSON.  
-The web page link is this:  
+**Guest enters data for Form C and export it as JSON**  
+***version: 1.0  date: 2019-12-29 author: [dev_Bestia](https://bestia.dev) repository: [GitHub](https://github.com/LucianoBestia/efrro_form_c_json)***  
+
+Try it:  
 <https://bestia.dev/formc/>  
   
 Quote from the Bureau of Immigration in India (form C is compulsory by law):  
