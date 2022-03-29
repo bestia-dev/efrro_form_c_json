@@ -139,8 +139,8 @@ impl Render for RootRenderingComponent {
                         {vec![text(bumpalo::format!(in bump, "Instructions and source code:{}", "").into_bump_str(),)]}
                         </h6>
                         <h6 class="w3-text-yellow">
-                            <a href= "https://github.com/LucianoBestia/efrro_form_c_json" target="_blank">
-                                {vec![text(bumpalo::format!(in bump, "https://github.com / LucianoBestia / efrro_form_c_json{}", "").into_bump_str(),)]}
+                            <a href= "https://github.com/bestia-dev/efrro_form_c_json" target="_blank">
+                                {vec![text(bumpalo::format!(in bump, "https://github.com / bestia-dev / efrro_form_c_json{}", "").into_bump_str(),)]}
                             </a>
                         </h6>
                     </div>

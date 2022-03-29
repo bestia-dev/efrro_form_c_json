@@ -1,7 +1,7 @@
 # efrro_form_c_json
 
 **Guest enters data for Form C and export it as JSON**  
-***version: 1.0  date: 2019-12-29 author: [dev_Bestia](https://bestia.dev) repository: [GitHub](https://github.com/LucianoBestia/efrro_form_c_json)***  
+***version: 1.0  date: 2019-12-29 author: [bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/bestia-dev/efrro_form_c_json)***  
 
 Try it:  
 <https://bestia.dev/formc/>  
@@ -23,7 +23,7 @@ The guest can use this same JSON text in every accommodation where the accommoda
 This result JSON text is then sent to the accommodation manager. He uses the chrome extension to fill the online form C.  
 <https://chrome.google.com/webstore/detail/fill-the-online-form-c-fr/echcbgpcbpnpjdnpckmomhdjgecifbaa>  
 Source code and instructions:  
-<https://github.com/LucianoBestia/efrro_form_c_chrome_ext>  
+<https://github.com/bestia-dev/efrro_form_c_chrome_ext>  
 
 ## The long story
 
