@@ -2,6 +2,7 @@
 name = "efrro_form_c_json"
 version = "2019.1229.1621"
 authors = ["bestia.dev"]
+homepage = "https://bestia.dev"
 edition = "2018"
 description="User iterface to enter data for e-frro and export it as json."
 repository = "https://github.com/bestia-dev/efrro_form_c_json"
