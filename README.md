@@ -3,7 +3,7 @@
 **Guest enters data for Form C and export it as JSON**  
 ***version: 1.0  date: 2019-12-29 author: [bestia.dev](https://bestia.dev) repository: [GitHub](https://github.com/bestia-dev/efrro_form_c_json)***  
 
-![Hits](https://bestia.dev/webpage_hit_counter/get_svg_image/622625443)
+![Hits](https://bestia.dev/webpage_hit_counter/get_svg_image/622625443.svg)
 
 Try it:  
 <https://bestia.dev/formc/>  
